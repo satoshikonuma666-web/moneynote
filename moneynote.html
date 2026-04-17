@@ -1,0 +1,1356 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="MoneyNote">
+<meta name="theme-color" content="#0E7168">
+<link rel="apple-touch-icon" sizes="180x180" href="data:image/png;base64,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">
+<link rel="apple-touch-icon" sizes="152x152" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAJgAAACYCAYAAAAYwiAhAAAFf0lEQVR4nO3dzW3cRhiA4VnBZ6sElZG7i3AN1iWAlXsOKcACfLFqSBHpJAeVEDXgHOwR6BV/5off38z7AIZhg6ulhq8+cmlrdUkK3n/+9F3jeVDn5fHpIv0cIk9AUDFJBHfqBySsMZwZWvcHIqqx9cZ20/Ng4hpf7zFuqpOw5tQyzaonGHHNq+XYVwVGXKhtoDgw4kJW00JRYMSFa6VNHAZGXNhS0sZuYMSFI0eNbAZGXCi118pqYMSFWlvNvNPekQj++/LtrvWxtw/3z2fuS3Rv7szONr16Yio1U3TXd/t/+cMMcWkEdWT04JaRTXOK9BBWlvdl9NBSGjwwT1GtWe7fqLG9jrKRTo/ew9ozSmj5NDnUBIscVjba6fOSUvzpNUJYWyKH9vL4dOn6H60ejBxXSvE/v7CnyOgLXyPyaTPkBJsprqWIn/cl2vVXxEU+W6RJFiYwwnorQmghTpHEtS7CurgPLMIiWvK+Pq4D8754XnheJ7eBeV40j7yul8vAvC6Wdx7XzV1gHhcpEm/r5yowb4sTlad1dBUYxuMmME9fdSPwsp4uAvOyGKPxsK7mgSktgtd/UhHfL+vIzANT8Hz1uxde9+tUpoEpfHVdHzwvB1N1vyynmFlgBnEd/b0Wk/2yimzkU+TeglpFtve85hfkEkwCU/xq8hSZeVwWU2zkCZZ5nwze96+LemBG1wJbz6k1xbaeR30ttNd/hgmWWUXmJi4LqoFZ3/TbIRWZ9SvWVZrHYaYJlpLuRb/5Rb0HswWWkk5kxPWTWmDOTo+SkYWIS+t4hH3rgBPcJd276m7i0qQywZxNL/ykcVxmvAaDIgKDKAKDKPHAuP7yTfr4zPwqMqX6fz66q9xmerMHVns7omR7wlvgGgyiCAyiRAPjAj8GyePEBIMoAoOo2V9F1pwaeHXYgAkGUbNPsDP9U7jdB9G9cIYJdo7SuGq3DY/A+rUEM01kBGZnisgIDKIIDKIIDKI836b4u3C7j6J7gS5eJ1hpXLXbQpnHwFqCITKnRANr+IGZPaEQWSPJH2zqcYJhIAQGUQQGUZ5vU+CH3wu3+yq6F43EJ5jkBeQESuOq3faV9PHhFFnubuXXv4LP1xJMU2SSCMynnlBcRUZgEKUSGNdhPmkcFyYYRKndprh9uH928p3efxVu96foXhjTOqvMNsFK46rdFhtmCqwlGCLrpBqY4cV+TyjDRaZ5HGaaYDCgHhi3LGxprz8TDKJMAmOK2bBYdyYYRJkFxhTTZbXephOMyHRYrjOnSIgyD4wpJst6fc0DS8l+EUblYV1dBJaSj8UYiZf1dBMYxkRgA/IyvVIiMAgjMIgiMIgiMIhyFdjtw/1vHQ/feyvNnm/g2Htsz0/t2Hts8/tM3D7c/9H6WAmuAkupObKS92ltiazkMS2RlTymOjJvcaXkMLCUqiOreRPgmshqtq2JrGbb4sg8xpVSSpf3nz99t96JWk6+v9KEp3tcJVxOsCPRFvksET/vkBNsaYZpFjGsLOQEW4q8+CWif37hJ9jSSNMseljZUIFlkUMbJaxsyMCySKGNFlY2dGBLHmMbNaqlaQLLPIQ2Q1jZdIFd0whupqCuTR/Ymp7oZo5pDYFBVPgbrfCNwCCKwCCKwCCKwCDq5uXx6WK9ExjTy+PThQkGUQQGUQQGUTcp/ThXWu8IxpKbYoJB1GtgTDGcZdkSEwyiCAyifgmM0yR6XTf0ZoIRGVqttcMpEqJWA2OKodZWM5sTjMhQaq+V3VMkkeHIUSOH12BEhi0lbRRd5BMZrpU2UfwqksiQ1bRQdZuCyFDbQPV9MCKbV8ux74qF7wqfQ89Q6bqTzzQbX+8xPjUQJtoYzhwcIhOI0GKSOCOpnOIIzieNS5z/AcOh2pEmevosAAAAAElFTkSuQmCC">
+<link rel="apple-touch-icon" sizes="120x120" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAHgAAAB4CAYAAAA5ZDbSAAAEJElEQVR4nO2dvXHbMBiGSV3qaISMkT5DZIaoyV2UPkUGsO7SWDNkiPQZQyNYCySFDR9FExBAfP98n8bnI0QCePQCIEVK40DM+29f/lHvc0tcT+eRcn/dO4NQXnqFr34xxMqyVnTziyBWl1bRu5bCkKtPq4OqdwPE2qQmzXcTDLl2qXFTFAy59rnnKCsYcv1QcrUoGHL9kXPWtIoG/nizCouS3qeHxw+tr9kfDxeOukgyX1nf/ONV7hqZtXiUPpX8TrMiPXBKzR3Ho+xX017SKyW2hAfRKcVuEmxBbCLVxYPocRhsp9eS2BxWRV9P59Fsgj2ITVhOtMnzYE9yp1ist6kEW+ygVqylebQy/0aQO8eCZBNDdES5w2CjXeqCLXQCJ9rtUxWs3XgpNNupJngrchNa7VURvDW5CY12iwveqtyEdPtFBW9dbkKyH8QEQ+4tUv2hfpq0Eq0LCOoXLloREUz8br3M/kpBflyJFLMLZpKb+58LtuNyS/Y2RC91Brfkpf27WU+wCmZ6d0pKFpHLmWJvCU5oJchNchNsggUWEPP9U6d4vj/W9nD1l9cE56CS7O50KAeLYMGLGhzzsdqiiqPfIiSYUrLrFfMS5LfsKF6S5BhWVdpCeatPhASDAhAcHFLB+MSIBsp+RIKDA8HBgeDgQHBwyARjgUULVX8iwcEx9XRhJ/fe8eEuQ9aABAcnUoJ7+VPY9kmsFsRAcFnsvIw70Riig7N1wTXp7SmvztYFhweCg6O5yPpd2PZZrBbB0RBcEjsvA9GdYIgODpngyhvFatLbUz4MVDfeIcHBwZUser4Wtv0Sq8ULEExHSey8jJjoLQle+mjQ3ZWpVkjnYAtfvqlETXqry+PJBlANBAeHfA7eHw8X4Rvwfha2/RCrBRHU05znRVZJ7LyMO9FUsAzRG15sdcHRb17n4Jr09pQPA5tgpLgNrv7ymmBQCatgpLgOzn5CgoPDLhgpLsPdPyIJhuRlJPoFQ3RwxAQjxbdI9QcSHBwIDg4EBweCgyMqeH88fGx8Se7JhtaP/3LlW5/3zZVvuolufzx8bzzuapDg4Kj9AvjTw+PfwuaWZ5Ko7uig+gqH7A11kslNmPmJ92GI9V1bVs77TQlOeBZtRWzC5BxsrZNqsVhvkwme4iHNFsUmzAtOWBRtWWzCjeCEBdEexCbcCU5oiPYkNuFW8BRO2R6lTgkheIk10r3LXCKsYPCMyfNgQAcEBweCg7O7ns6jdiUAD9fTeUSCgwPBwYHg4OyG4Xms1q4IoCU5RYKD8yoYKY7D1CUSHJwbwUixf+YO3yQYkv2y5A5DdHAWBSPF/sg5yyYYkv1QclUcoiHZPvcc3Z2DIdkuNW6a5OH2Hhu0hK5pFY0069PqYLUwpFmWteHqTiRE89I7apIPuRDeB/U0+B+mXHkIBCHK7QAAAABJRU5ErkJggg==">
+<link rel="icon" type="image/png" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAALQAAAC0CAYAAAA9zQYyAAAGeklEQVR4nO3dy3EbRxRG4QbLazEEheG9gnAM4kZVovdeOACzyhsxBgXhXBiCmYC0YI09xGOmX9P3v7fPt3GVCgRG0wfXjREInJKhD18//7B8fBzj9en5ZPXYwx6YeOc2KvJDH4SIcc2RcR9yx4SMHEeE3fUOCRk1eobd5Y4IGT30CPuu9Q6IGb30aKkpaGJGb61NVY14QsYINVuQ4glNzBilprWioIkZo5U2lx00McNKSXtZQRMzrOU2uBs0MUNFTovN16EBJZtBM52hZq/Jm9f5iLncv399+1j7s/ePDy89jyW6W9eor/4hMW9rCbcUod92LepfLA7Em5EB7z02gW+7KJzp/MYy4lzEfTmlmdArHiJeWx8vcb95V/es09lbyFtmDHs9paee0JFCXix/pxnDTmk1oWeazhFDvmWWsJcpPdWEninkxWwTe4qgZwz53Cxh36UUe7tBzO9FPR9Lw2EndNSF6yHytA75bjtizhPxPIULOuIiHSna+Qqz5Yi2MCNF2oKcIrwgJOZ+vEftfstBzH15P5+ug/Z+8lV5Pq9ug/Z80j3wen5dBu31ZHvj8Ty7C9rjSfbM2/l2FbS3kxuFp/PuJmhPJzUiL+ffRdBeTmZ0HtbBRdBALvmgPUyFmaivh3TQ6idvVsrrIhu00Unz+j6G4cetGrVs0AZezv7rhdfjPoRk0AbP/vMYvMRhetyKU1ouaIGY9/5chcRxq0UtF/Rge4uvGrXX4z6cVNAGz/acx1OLI+d4hp5HpSktFbQRT1HLxaxGJmjjZ3mUCGQ+x9qKTNAC9hbEekrvPb5EUNYkglZ5difdqF3ErLCOEkGLUYvaRcwqzINWeFZXGBW19TanmPV6mgctSuHKB1c0KpgGbf1s3mEZteuYLdeVCb3NImrXMVsj6H0joybmRmafbSe+3bhG4QWaq3Nm8Tl5TGiEQtAIxSRoh9sNVLBYZyY0QiFohELQCGX4Zbug++eSNxBN92ajkZfvwnxp0AAti1Lys1u3DRd7b2w5EApBIxSCRigEjVCGBh30Cgd2jFx3JjRC4bJdvpopwyW4wZjQCIWgEQpbDh3/FNz202FH4RwTWkNJzDW3nwZB26uNk6ivIGhbrVES9RmCttMrRqJeIWiEQtAIhaARisfr0N8LbvvbYUcBSd4mdEnMNbeHc0ODbvxlydo4idrYyF+S9TKhW6Mk6kl4CLpXjEQ9AQ9BA9kIGqEQNEIZfh36/vHhhV+WNfel4LZ/tzzQ6E/xZ0LPpyTmmtubIui51MbpJmqP//TtydbWavTbPluj/JIatx8jmExoi29HmlyvCVt0P3wLFtCIoBGKWdBsO2KzWl9eFG77s+C2fxx2FMjGluO2kphrbo8DmAYtvO2ojZOok+26MqEvtUZJ1IbMgxab0r1inDZq6/U0DxroSSJo62c1+lBYR4mggV5kglZ4dqOeyvrJBA30IBW0yrMcZZTWTSpooJVc0ErPduxTWy+5oFPSO0m4TnGdJIMGaskGrfjsx/9U10c26JR0T9rslNdFOmjoUY45JYJGMASNUAgaoRA0QiFohELQCIWgEYp80PePD792uqucL+Hs9WExOffzqdNj5dxPl08NvX98+L3H/RxJPuiUukRd8o2yrVGX/Hxr1CU/3/pJ/PIxp+Qk6JSaoq75euTaqGt+rjbqmp+ritpLzCk5Cjqlqqhbvuu7NM6WyV4aZ8tkL4raU8wppXT68PXzD+uD6I0vJcqn/t6MUq4mdK5oi3SUiOcp5IReY1pfihjyIuSEXou8eDWin4/wE3pt5mkdPeTFVEEvZgp7lpAXUwa9iBz2bCEvpg56ESnsWUNeEPSK57BnD3lB0Dd4iJuILxF0BqW4iXgbQVcYGTgBlyHojlpCJ9w+CBqhhP+nb8yFoBEKQSMUgkYoBI1Q7l6fnk/WBwH08Pr0fGJCIxSCRigEjVAIGqHcpfS2mbY+EKDF0jATGqEQNEL5L2i2HfBq3S4TGqG8C5opDW/Om2VCI5SLoJnS8OJaq0xohHI1aKY01N1q9OaEJmqo2mpzc8tB1FCz1yR7aISyGzRTGipyWsya0EQNa7kNZm85iBpWStor2kMTNUYrba74RSFRY5Sa1pri5IMecYSWodl02Y5pjd5am2q+Dk3U6KVHS11jZAuCGj2H4iHTlbCR44j/ux+6XSBsXHPkNnXY/pe45zbqtZbpCzoij8nyQsFPrNc0cfun2FYAAAAASUVORK5CYII=">
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>MoneyNote 家計ノート</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#F8F6F2;--bg2:#F0EDE6;--bg3:#E8E4DC;
+  --teal:#0E7168;--teal2:#0a5a52;--teal-l:#E0F2F0;
+  --red:#B91C1C;--red-l:#FEE2E2;
+  --green:#186831;--green-l:#DCFCE7;
+  --amber:#B45309;--amber-l:#FEF3C7;
+  --text:#1C1C1E;--text2:#6B6B6B;--text3:#9A9A9A;
+  --border:#DDD9D0;--card:#FFFFFF;
+  --shadow:0 2px 8px rgba(0,0,0,.08);
+  --r:12px;--r2:8px;
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+body{background:var(--bg);color:var(--text);font-family:'Noto Sans JP',sans-serif;font-size:14px;min-height:100vh;padding-bottom:80px}
+.mono{font-family:'JetBrains Mono',monospace}
+
+/* Header */
+#hdr{background:var(--card);border-bottom:1px solid var(--border);padding:12px 16px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;box-shadow:var(--shadow)}
+#hdr h1{font-size:18px;font-weight:700;color:var(--teal)}
+#hdr .sub{font-size:11px;color:var(--text3)}
+#sync-dot{width:8px;height:8px;border-radius:50%;background:#ccc;cursor:pointer}
+#sync-dot.ok{background:var(--green)}
+#sync-dot.err{background:var(--red)}
+#sync-dot.ing{background:var(--amber);animation:pulse .8s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+
+/* Tabs */
+#tab-bar{position:fixed;bottom:0;left:0;right:0;background:var(--card);border-top:1px solid var(--border);display:flex;z-index:100;box-shadow:0 -2px 8px rgba(0,0,0,.06)}
+.tab-btn{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:8px 4px 10px;font-size:10px;color:var(--text3);cursor:pointer;transition:color .2s;gap:3px;border:none;background:none}
+.tab-btn.active{color:var(--teal)}
+.tab-btn svg{width:22px;height:22px}
+
+/* Pages */
+.page{display:none;padding:16px}
+.page.active{display:block}
+
+/* Cards */
+.card{background:var(--card);border-radius:var(--r);padding:16px;box-shadow:var(--shadow);margin-bottom:12px}
+.card-title{font-size:13px;font-weight:700;color:var(--text2);margin-bottom:12px;display:flex;align-items:center;gap:6px}
+.card-title span{font-size:16px}
+
+/* KPI Row */
+.kpi-row{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px}
+.kpi{background:var(--card);border-radius:var(--r);padding:14px;box-shadow:var(--shadow)}
+.kpi.full{grid-column:1/-1}
+.kpi label{font-size:11px;color:var(--text3);display:block;margin-bottom:4px}
+.kpi .val{font-size:22px;font-weight:700;font-family:'JetBrains Mono',monospace;color:var(--text)}
+.kpi .val.red{color:var(--red)}
+.kpi .val.green{color:var(--green)}
+.kpi .sub{font-size:11px;color:var(--text3);margin-top:2px}
+
+/* Month Nav */
+.month-nav{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+.month-nav .month-label{font-size:16px;font-weight:700}
+.month-nav .nav-btn{background:var(--bg2);border:none;border-radius:8px;padding:6px 12px;cursor:pointer;font-size:18px;color:var(--text2)}
+.month-nav .today-btn{background:var(--teal-l);color:var(--teal);border:none;border-radius:8px;padding:5px 10px;font-size:12px;cursor:pointer;font-weight:600}
+
+/* Quick Add */
+#qa-fab{position:fixed;right:20px;bottom:90px;width:56px;height:56px;border-radius:50%;background:var(--teal);color:#fff;border:none;font-size:28px;cursor:pointer;box-shadow:0 4px 16px rgba(14,113,104,.4);display:flex;align-items:center;justify-content:center;z-index:99;transition:transform .2s}
+#qa-fab:active{transform:scale(.92)}
+#qa-panel{display:none;position:fixed;bottom:80px;left:0;right:0;background:var(--card);border-top-left-radius:20px;border-top-right-radius:20px;box-shadow:0 -4px 24px rgba(0,0,0,.15);z-index:98;padding:20px 16px 24px}
+#qa-panel.open{display:block}
+#qa-amount-wrap{display:flex;align-items:center;gap:8px;margin-bottom:14px}
+#qa-amount-wrap label{font-size:13px;color:var(--text2);white-space:nowrap}
+#qa-amount{flex:1;font-size:28px;font-weight:700;font-family:'JetBrains Mono',monospace;border:none;border-bottom:2px solid var(--teal);background:transparent;padding:4px 0;color:var(--text);outline:none;width:100%}
+#qa-name-wrap{display:flex;gap:8px;margin-bottom:12px}
+#qa-name{flex:1;border:1px solid var(--border);border-radius:var(--r2);padding:8px 12px;font-size:14px;font-family:'Noto Sans JP',sans-serif;background:var(--bg);outline:none}
+#qa-name:focus{border-color:var(--teal)}
+.qa-cats{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-bottom:12px;max-height:160px;overflow-y:auto}
+.qa-cat{background:var(--bg2);border:2px solid transparent;border-radius:10px;padding:8px 4px;text-align:center;font-size:11px;cursor:pointer;transition:all .15s}
+.qa-cat.sel{background:var(--teal-l);border-color:var(--teal);color:var(--teal);font-weight:700}
+.qa-persons{display:flex;gap:8px;margin-bottom:14px}
+.qa-person{flex:1;border:2px solid var(--border);border-radius:8px;padding:8px;text-align:center;font-size:13px;cursor:pointer;transition:all .15s}
+.qa-person.sel{border-color:var(--teal);background:var(--teal-l);color:var(--teal);font-weight:700}
+#qa-save{width:100%;background:var(--teal);color:#fff;border:none;border-radius:var(--r);padding:14px;font-size:16px;font-weight:700;cursor:pointer;font-family:'Noto Sans JP',sans-serif}
+#qa-save:active{background:var(--teal2)}
+
+/* Expense List */
+.exp-list-wrap{max-height:60vh;overflow-y:auto}
+.exp-day-group{margin-bottom:4px}
+.exp-day-label{font-size:12px;color:var(--text3);font-weight:600;padding:6px 0 4px;border-bottom:1px solid var(--border);margin-bottom:4px}
+.exp-item{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--bg2);cursor:pointer}
+.exp-item:last-child{border-bottom:none}
+.exp-cat-badge{width:32px;height:32px;border-radius:8px;background:var(--teal-l);display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0}
+.exp-item-info{flex:1;min-width:0}
+.exp-item-name{font-size:13px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.exp-item-cat{font-size:11px;color:var(--text3)}
+.exp-item-amt{font-size:15px;font-weight:700;font-family:'JetBrains Mono',monospace;color:var(--red);flex-shrink:0}
+.exp-item-person{font-size:11px;color:var(--text3);flex-shrink:0}
+
+/* Budget Bars */
+.budget-bar-item{margin-bottom:10px}
+.budget-bar-header{display:flex;justify-content:space-between;font-size:12px;margin-bottom:3px}
+.budget-bar-header .cat-name{color:var(--text2);font-weight:500}
+.budget-bar-header .amt{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--text3)}
+.budget-bar-track{height:8px;background:var(--bg3);border-radius:4px;overflow:hidden}
+.budget-bar-fill{height:100%;border-radius:4px;background:var(--teal);transition:width .4s}
+.budget-bar-fill.warn{background:var(--amber)}
+.budget-bar-fill.over{background:var(--red)}
+
+/* Charts */
+.chart-wrap{width:100%;overflow:hidden}
+.pie-wrap{display:flex;gap:16px;align-items:center}
+.pie-legend{flex:1;min-width:0}
+.pie-legend-item{display:flex;align-items:center;gap:6px;font-size:11px;margin-bottom:5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pie-legend-dot{width:10px;height:10px;border-radius:2px;flex-shrink:0}
+.analysis-tabs{display:flex;gap:6px;margin-bottom:12px;flex-wrap:wrap}
+.atab{background:var(--bg2);border:none;border-radius:20px;padding:6px 14px;font-size:12px;cursor:pointer;font-family:'Noto Sans JP',sans-serif;color:var(--text2)}
+.atab.active{background:var(--teal);color:#fff;font-weight:600}
+
+/* Tables */
+.data-table{width:100%;border-collapse:collapse;font-size:12px}
+.data-table th{background:var(--bg2);padding:8px 10px;text-align:left;font-weight:600;color:var(--text2);border-bottom:1px solid var(--border)}
+.data-table td{padding:8px 10px;border-bottom:1px solid var(--bg2)}
+.data-table td.num{font-family:'JetBrains Mono',monospace;text-align:right}
+.data-table td.pos{color:var(--green)}
+.data-table td.neg{color:var(--red)}
+
+/* Assets */
+.asset-tabs{display:flex;gap:6px;margin-bottom:14px;overflow-x:auto;padding-bottom:2px}
+.asset-tab{background:var(--bg2);border:none;border-radius:20px;padding:7px 16px;font-size:12px;cursor:pointer;white-space:nowrap;font-family:'Noto Sans JP',sans-serif;color:var(--text2);flex-shrink:0}
+.asset-tab.active{background:var(--teal);color:#fff;font-weight:600}
+.asset-section{display:none}
+.asset-section.active{display:block}
+.asset-item{background:var(--bg);border-radius:var(--r2);padding:12px;margin-bottom:8px;cursor:pointer;border:1px solid var(--border)}
+.asset-item:active{background:var(--bg2)}
+.asset-item-head{display:flex;justify-content:space-between;align-items:start;margin-bottom:6px}
+.asset-item-name{font-size:14px;font-weight:700}
+.asset-item-code{font-size:11px;color:var(--text3);font-family:'JetBrains Mono',monospace}
+.asset-pnl{font-size:14px;font-weight:700;font-family:'JetBrains Mono',monospace}
+.asset-pnl.pos{color:var(--green)}
+.asset-pnl.neg{color:var(--red)}
+.asset-detail-row{display:flex;gap:8px;flex-wrap:wrap}
+.asset-detail{font-size:11px;color:var(--text3)}
+.asset-detail strong{color:var(--text2)}
+.progress-bar{height:6px;background:var(--bg3);border-radius:3px;overflow:hidden;margin-top:6px}
+.progress-fill{height:100%;border-radius:3px;background:var(--teal)}
+.progress-fill.warn{background:var(--amber)}
+.progress-fill.danger{background:var(--red)}
+.stop-loss-warn{font-size:11px;color:var(--red);font-weight:600;margin-top:4px}
+.add-btn{width:100%;background:var(--teal-l);color:var(--teal);border:1px dashed var(--teal);border-radius:var(--r2);padding:12px;font-size:14px;font-weight:600;cursor:pointer;font-family:'Noto Sans JP',sans-serif;margin-top:4px}
+
+/* Asset Summary Cards */
+.asset-summary{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:14px}
+.as-card{background:var(--card);border-radius:var(--r2);padding:10px;text-align:center}
+.as-card label{font-size:10px;color:var(--text3);display:block}
+.as-card .val{font-size:15px;font-weight:700;font-family:'JetBrains Mono',monospace}
+
+/* Settings */
+.setting-row{display:flex;align-items:center;justify-content:space-between;padding:12px 0;border-bottom:1px solid var(--bg2)}
+.setting-row:last-child{border-bottom:none}
+.setting-label{font-size:13px;color:var(--text)}
+.setting-sub{font-size:11px;color:var(--text3);margin-top:2px}
+.inp{border:1px solid var(--border);border-radius:var(--r2);padding:8px 12px;font-size:14px;font-family:'Noto Sans JP',sans-serif;background:var(--bg);outline:none;width:100%}
+.inp:focus{border-color:var(--teal)}
+.inp-sm{width:80px;text-align:right}
+.btn{border:none;border-radius:var(--r2);padding:10px 20px;font-size:14px;font-weight:600;cursor:pointer;font-family:'Noto Sans JP',sans-serif;transition:opacity .2s}
+.btn:active{opacity:.8}
+.btn-primary{background:var(--teal);color:#fff}
+.btn-danger{background:var(--red-l);color:var(--red)}
+.btn-secondary{background:var(--bg3);color:var(--text2)}
+.btn-sm{padding:6px 14px;font-size:12px}
+
+/* Modals */
+.overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:200;align-items:flex-end}
+.overlay.open{display:flex}
+.modal{background:var(--card);border-top-left-radius:20px;border-top-right-radius:20px;width:100%;max-height:90vh;overflow-y:auto;padding:20px 16px 32px}
+.modal-title{font-size:18px;font-weight:700;margin-bottom:16px;display:flex;justify-content:space-between;align-items:center}
+.modal-close{background:var(--bg2);border:none;border-radius:50%;width:32px;height:32px;cursor:pointer;font-size:18px;display:flex;align-items:center;justify-content:center}
+.form-field{margin-bottom:14px}
+.form-field label{display:block;font-size:12px;font-weight:600;color:var(--text2);margin-bottom:5px}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.chip-row{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
+.chip{background:var(--bg2);border:2px solid transparent;border-radius:20px;padding:5px 12px;font-size:12px;cursor:pointer;transition:all .15s}
+.chip.sel{background:var(--teal-l);border-color:var(--teal);color:var(--teal);font-weight:600}
+
+/* Budget settings */
+.budget-input-row{display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--bg2)}
+.budget-input-row:last-child{border-bottom:none}
+.budget-input-row label{font-size:13px}
+
+/* Income */
+.income-item-row{display:flex;gap:8px;align-items:center;margin-bottom:8px}
+.income-item-row .inp{flex:1}
+
+/* Tags */
+.tag-badge{background:var(--bg2);border-radius:12px;padding:2px 8px;font-size:11px;color:var(--text3);display:inline-block;margin:2px}
+
+/* Misc */
+.empty{text-align:center;padding:32px;color:var(--text3);font-size:14px}
+.badge{display:inline-block;border-radius:12px;padding:2px 8px;font-size:11px;font-weight:600}
+.badge-red{background:var(--red-l);color:var(--red)}
+.badge-green{background:var(--green-l);color:var(--green)}
+.badge-amber{background:var(--amber-l);color:var(--amber)}
+.section-title{font-size:12px;font-weight:700;color:var(--text2);margin:14px 0 8px;display:flex;justify-content:space-between;align-items:center}
+.divider{height:1px;background:var(--border);margin:12px 0}
+.text-right{text-align:right}
+.mt8{margin-top:8px}
+.mt12{margin-top:12px}
+.row{display:flex;gap:8px;align-items:center}
+.flex1{flex:1}
+input[type=number]::-webkit-inner-spin-button{display:none}
+
+/* SVG Charts */
+.bar-chart svg text{font-family:'JetBrains Mono',monospace}
+</style>
+</head>
+<body>
+
+<!-- Header -->
+<div id="hdr">
+  <div>
+    <h1>💴 MoneyNote</h1>
+    <div class="sub" id="hdr-month"></div>
+  </div>
+  <div style="display:flex;gap:10px;align-items:center">
+    <div id="sync-dot" title="同期状態" onclick="openModal('modal-sync')"></div>
+  </div>
+</div>
+
+<!-- Pages -->
+<div id="page-dash" class="page active">
+  <div class="month-nav">
+    <button class="nav-btn" onclick="prevDashMonth()">‹</button>
+    <span class="month-label" id="dash-month-label"></span>
+    <div style="display:flex;gap:6px">
+      <button class="today-btn" onclick="goDashCurrent()">今月</button>
+      <button class="nav-btn" onclick="nextDashMonth()">›</button>
+    </div>
+  </div>
+  <div class="kpi-row" id="dash-kpis"></div>
+  <div class="card" id="dash-budget-card">
+    <div class="card-title"><span>📊</span>予算進捗</div>
+    <div id="dash-budget-bars"></div>
+  </div>
+  <div class="card">
+    <div class="card-title"><span>🥧</span>カテゴリ別支出</div>
+    <div id="dash-pie"></div>
+  </div>
+  <div class="card">
+    <div class="analysis-tabs" id="atabs">
+      <button class="atab active" onclick="switchAnalysis('trend',this)">12ヶ月推移</button>
+      <button class="atab" onclick="switchAnalysis('yoy',this)">前年同月比</button>
+      <button class="atab" onclick="switchAnalysis('mom',this)">前月比</button>
+    </div>
+    <div id="analysis-trend"></div>
+    <div id="analysis-yoy" style="display:none"></div>
+    <div id="analysis-mom" style="display:none"></div>
+  </div>
+  <div class="card">
+    <div class="card-title"><span>💼</span>純資産</div>
+    <div id="dash-networth"></div>
+  </div>
+</div>
+
+<div id="page-exp" class="page">
+  <div class="month-nav">
+    <button class="nav-btn" onclick="prevExpMonth()">‹</button>
+    <span class="month-label" id="exp-month-label"></span>
+    <div style="display:flex;gap:6px">
+      <button class="today-btn" onclick="goExpCurrent()">今月</button>
+      <button class="nav-btn" onclick="nextExpMonth()">›</button>
+    </div>
+  </div>
+  <div class="card" id="exp-summary-card">
+    <div id="exp-summary"></div>
+  </div>
+  <div class="card">
+    <div class="card-title"><span>📋</span>予算 vs 実績</div>
+    <div id="exp-budget-bars"></div>
+  </div>
+  <div class="card">
+    <div class="card-title"><span>🧾</span>支出一覧</div>
+    <div class="exp-list-wrap" id="exp-list"></div>
+  </div>
+</div>
+
+<div id="page-asset" class="page">
+  <div class="asset-summary" id="asset-summary-row"></div>
+  <div class="asset-tabs" id="asset-tabs">
+    <button class="asset-tab active" onclick="switchAssetTab('stock',this)">📈 株式</button>
+    <button class="asset-tab" onclick="switchAssetTab('fund',this)">📦 投信</button>
+    <button class="asset-tab" onclick="switchAssetTab('crypto',this)">₿ 暗号通貨</button>
+    <button class="asset-tab" onclick="switchAssetTab('cash',this)">🏦 現金・預金</button>
+    <button class="asset-tab" onclick="switchAssetTab('debt',this)">📉 負債</button>
+  </div>
+  <div id="asset-stock" class="asset-section active">
+    <div id="stock-list"></div>
+    <button class="add-btn" onclick="openAddAsset('stock')">＋ 銘柄を追加</button>
+  </div>
+  <div id="asset-fund" class="asset-section">
+    <div id="fund-list"></div>
+    <button class="add-btn" onclick="openAddAsset('fund')">＋ 投信を追加</button>
+  </div>
+  <div id="asset-crypto" class="asset-section">
+    <div id="crypto-list"></div>
+    <button class="add-btn" onclick="openAddAsset('crypto')">＋ 銘柄を追加</button>
+  </div>
+  <div id="asset-cash" class="asset-section">
+    <div id="cash-list"></div>
+    <button class="add-btn" onclick="openAddAsset('cash')">＋ 口座を追加</button>
+  </div>
+  <div id="asset-debt" class="asset-section">
+    <div id="debt-list"></div>
+    <button class="add-btn" onclick="openAddAsset('debt')">＋ 負債を追加</button>
+  </div>
+</div>
+
+<div id="page-budget" class="page">
+  <div class="month-nav">
+    <button class="nav-btn" onclick="prevIncMonth()">‹</button>
+    <span class="month-label" id="inc-month-label"></span>
+    <button class="nav-btn" onclick="nextIncMonth()">›</button>
+  </div>
+  <div class="card">
+    <div class="card-title"><span>💰</span>月次収入</div>
+    <div id="income-form"></div>
+    <button class="btn btn-primary btn-sm mt12" onclick="saveIncome()">保存</button>
+  </div>
+  <div class="card">
+    <div class="card-title"><span>🎯</span>カテゴリ予算（月次）</div>
+    <div id="budget-form"></div>
+    <div class="mt12">
+      <button class="btn btn-primary btn-sm" onclick="saveBudgets()">予算を保存</button>
+    </div>
+  </div>
+</div>
+
+<div id="page-settings" class="page">
+  <div class="card">
+    <div class="card-title"><span>👤</span>メンバー名</div>
+    <div class="form-row">
+      <div class="form-field"><label>メンバー1</label><input class="inp" id="s-p1" placeholder="例: Satoshi"></div>
+      <div class="form-field"><label>メンバー2</label><input class="inp" id="s-p2" placeholder="例: 妻"></div>
+    </div>
+    <button class="btn btn-primary btn-sm" onclick="savePeople()">保存</button>
+  </div>
+  <div class="card">
+    <div class="card-title"><span>☁️</span>JSONBin.io 同期設定</div>
+    <div class="form-field"><label>API Key</label><input class="inp" id="s-apikey" placeholder="$2b$10$..."></div>
+    <div class="form-field"><label>Bin ID（既存の場合）</label><input class="inp" id="s-binid" placeholder="空欄 = 新規作成"></div>
+    <div style="display:flex;gap:8px;margin-top:4px">
+      <button class="btn btn-primary btn-sm" onclick="setupSync()">セットアップ</button>
+      <button class="btn btn-secondary btn-sm" onclick="joinSync()">参加（Bin IDで）</button>
+      <button class="btn btn-danger btn-sm" onclick="disconnectSync()">解除</button>
+    </div>
+    <div id="sync-info" class="mt8" style="font-size:12px;color:var(--text3)"></div>
+  </div>
+  <div class="card">
+    <div class="card-title"><span>🏷️</span>カテゴリ管理</div>
+    <div id="cat-list"></div>
+    <div class="row mt8">
+      <input class="inp flex1" id="new-cat-inp" placeholder="新しいカテゴリ名">
+      <button class="btn btn-primary btn-sm" onclick="addCategory()">追加</button>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-title"><span>💾</span>データ管理</div>
+    <div class="setting-row">
+      <div><div class="setting-label">CSVインポート</div><div class="setting-sub">既存データ（過去アーカイブ）</div></div>
+      <label class="btn btn-secondary btn-sm" style="cursor:pointer">選択<input type="file" accept=".csv" style="display:none" onchange="handleCSV(event)"></label>
+    </div>
+    <div class="setting-row">
+      <div><div class="setting-label">CSVエクスポート</div><div class="setting-sub">全支出データ</div></div>
+      <button class="btn btn-secondary btn-sm" onclick="exportCSV()">書出し</button>
+    </div>
+    <div class="setting-row">
+      <div><div class="setting-label">アーカイブデータ</div><div class="setting-sub" id="arch-count"></div></div>
+      <button class="btn btn-danger btn-sm" onclick="clearArchive()">削除</button>
+    </div>
+    <div class="setting-row">
+      <div><div class="setting-label">新規データ</div><div class="setting-sub" id="new-count"></div></div>
+      <button class="btn btn-danger btn-sm" onclick="clearNew()">削除</button>
+    </div>
+  </div>
+</div>
+
+<!-- Tab Bar -->
+<div id="tab-bar">
+  <button class="tab-btn active" onclick="switchTab('dash',this)">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+    ダッシュ
+  </button>
+  <button class="tab-btn" onclick="switchTab('exp',this)">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 7H5a2 2 0 00-2 2v8a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-4M9 7V5a2 2 0 014 0v2M9 7h6"/></svg>
+    支出
+  </button>
+  <button class="tab-btn" onclick="switchTab('asset',this)">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg>
+    資産
+  </button>
+  <button class="tab-btn" onclick="switchTab('budget',this)">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+    収支設定
+  </button>
+  <button class="tab-btn" onclick="switchTab('settings',this)">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 01-2-2 2 2 0 012-2h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 012-2 2 2 0 012 2v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 0 2 2 0 010 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 012 2 2 2 0 01-2 2h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
+    設定
+  </button>
+</div>
+
+<!-- FAB -->
+<button id="qa-fab" onclick="toggleQa()">＋</button>
+
+<!-- Quick Add Panel -->
+<div id="qa-panel">
+  <div id="qa-amount-wrap">
+    <label>¥</label>
+    <input type="number" id="qa-amount" placeholder="0" inputmode="numeric" autofocus>
+  </div>
+  <input type="text" id="qa-name" class="inp" placeholder="内容（任意）" list="qa-name-dl" autocomplete="off">
+  <datalist id="qa-name-dl"></datalist>
+  <div class="qa-cats" id="qa-cats"></div>
+  <div class="qa-persons" id="qa-persons"></div>
+  <button id="qa-save" onclick="quickSave()">保存する</button>
+</div>
+
+<!-- Modals -->
+<div class="overlay" id="modal-sync" onclick="if(event.target===this)closeModal('modal-sync')">
+  <div class="modal">
+    <div class="modal-title">同期状態 <button class="modal-close" onclick="closeModal('modal-sync')">✕</button></div>
+    <div id="modal-sync-content"></div>
+    <button class="btn btn-primary" style="width:100%;margin-top:12px" onclick="manualSync()">今すぐ同期</button>
+  </div>
+</div>
+
+<div class="overlay" id="modal-exp-edit" onclick="if(event.target===this)closeModal('modal-exp-edit')">
+  <div class="modal">
+    <div class="modal-title">支出を編集 <button class="modal-close" onclick="closeModal('modal-exp-edit')">✕</button></div>
+    <input type="hidden" id="edit-exp-id">
+    <div class="form-row">
+      <div class="form-field"><label>年</label><input class="inp" type="number" id="edit-year" inputmode="numeric"></div>
+      <div class="form-field"><label>月</label><input class="inp" type="number" id="edit-month" min="1" max="12" inputmode="numeric"></div>
+    </div>
+    <div class="form-row">
+      <div class="form-field"><label>日</label><input class="inp" type="number" id="edit-day" min="1" max="31" inputmode="numeric"></div>
+      <div class="form-field"><label>金額</label><input class="inp" type="number" id="edit-amount" inputmode="numeric"></div>
+    </div>
+    <div class="form-field"><label>内容</label><input class="inp" id="edit-name" list="qa-name-dl"></div>
+    <div class="form-field"><label>カテゴリ</label>
+      <div class="chip-row" id="edit-cats"></div>
+    </div>
+    <div class="form-field"><label>メンバー</label>
+      <div class="chip-row" id="edit-persons"></div>
+    </div>
+    <div class="form-field"><label>メモ</label><input class="inp" id="edit-note"></div>
+    <div style="display:flex;gap:8px;margin-top:14px">
+      <button class="btn btn-danger flex1" onclick="delExp()">削除</button>
+      <button class="btn btn-primary flex1" onclick="saveEditExp()">保存</button>
+    </div>
+  </div>
+</div>
+
+<div class="overlay" id="modal-asset" onclick="if(event.target===this)closeModal('modal-asset')">
+  <div class="modal">
+    <div class="modal-title" id="modal-asset-title">資産を追加 <button class="modal-close" onclick="closeModal('modal-asset')">✕</button></div>
+    <div id="modal-asset-form"></div>
+    <div style="display:flex;gap:8px;margin-top:14px">
+      <button class="btn btn-danger flex1" id="modal-asset-del" style="display:none" onclick="delAsset()">削除</button>
+      <button class="btn btn-primary flex1" onclick="saveAsset()">保存</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ===================== DATA =====================
+const CATS = ['食費','光熱・通信','娯楽・教養','交際','保険','医療','交通','日用品','服飾','教育','子供関係','車関係','もなた','家賃','小遣い','宿泊費','クリーニング','お酒','その他'];
+const CAT_EMOJI = {食費:'🍽',光熱・通信:'💡',娯楽・教養:'🎭',交際:'🤝',保険:'🛡',医療:'💊',交通:'🚃',日用品:'🛒',服飾:'👗',教育:'📚',子供関係:'👶',車関係:'🚗',もなた:'🐾',家賃:'🏠',小遣い:'💴',宿泊費:'🏨',クリーニング:'👔',お酒:'🍺',その他:'📦'};
+const PIE_COLORS=['#0E7168','#1A9F93','#F59E0B','#EF4444','#8B5CF6','#EC4899','#14B8A6','#F97316','#84CC16','#06B6D4','#6366F1','#D97706','#10B981','#EF4444','#7C3AED','#DB2777','#0891B2','#65A30D','#E11D48'];
+
+// Stock dictionary
+const STOCK_DICT = {
+  '7203':'トヨタ自動車','9984':'ソフトバンクグループ','9432':'日本電信電話(NTT)','9433':'KDDI','6758':'ソニーグループ','6861':'キーエンス','4519':'中外製薬','9983':'ファーストリテイリング','6367':'ダイキン工業','8058':'三菱商事','7267':'本田技研工業','6954':'ファナック','4063':'信越化学工業','8035':'東京エレクトロン','4661':'オリエンタルランド','3382':'セブン&アイ','4519':'中外製薬','2914':'JT','8031':'三井物産','9020':'東日本旅客鉄道','9022':'東海旅客鉄道','8766':'東京海上HD','8306':'三菱UFJ FG','8316':'三井住友FG','8411':'みずほFG','4543':'テルモ','4568':'第一三共','6501':'日立製作所','6702':'富士通','6723':'ルネサス','6762':'TDK','6857':'アドバンテスト','7201':'日産自動車','7741':'HOYA','8001':'伊藤忠商事','8002':'丸紅','9101':'日本郵船','9602':'東宝','9613':'NTTデータ','4755':'楽天グループ','3659':'ネクソン','4689':'Zホールディングス','2502':'アサヒグループ','2503':'キリンHD','4452':'花王','4901':'富士フイルムHD','7912':'大日本印刷','8750':'第一生命','4819':'デジタルガレージ',
+  'AAPL':'Apple','MSFT':'Microsoft','GOOGL':'Alphabet','AMZN':'Amazon','META':'Meta','NVDA':'NVIDIA','TSLA':'Tesla','BRK.B':'Berkshire Hathaway','JPM':'JPMorgan','V':'Visa','MA':'Mastercard','UNH':'UnitedHealth','JNJ':'Johnson & Johnson','PG':'Procter & Gamble','WMT':'Walmart',
+  '1306':'TOPIX連動ETF','1321':'日経225連動ETF','1348':'MAXIS日経225','2558':'MAXIS米国株S&P500','2559':'MXS全世界株','1655':'iシェアーズS&P500','1657':'iシェアーズ先進国株'
+};
+
+// Default state
+const DEF_STATE = {
+  apiKey:'',binId:'',setupDate:'',lastSyncHash:'',syncStatus:'none',
+  p1Name:'Satoshi',p2Name:'妻',
+  expenses:[],incomes:[],budgets:{},
+  stocks:[],funds:[],cryptos:[],cashAccounts:[],debts:[],
+  categories:[...CATS]
+};
+
+let ST = {};
+let ARCH = [];
+let syncTimer = null;
+let editAssetType = null;
+let editAssetId = null;
+let qaCatSel = '';
+let qaPersonSel = '';
+let dashY, dashM, expY, expM, incY, incM;
+let activeAnalysis = 'trend';
+
+// ===================== STORAGE =====================
+function saveLocal(){
+  try{localStorage.setItem('mn2_state',JSON.stringify(ST));}catch(e){alert('保存失敗: '+e.message);}
+}
+function loadLocal(){
+  try{
+    const s=localStorage.getItem('mn2_state');
+    ST=s?Object.assign({},DEF_STATE,JSON.parse(s)):{...DEF_STATE};
+    const a=localStorage.getItem('mn2_archive');
+    ARCH=a?JSON.parse(a):[];
+  }catch(e){ST={...DEF_STATE};ARCH=[];}
+}
+function saveArchive(){
+  try{localStorage.setItem('mn2_archive',JSON.stringify(ARCH));}catch(e){}
+}
+function fmt(n){if(n===undefined||n===null)return '–';return Math.round(n).toLocaleString();}
+function fmtSign(n){const v=Math.round(n);return (v>=0?'＋':'')+v.toLocaleString();}
+function uid(){return Date.now().toString(36)+Math.random().toString(36).slice(2,6);}
+
+// ===================== SYNC =====================
+async function syncPull(){
+  if(!ST.apiKey||!ST.binId)return;
+  setSyncStatus('ing');
+  try{
+    const r=await fetch(`https://api.jsonbin.io/v3/b/${ST.binId}/latest`,{headers:{'X-Master-Key':ST.apiKey}});
+    if(!r.ok)throw new Error(r.status);
+    const d=await r.json();
+    const remote=d.record;
+    // merge
+    const localIds=new Set(ST.expenses.map(e=>e.id));
+    (remote.expenses||[]).forEach(e=>{if(!localIds.has(e.id))ST.expenses.push(e);});
+    ['stocks','funds','cryptos','cashAccounts','debts','incomes'].forEach(k=>{
+      if(remote[k])ST[k]=remote[k];
+    });
+    if(remote.budgets)ST.budgets=remote.budgets;
+    if(remote.p1Name)ST.p1Name=remote.p1Name;
+    if(remote.p2Name)ST.p2Name=remote.p2Name;
+    if(remote.categories)ST.categories=remote.categories;
+    saveLocal();setSyncStatus('ok');render();
+  }catch(e){setSyncStatus('err');console.error(e);}
+}
+async function syncPush(){
+  if(!ST.apiKey||!ST.binId)return;
+  setSyncStatus('ing');
+  try{
+    const r=await fetch(`https://api.jsonbin.io/v3/b/${ST.binId}`,{
+      method:'PUT',
+      headers:{'Content-Type':'application/json','X-Master-Key':ST.apiKey},
+      body:JSON.stringify({
+        expenses:ST.expenses,stocks:ST.stocks,funds:ST.funds,
+        cryptos:ST.cryptos,cashAccounts:ST.cashAccounts,debts:ST.debts,
+        incomes:ST.incomes,budgets:ST.budgets,p1Name:ST.p1Name,p2Name:ST.p2Name,
+        categories:ST.categories
+      })
+    });
+    if(!r.ok)throw new Error(r.status);
+    setSyncStatus('ok');
+  }catch(e){setSyncStatus('err');}
+}
+async function saveAndSync(){saveLocal();await syncPush();}
+function setSyncStatus(s){
+  ST.syncStatus=s;
+  const d=document.getElementById('sync-dot');
+  d.className='';d.classList.add(s==='ok'?'ok':s==='err'?'err':s==='ing'?'ing':'');
+}
+function startSyncTimer(){
+  if(syncTimer)clearInterval(syncTimer);
+  if(ST.apiKey&&ST.binId)syncTimer=setInterval(syncPull,30000);
+}
+async function setupSync(){
+  const key=document.getElementById('s-apikey').value.trim();
+  const bid=document.getElementById('s-binid').value.trim();
+  if(!key){alert('API Keyを入力してください');return;}
+  ST.apiKey=key;
+  if(bid){ST.binId=bid;await syncPull();}
+  else{
+    setSyncStatus('ing');
+    try{
+      const r=await fetch('https://api.jsonbin.io/v3/b',{
+        method:'POST',
+        headers:{'Content-Type':'application/json','X-Master-Key':key,'X-Bin-Name':'MoneyNote'},
+        body:JSON.stringify({expenses:[],stocks:[],funds:[],cryptos:[],cashAccounts:[],debts:[],incomes:[],budgets:{},p1Name:ST.p1Name,p2Name:ST.p2Name,categories:ST.categories})
+      });
+      if(!r.ok)throw new Error(r.status);
+      const d=await r.json();
+      ST.binId=d.metadata.id;
+      setSyncStatus('ok');
+    }catch(e){setSyncStatus('err');alert('作成失敗: '+e.message);return;}
+  }
+  saveLocal();startSyncTimer();
+  document.getElementById('sync-info').textContent='Bin ID: '+ST.binId;
+  document.getElementById('s-binid').value=ST.binId;
+}
+function joinSync(){ST.binId=document.getElementById('s-binid').value.trim();ST.apiKey=document.getElementById('s-apikey').value.trim();saveLocal();syncPull();startSyncTimer();}
+function disconnectSync(){if(!confirm('同期を解除しますか？'))return;ST.apiKey='';ST.binId='';saveLocal();setSyncStatus('none');if(syncTimer)clearInterval(syncTimer);}
+async function manualSync(){await syncPull();closeModal('modal-sync');}
+function openSyncModal(){
+  document.getElementById('modal-sync-content').innerHTML=
+    `<div style="font-size:13px;color:var(--text2)"><div class="row"><span>状態:</span><span class="badge ${ST.syncStatus==='ok'?'badge-green':ST.syncStatus==='err'?'badge-red':'badge-amber'}">${ST.syncStatus==='ok'?'同期中':ST.syncStatus==='err'?'エラー':'未設定'}</span></div><div class="mt8">Bin ID: <span class="mono" style="font-size:12px">${ST.binId||'未設定'}</span></div></div>`;
+  openModal('modal-sync');
+}
+
+// ===================== TABS / UI =====================
+function switchTab(name,btn){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('page-'+name).classList.add('active');
+  if(btn)btn.classList.add('active');
+  if(name==='dash')renderDashboard();
+  else if(name==='exp')renderExpTab();
+  else if(name==='asset')renderAssets();
+  else if(name==='budget')renderBudgetTab();
+  else if(name==='settings')renderSettings();
+  // Close QA if open
+  document.getElementById('qa-panel').classList.remove('open');
+  document.getElementById('qa-fab').textContent='＋';
+}
+function openModal(id){document.getElementById(id).classList.add('open');}
+function closeModal(id){document.getElementById(id).classList.remove('open');}
+function toggleQa(){
+  const p=document.getElementById('qa-panel');
+  const f=document.getElementById('qa-fab');
+  if(p.classList.contains('open')){p.classList.remove('open');f.textContent='＋';}
+  else{p.classList.add('open');f.textContent='✕';renderQaCats();document.getElementById('qa-amount').focus();}
+}
+
+// ===================== QUICK ADD =====================
+function renderQaCats(){
+  const cats=document.getElementById('qa-cats');
+  cats.innerHTML=ST.categories.map(c=>`<div class="qa-cat ${c===qaCatSel?'sel':''}" onclick="selectCat('${c}')">${CAT_EMOJI[c]||'📦'}<br>${c}</div>`).join('');
+  const ps=document.getElementById('qa-persons');
+  ps.innerHTML=[ST.p1Name,ST.p2Name].map(n=>`<div class="qa-person ${n===qaPersonSel?'sel':''}" onclick="selectPerson('${n}')">${n}</div>`).join('');
+  updateNameDl();
+}
+function selectCat(c){qaCatSel=c;renderQaCats();}
+function selectPerson(p){qaPersonSel=p;renderQaCats();}
+function updateNameDl(){
+  const cat=qaCatSel;
+  const hist=(ST.expenses.filter(e=>!cat||e.category===cat).map(e=>e.name).filter(Boolean));
+  const uniq=[...new Set(hist)].slice(0,20);
+  document.getElementById('qa-name-dl').innerHTML=uniq.map(n=>`<option value="${n}">`).join('');
+}
+function quickSave(){
+  const amt=parseInt(document.getElementById('qa-amount').value)||0;
+  if(amt<=0){alert('金額を入力してください');return;}
+  if(!qaCatSel){alert('カテゴリを選択してください');return;}
+  const now=new Date();
+  const exp={id:uid(),year:now.getFullYear(),month:now.getMonth()+1,day:now.getDate(),amount:amt,category:qaCatSel,name:document.getElementById('qa-name').value.trim(),tags:[],person:qaPersonSel||ST.p1Name,note:''};
+  ST.expenses.push(exp);
+  document.getElementById('qa-amount').value='';
+  document.getElementById('qa-name').value='';
+  saveAndSync();
+  render();
+  toggleQa();
+}
+
+// ===================== EXPENSE =====================
+function prevExpMonth(){if(expM===1){expY--;expM=12;}else expM--;renderExpTab();}
+function nextExpMonth(){if(expM===12){expY++;expM=1;}else expM++;renderExpTab();}
+function goExpCurrent(){const n=new Date();expY=n.getFullYear();expM=n.getMonth()+1;renderExpTab();}
+function getExpenses(y,m){
+  return [...ST.expenses,...ARCH].filter(e=>e.year===y&&e.month===m).sort((a,b)=>b.day-a.day||0);
+}
+function renderExpTab(){
+  document.getElementById('exp-month-label').textContent=`${expY}年${expM}月`;
+  const exps=getExpenses(expY,expM);
+  const total=exps.reduce((s,e)=>s+e.amount,0);
+  // Summary
+  const p1=exps.filter(e=>e.person===ST.p1Name).reduce((s,e)=>s+e.amount,0);
+  const p2=exps.filter(e=>e.person===ST.p2Name).reduce((s,e)=>s+e.amount,0);
+  document.getElementById('exp-summary').innerHTML=`
+    <div style="display:flex;justify-content:space-between;align-items:center">
+      <div><div style="font-size:11px;color:var(--text3)">合計支出</div><div class="mono" style="font-size:24px;font-weight:700;color:var(--red)">¥${fmt(total)}</div></div>
+      <div style="text-align:right;font-size:12px;color:var(--text3)">${ST.p1Name}: ¥${fmt(p1)}<br>${ST.p2Name}: ¥${fmt(p2)}</div>
+    </div>`;
+  // Budget bars
+  renderBudgetBarsIn('exp-budget-bars',expY,expM);
+  // List
+  renderExpList(exps);
+}
+function renderBudgetBarsIn(containerId,y,m){
+  const exps=getExpenses(y,m);
+  const catTotals={};
+  exps.forEach(e=>{catTotals[e.category]=(catTotals[e.category]||0)+e.amount;});
+  const hasBudget=Object.keys(ST.budgets).length>0;
+  if(!hasBudget){document.getElementById(containerId).innerHTML='<div class="empty">予算が設定されていません</div>';return;}
+  let html='';
+  ST.categories.forEach(cat=>{
+    const bud=ST.budgets[cat]||0;
+    const act=catTotals[cat]||0;
+    if(bud===0&&act===0)return;
+    const pct=bud>0?Math.min((act/bud)*100,100):100;
+    const cls=pct>=100?'over':pct>=80?'warn':'';
+    html+=`<div class="budget-bar-item">
+      <div class="budget-bar-header"><span class="cat-name">${CAT_EMOJI[cat]||''} ${cat}</span><span class="amt">¥${fmt(act)}${bud>0?' / ¥'+fmt(bud):''}</span></div>
+      <div class="budget-bar-track"><div class="budget-bar-fill ${cls}" style="width:${pct}%"></div></div>
+    </div>`;
+  });
+  document.getElementById(containerId).innerHTML=html||'<div class="empty">データなし</div>';
+}
+function renderExpList(exps){
+  if(!exps.length){document.getElementById('exp-list').innerHTML='<div class="empty">支出がありません</div>';return;}
+  const byDay={};
+  exps.forEach(e=>{const k=e.day;(byDay[k]=byDay[k]||[]).push(e);});
+  const days=Object.keys(byDay).sort((a,b)=>b-a);
+  let html='';
+  days.forEach(d=>{
+    const dayExps=byDay[d];
+    const dayTotal=dayExps.reduce((s,e)=>s+e.amount,0);
+    html+=`<div class="exp-day-group"><div class="exp-day-label">${expM}月${d}日 <span style="float:right">¥${fmt(dayTotal)}</span></div>`;
+    dayExps.forEach(e=>{
+      html+=`<div class="exp-item" onclick="openEditExp('${e.id}')">
+        <div class="exp-cat-badge">${CAT_EMOJI[e.category]||'📦'}</div>
+        <div class="exp-item-info"><div class="exp-item-name">${e.name||e.category}</div><div class="exp-item-cat">${e.category}</div></div>
+        <div style="text-align:right"><div class="exp-item-amt">¥${fmt(e.amount)}</div><div class="exp-item-person">${e.person||''}</div></div>
+      </div>`;
+    });
+    html+='</div>';
+  });
+  document.getElementById('exp-list').innerHTML=html;
+}
+function openEditExp(id){
+  const all=[...ST.expenses,...ARCH];
+  const e=all.find(x=>x.id===id);
+  if(!e)return;
+  document.getElementById('edit-exp-id').value=id;
+  document.getElementById('edit-year').value=e.year;
+  document.getElementById('edit-month').value=e.month;
+  document.getElementById('edit-day').value=e.day;
+  document.getElementById('edit-amount').value=e.amount;
+  document.getElementById('edit-name').value=e.name||'';
+  document.getElementById('edit-note').value=e.note||'';
+  const catDiv=document.getElementById('edit-cats');
+  catDiv.innerHTML=ST.categories.map(c=>`<div class="chip ${c===e.category?'sel':''}" onclick="chipSel(this,'edit-cats')">${c}</div>`).join('');
+  const pDiv=document.getElementById('edit-persons');
+  pDiv.innerHTML=[ST.p1Name,ST.p2Name].map(n=>`<div class="chip ${n===e.person?'sel':''}" onclick="chipSel(this,'edit-persons')">${n}</div>`).join('');
+  openModal('modal-exp-edit');
+}
+function chipSel(el,groupId){
+  document.getElementById(groupId).querySelectorAll('.chip').forEach(c=>c.classList.remove('sel'));
+  el.classList.add('sel');
+}
+function saveEditExp(){
+  const id=document.getElementById('edit-exp-id').value;
+  const si=ST.expenses.findIndex(x=>x.id===id);
+  const ai=ARCH.findIndex(x=>x.id===id);
+  const updated={id,year:+document.getElementById('edit-year').value,month:+document.getElementById('edit-month').value,day:+document.getElementById('edit-day').value,amount:+document.getElementById('edit-amount').value,name:document.getElementById('edit-name').value,note:document.getElementById('edit-note').value,
+    category:document.getElementById('edit-cats').querySelector('.sel')?.textContent||'その他',
+    person:document.getElementById('edit-persons').querySelector('.sel')?.textContent||ST.p1Name,tags:[]};
+  if(si>=0){ST.expenses[si]=updated;saveAndSync();}
+  else if(ai>=0){ARCH[ai]=updated;saveLocal();saveArchive();}
+  closeModal('modal-exp-edit');render();
+}
+function delExp(){
+  const id=document.getElementById('edit-exp-id').value;
+  if(!confirm('削除しますか？'))return;
+  ST.expenses=ST.expenses.filter(e=>e.id!==id);
+  ARCH=ARCH.filter(e=>e.id!==id);
+  saveAndSync();saveArchive();
+  closeModal('modal-exp-edit');render();
+}
+
+// ===================== DASHBOARD =====================
+function prevDashMonth(){if(dashM===1){dashY--;dashM=12;}else dashM--;renderDashboard();}
+function nextDashMonth(){if(dashM===12){dashY++;dashM=1;}else dashM++;renderDashboard();}
+function goDashCurrent(){const n=new Date();dashY=n.getFullYear();dashM=n.getMonth()+1;renderDashboard();}
+function getMonthTotal(y,m){return [...ST.expenses,...ARCH].filter(e=>e.year===y&&e.month===m).reduce((s,e)=>s+e.amount,0);}
+function getMonthIncome(y,m){const inc=ST.incomes.find(i=>i.year===y&&i.month===m);return inc?inc.items.reduce((s,i)=>s+i.amount,0):0;}
+function renderDashboard(){
+  document.getElementById('dash-month-label').textContent=`${dashY}年${dashM}月`;
+  document.getElementById('hdr-month').textContent=`${dashY}年${dashM}月`;
+  const total=getMonthTotal(dashY,dashM);
+  const income=getMonthIncome(dashY,dashM);
+  const balance=income-total;
+  const prevM=dashM===1?12:dashM-1;const prevY=dashM===1?dashY-1:dashY;
+  const prevTotal=getMonthTotal(prevY,prevM);
+  const diff=total-prevTotal;
+  // KPIs
+  document.getElementById('dash-kpis').innerHTML=`
+    <div class="kpi"><label>支出合計</label><div class="val red mono">¥${fmt(total)}</div></div>
+    <div class="kpi"><label>収支</label><div class="val ${balance>=0?'green':'red'} mono">${balance>=0?'＋':''}¥${fmt(balance)}</div></div>
+    <div class="kpi"><label>収入</label><div class="val mono">¥${fmt(income)}</div></div>
+    <div class="kpi"><label>前月比</label><div class="val ${diff<=0?'green':'red'} mono">${diff>0?'＋':''}¥${fmt(diff)}</div></div>
+  `;
+  renderBudgetBarsIn('dash-budget-bars',dashY,dashM);
+  renderPie();
+  renderAnalysis();
+  renderNetWorth();
+}
+function renderPie(){
+  const exps=getExpenses(dashY,dashM);
+  const catTotals={};
+  exps.forEach(e=>{catTotals[e.category]=(catTotals[e.category]||0)+e.amount;});
+  const data=Object.entries(catTotals).sort((a,b)=>b[1]-a[1]);
+  const total=data.reduce((s,d)=>s+d[1],0);
+  if(!total){document.getElementById('dash-pie').innerHTML='<div class="empty">データなし</div>';return;}
+  // SVG donut
+  const r=60,cx=80,cy=80,rOuter=60,rInner=35;
+  let angle=-Math.PI/2;
+  let paths='';
+  data.forEach((d,i)=>{
+    const slice=(d[1]/total)*Math.PI*2;
+    const x1=cx+rOuter*Math.cos(angle),y1=cy+rOuter*Math.sin(angle);
+    const x2=cx+rOuter*Math.cos(angle+slice),y2=cy+rOuter*Math.sin(angle+slice);
+    const xi1=cx+rInner*Math.cos(angle+slice),yi1=cy+rInner*Math.sin(angle+slice);
+    const xi2=cx+rInner*Math.cos(angle),yi2=cy+rInner*Math.sin(angle);
+    const lg=slice>Math.PI?1:0;
+    paths+=`<path d="M${x1},${y1} A${rOuter},${rOuter} 0 ${lg},1 ${x2},${y2} L${xi1},${yi1} A${rInner},${rInner} 0 ${lg},0 ${xi2},${yi2} Z" fill="${PIE_COLORS[i%PIE_COLORS.length]}" stroke="white" stroke-width="1.5"/>`;
+    angle+=slice;
+  });
+  const svg=`<svg viewBox="0 0 160 160" width="130" height="130"><g>${paths}</g></svg>`;
+  const legend=data.slice(0,8).map((d,i)=>`<div class="pie-legend-item"><div class="pie-legend-dot" style="background:${PIE_COLORS[i%PIE_COLORS.length]}"></div>${d[0]}: ¥${fmt(d[1])}</div>`).join('');
+  document.getElementById('dash-pie').innerHTML=`<div class="pie-wrap">${svg}<div class="pie-legend">${legend}</div></div>`;
+}
+function switchAnalysis(type,btn){
+  activeAnalysis=type;
+  document.querySelectorAll('.atab').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  ['trend','yoy','mom'].forEach(t=>{document.getElementById('analysis-'+t).style.display=t===type?'':'none';});
+  renderAnalysis();
+}
+function renderAnalysis(){
+  if(activeAnalysis==='trend')renderTrend();
+  else if(activeAnalysis==='yoy')renderYoY();
+  else if(activeAnalysis==='mom')renderMoM();
+}
+function renderTrend(){
+  const months=[];
+  for(let i=11;i>=0;i--){
+    let y=dashY,m=dashM-i;
+    while(m<=0){m+=12;y--;}
+    months.push({y,m,label:`${m}月`,total:getMonthTotal(y,m)});
+  }
+  const max=Math.max(...months.map(m=>m.total),1);
+  const W=300,H=100,pad=4,bw=Math.floor((W-pad*(months.length+1))/months.length);
+  let bars='',labels='';
+  months.forEach((m,i)=>{
+    const bh=Math.max(2,Math.round((m.total/max)*(H-24)));
+    const x=pad+(bw+pad)*i,y=H-bh-18;
+    const isCur=m.y===dashY&&m.m===dashM;
+    bars+=`<rect x="${x}" y="${y}" width="${bw}" height="${bh}" rx="2" fill="${isCur?'var(--teal)':'var(--bg3)'}"/>`;
+    if(i%3===0||isCur)labels+=`<text x="${x+bw/2}" y="${H-4}" text-anchor="middle" font-size="9" fill="var(--text3)">${m.label}</text>`;
+  });
+  document.getElementById('analysis-trend').innerHTML=`<div class="bar-chart"><svg viewBox="0 0 ${W} ${H}" width="100%" style="overflow:visible">${bars}${labels}</svg><div style="text-align:center;font-size:11px;color:var(--text3);margin-top:4px">12ヶ月の月次支出推移</div></div>`;
+}
+function renderYoY(){
+  const rows=[];
+  for(let i=0;i<6;i++){
+    let m=dashM-i;let y=dashY;
+    while(m<=0){m+=12;y--;}
+    const cur=getMonthTotal(y,m);const prev=getMonthTotal(y-1,m);
+    const diff=cur-prev;
+    rows.push({label:`${y}/${m}月`,cur,prev,diff});
+  }
+  let html=`<table class="data-table"><thead><tr><th>月</th><th>今年</th><th>前年</th><th>差分</th></tr></thead><tbody>`;
+  rows.forEach(r=>{html+=`<tr><td>${r.label}</td><td class="num">¥${fmt(r.cur)}</td><td class="num">¥${fmt(r.prev)}</td><td class="num ${r.diff>0?'neg':'pos'}">${fmtSign(r.diff)}</td></tr>`;});
+  html+='</tbody></table>';
+  document.getElementById('analysis-yoy').innerHTML=html;
+}
+function renderMoM(){
+  const rows=[];
+  for(let i=0;i<6;i++){
+    let m=dashM-i;let y=dashY;while(m<=0){m+=12;y--;}
+    let pm=m-1;let py=y;if(pm<=0){pm+=12;py--;}
+    const cur=getMonthTotal(y,m);const prev=getMonthTotal(py,pm);
+    const diff=cur-prev;
+    rows.push({label:`${y}/${m}月`,cur,prev,diff});
+  }
+  let html=`<table class="data-table"><thead><tr><th>月</th><th>支出</th><th>前月</th><th>差分</th></tr></thead><tbody>`;
+  rows.forEach(r=>{html+=`<tr><td>${r.label}</td><td class="num">¥${fmt(r.cur)}</td><td class="num">¥${fmt(r.prev)}</td><td class="num ${r.diff>0?'neg':'pos'}">${fmtSign(r.diff)}</td></tr>`;});
+  html+='</tbody></table>';
+  document.getElementById('analysis-mom').innerHTML=html;
+}
+function renderNetWorth(){
+  const stocks=ST.stocks.reduce((s,x)=>{const cur=x.curPrice||x.buyPrice||0;return s+cur*x.qty;},0);
+  const funds=ST.funds.reduce((s,x)=>{const cur=x.curPrice||x.buyPrice||0;return s+cur*x.units;},0);
+  const cryptos=ST.cryptos.reduce((s,x)=>{const cur=x.curPrice||x.buyPrice||0;return s+cur*x.qty;},0);
+  const cash=ST.cashAccounts.reduce((s,x)=>s+x.balance,0);
+  const debt=ST.debts.reduce((s,x)=>s+x.balance,0);
+  const total=stocks+funds+cryptos+cash-debt;
+  document.getElementById('dash-networth').innerHTML=`
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+      <div><div style="font-size:11px;color:var(--text3)">株式</div><div class="mono" style="font-weight:600">¥${fmt(stocks)}</div></div>
+      <div><div style="font-size:11px;color:var(--text3)">投信</div><div class="mono" style="font-weight:600">¥${fmt(funds)}</div></div>
+      <div><div style="font-size:11px;color:var(--text3)">暗号通貨</div><div class="mono" style="font-weight:600">¥${fmt(cryptos)}</div></div>
+      <div><div style="font-size:11px;color:var(--text3)">現金・預金</div><div class="mono" style="font-weight:600">¥${fmt(cash)}</div></div>
+      <div><div style="font-size:11px;color:var(--text3)">負債</div><div class="mono" style="color:var(--red);font-weight:600">-¥${fmt(debt)}</div></div>
+      <div><div style="font-size:11px;color:var(--text3);font-weight:700">純資産</div><div class="mono" style="font-size:18px;font-weight:700;color:${total>=0?'var(--green)':'var(--red)'}">¥${fmt(total)}</div></div>
+    </div>`;
+}
+
+// ===================== ASSETS =====================
+function switchAssetTab(type,btn){
+  document.querySelectorAll('.asset-section').forEach(s=>s.classList.remove('active'));
+  document.querySelectorAll('.asset-tab').forEach(b=>b.classList.remove('active'));
+  document.getElementById('asset-'+type).classList.add('active');
+  if(btn)btn.classList.add('active');
+}
+function renderAssets(){
+  renderAssetSummary();
+  renderStocks();renderFunds();renderCryptos();renderCash();renderDebts();
+}
+function renderAssetSummary(){
+  const stocks=ST.stocks.reduce((s,x)=>{const v=(x.curPrice||x.buyPrice||0)*x.qty;const b=x.buyPrice*x.qty;return {val:s.val+v,cost:s.cost+b};},{val:0,cost:0});
+  const cash=ST.cashAccounts.reduce((s,x)=>s+x.balance,0);
+  const debt=ST.debts.reduce((s,x)=>s+x.balance,0);
+  const stPnl=stocks.val-stocks.cost;
+  document.getElementById('asset-summary-row').innerHTML=`
+    <div class="as-card"><label>株式評価額</label><div class="val mono" style="font-size:13px">¥${fmt(stocks.val)}</div><div style="font-size:10px;color:${stPnl>=0?'var(--green)':'var(--red)'}">${fmtSign(stPnl)}</div></div>
+    <div class="as-card"><label>現金・預金</label><div class="val mono" style="font-size:13px">¥${fmt(cash)}</div></div>
+    <div class="as-card"><label>負債</label><div class="val mono" style="font-size:13px;color:var(--red)">¥${fmt(debt)}</div></div>
+  `;
+}
+function renderStocks(){
+  if(!ST.stocks.length){document.getElementById('stock-list').innerHTML='<div class="empty">銘柄がありません</div>';return;}
+  document.getElementById('stock-list').innerHTML=ST.stocks.map(s=>{
+    const cur=s.curPrice||s.buyPrice||0;
+    const cost=s.buyPrice*s.qty;
+    const val=cur*s.qty;
+    const pnl=val-cost;
+    const pnlPct=cost>0?((pnl/cost)*100):0;
+    const toTarget=s.target>0?((cur/s.target)*100):0;
+    const atStop=s.stopLoss>0&&cur<=s.stopLoss;
+    return `<div class="asset-item" onclick="openEditAsset('stock','${s.id}')">
+      <div class="asset-item-head">
+        <div><div class="asset-item-name">${s.name}</div><div class="asset-item-code">${s.code||''} ${s.currency||'JPY'}</div></div>
+        <div style="text-align:right"><div class="asset-pnl ${pnl>=0?'pos':'neg'}">${fmtSign(Math.round(pnl))}</div><div style="font-size:11px;color:var(--text3)">${pnlPct>=0?'+':''}${pnlPct.toFixed(1)}%</div></div>
+      </div>
+      <div class="asset-detail-row">
+        <div class="asset-detail"><strong>数量</strong> ${s.qty}</div>
+        <div class="asset-detail"><strong>取得単価</strong> ¥${fmt(s.buyPrice)}</div>
+        <div class="asset-detail"><strong>現在値</strong> ¥${fmt(cur)}</div>
+        <div class="asset-detail"><strong>評価額</strong> ¥${fmt(val)}</div>
+        ${s.target>0?`<div class="asset-detail"><strong>目標</strong> ¥${fmt(s.target)}</div>`:''}
+        ${s.stopLoss>0?`<div class="asset-detail"><strong>損切</strong> ¥${fmt(s.stopLoss)}</div>`:''}
+      </div>
+      ${s.target>0?`<div class="progress-bar"><div class="progress-fill ${toTarget>=100?'warn':''}" style="width:${Math.min(toTarget,100)}%"></div></div><div style="font-size:10px;color:var(--text3);margin-top:2px">目標達成率 ${toTarget.toFixed(0)}%</div>`:''}
+      ${atStop?`<div class="stop-loss-warn">⚠️ 損切ライン到達 (¥${fmt(s.stopLoss)})</div>`:''}
+    </div>`;
+  }).join('');
+}
+function renderFunds(){
+  if(!ST.funds.length){document.getElementById('fund-list').innerHTML='<div class="empty">投信がありません</div>';return;}
+  document.getElementById('fund-list').innerHTML=ST.funds.map(f=>{
+    const cur=f.curPrice||f.buyPrice||0;
+    const cost=f.buyPrice*(f.units/10000);
+    const val=cur*(f.units/10000);
+    const pnl=val-cost;
+    const pnlPct=cost>0?((pnl/cost)*100):0;
+    return `<div class="asset-item" onclick="openEditAsset('fund','${f.id}')">
+      <div class="asset-item-head">
+        <div><div class="asset-item-name">${f.name}</div><div class="asset-item-code">口数: ${fmt(f.units)}</div></div>
+        <div style="text-align:right"><div class="asset-pnl ${pnl>=0?'pos':'neg'}">${fmtSign(Math.round(pnl))}</div><div style="font-size:11px;color:var(--text3)">${pnlPct>=0?'+':''}${pnlPct.toFixed(1)}%</div></div>
+      </div>
+      <div class="asset-detail-row">
+        <div class="asset-detail"><strong>取得時基準価額</strong> ¥${fmt(f.buyPrice)}</div>
+        <div class="asset-detail"><strong>現在基準価額</strong> ¥${fmt(cur)}</div>
+        <div class="asset-detail"><strong>評価額</strong> ¥${fmt(val)}</div>
+      </div>
+    </div>`;
+  }).join('');
+}
+function renderCryptos(){
+  if(!ST.cryptos.length){document.getElementById('crypto-list').innerHTML='<div class="empty">暗号通貨がありません</div>';return;}
+  document.getElementById('crypto-list').innerHTML=ST.cryptos.map(c=>{
+    const cur=c.curPrice||c.buyPrice||0;
+    const cost=c.buyPrice*c.qty;const val=cur*c.qty;const pnl=val-cost;
+    const pnlPct=cost>0?((pnl/cost)*100):0;
+    const atStop=c.stopLoss>0&&cur<=c.stopLoss;
+    return `<div class="asset-item" onclick="openEditAsset('crypto','${c.id}')">
+      <div class="asset-item-head">
+        <div><div class="asset-item-name">${c.name}</div><div class="asset-item-code">${c.symbol}</div></div>
+        <div style="text-align:right"><div class="asset-pnl ${pnl>=0?'pos':'neg'}">${fmtSign(Math.round(pnl))}</div><div style="font-size:11px;color:var(--text3)">${pnlPct>=0?'+':''}${pnlPct.toFixed(1)}%</div></div>
+      </div>
+      <div class="asset-detail-row">
+        <div class="asset-detail"><strong>数量</strong> ${c.qty}</div>
+        <div class="asset-detail"><strong>取得単価</strong> ¥${fmt(c.buyPrice)}</div>
+        <div class="asset-detail"><strong>現在値</strong> ¥${fmt(cur)}</div>
+        ${c.target>0?`<div class="asset-detail"><strong>目標</strong> ¥${fmt(c.target)}</div>`:''}
+        ${c.stopLoss>0?`<div class="asset-detail"><strong>損切</strong> ¥${fmt(c.stopLoss)}</div>`:''}
+      </div>
+      ${atStop?`<div class="stop-loss-warn">⚠️ 損切ライン到達 (¥${fmt(c.stopLoss)})</div>`:''}
+    </div>`;
+  }).join('');
+}
+function renderCash(){
+  if(!ST.cashAccounts.length){document.getElementById('cash-list').innerHTML='<div class="empty">口座がありません</div>';return;}
+  document.getElementById('cash-list').innerHTML=ST.cashAccounts.map(a=>`
+    <div class="asset-item" onclick="openEditAsset('cash','${a.id}')">
+      <div class="asset-item-head"><div><div class="asset-item-name">${a.name}</div><div class="asset-item-code">${a.type||''}</div></div><div class="mono" style="font-weight:700">¥${fmt(a.balance)}</div></div>
+    </div>`).join('');
+}
+function renderDebts(){
+  if(!ST.debts.length){document.getElementById('debt-list').innerHTML='<div class="empty">負債がありません</div>';return;}
+  document.getElementById('debt-list').innerHTML=ST.debts.map(d=>`
+    <div class="asset-item" onclick="openEditAsset('debt','${d.id}')">
+      <div class="asset-item-head"><div><div class="asset-item-name">${d.name}</div><div class="asset-item-code">金利 ${d.rate||0}%</div></div><div class="mono" style="font-weight:700;color:var(--red)">¥${fmt(d.balance)}</div></div>
+      ${d.memo?`<div style="font-size:12px;color:var(--text3);margin-top:4px">${d.memo}</div>`:''}
+    </div>`).join('');
+}
+
+// Asset modal
+function openAddAsset(type){editAssetType=type;editAssetId=null;renderAssetForm(type,null);openModal('modal-asset');}
+function openEditAsset(type,id){editAssetType=type;editAssetId=id;
+  const list=getAssetList(type);
+  const item=list.find(x=>x.id===id);
+  renderAssetForm(type,item);
+  document.getElementById('modal-asset-del').style.display='';
+  openModal('modal-asset');
+}
+function getAssetList(type){return type==='stock'?ST.stocks:type==='fund'?ST.funds:type==='crypto'?ST.cryptos:type==='cash'?ST.cashAccounts:ST.debts;}
+function renderAssetForm(type,item){
+  const typeLabel=type==='stock'?'株式':type==='fund'?'投資信託':type==='crypto'?'暗号通貨':type==='cash'?'現金・預金':'負債';
+  document.getElementById('modal-asset-title').innerHTML=`${item?'編集':'追加'}　${typeLabel} <button class="modal-close" onclick="closeModal('modal-asset')">✕</button>`;
+  document.getElementById('modal-asset-del').style.display=item?'':'none';
+  let html='';
+  if(type==='stock'){
+    html=`
+      <div class="form-row">
+        <div class="form-field"><label>証券コード</label><input class="inp" id="af-code" placeholder="例: 7203" oninput="lookupStock(this.value)"></div>
+        <div class="form-field"><label>通貨</label><select class="inp" id="af-currency"><option>JPY</option><option>USD</option></select></div>
+      </div>
+      <div class="form-field"><label>銘柄名</label><input class="inp" id="af-name" placeholder="トヨタ自動車"></div>
+      <div class="form-row">
+        <div class="form-field"><label>数量（株）</label><input class="inp" type="number" id="af-qty" inputmode="decimal"></div>
+        <div class="form-field"><label>取得単価</label><input class="inp" type="number" id="af-buy" inputmode="decimal" oninput="calcStockPnl()"></div>
+      </div>
+      <div class="form-field">
+        <label>現在値</label>
+        <div style="display:flex;gap:8px;align-items:center">
+          <input class="inp flex1" type="number" id="af-cur" inputmode="decimal" oninput="calcStockPnl()" placeholder="手動入力 または →">
+          <button class="btn btn-secondary btn-sm" style="white-space:nowrap;flex-shrink:0" onclick="fetchStockPrice()" id="fetch-btn">📡 株価取得</button>
+        </div>
+        <div id="fetch-status" style="font-size:11px;color:var(--text3);margin-top:4px"></div>
+      </div>
+      <div class="form-row">
+        <div class="form-field"><label>目標株価</label><input class="inp" type="number" id="af-target" inputmode="decimal"></div>
+        <div class="form-field"><label>損切ライン</label><input class="inp" type="number" id="af-stop" inputmode="decimal"></div>
+      </div>
+      <div class="form-field"><label>セクター</label><input class="inp" id="af-sector" placeholder="例: IT, 金融, 製造"></div>
+      <div id="af-pnl-preview" class="mt8" style="background:var(--bg2);border-radius:8px;padding:10px;font-size:12px"></div>
+      <div class="form-field mt8"><label>メモ</label><input class="inp" id="af-memo"></div>`;
+    document.getElementById('modal-asset-form').innerHTML=html;
+    if(item){
+      setValue('af-code',item.code);setValue('af-name',item.name);setValue('af-qty',item.qty);
+      setValue('af-buy',item.buyPrice);setValue('af-cur',item.curPrice||'');setValue('af-target',item.target||'');
+      setValue('af-stop',item.stopLoss||'');setValue('af-sector',item.sector||'');setValue('af-memo',item.memo||'');
+      setSelectValue('af-currency',item.currency||'JPY');
+      calcStockPnl();
+    }
+  } else if(type==='fund'){
+    html=`
+      <div class="form-field"><label>ファンド名</label><input class="inp" id="af-name" placeholder="eMAXIS Slim 全世界株式"></div>
+      <div class="form-row">
+        <div class="form-field"><label>口数</label><input class="inp" type="number" id="af-units" inputmode="decimal" placeholder="例: 1234567"></div>
+        <div class="form-field"><label>取得時基準価額</label><input class="inp" type="number" id="af-buy" inputmode="decimal"></div>
+      </div>
+      <div class="form-row">
+        <div class="form-field"><label>現在基準価額</label><input class="inp" type="number" id="af-cur" inputmode="decimal"></div>
+        <div class="form-field"><label>目標基準価額</label><input class="inp" type="number" id="af-target" inputmode="decimal"></div>
+      </div>
+      <div class="form-field"><label>メモ</label><input class="inp" id="af-memo"></div>`;
+    document.getElementById('modal-asset-form').innerHTML=html;
+    if(item){setValue('af-name',item.name);setValue('af-units',item.units);setValue('af-buy',item.buyPrice);setValue('af-cur',item.curPrice||'');setValue('af-target',item.target||'');setValue('af-memo',item.memo||'');}
+  } else if(type==='crypto'){
+    html=`
+      <div class="form-row">
+        <div class="form-field"><label>シンボル</label><input class="inp" id="af-symbol" placeholder="BTC, ETH..."></div>
+        <div class="form-field"><label>名称</label><input class="inp" id="af-name" placeholder="ビットコイン"></div>
+      </div>
+      <div class="form-row">
+        <div class="form-field"><label>数量</label><input class="inp" type="number" id="af-qty" inputmode="decimal" step="any"></div>
+        <div class="form-field"><label>取得単価</label><input class="inp" type="number" id="af-buy" inputmode="decimal"></div>
+      </div>
+      <div class="form-row">
+        <div class="form-field"><label>現在値</label><input class="inp" type="number" id="af-cur" inputmode="decimal"></div>
+        <div class="form-field"><label>目標価格</label><input class="inp" type="number" id="af-target" inputmode="decimal"></div>
+      </div>
+      <div class="form-field"><label>損切ライン</label><input class="inp" type="number" id="af-stop" inputmode="decimal"></div>
+      <div class="form-field"><label>メモ</label><input class="inp" id="af-memo"></div>`;
+    document.getElementById('modal-asset-form').innerHTML=html;
+    if(item){setValue('af-symbol',item.symbol);setValue('af-name',item.name);setValue('af-qty',item.qty);setValue('af-buy',item.buyPrice);setValue('af-cur',item.curPrice||'');setValue('af-target',item.target||'');setValue('af-stop',item.stopLoss||'');setValue('af-memo',item.memo||'');}
+  } else if(type==='cash'){
+    html=`
+      <div class="form-field"><label>口座名</label><input class="inp" id="af-name" placeholder="三井住友銀行 普通"></div>
+      <div class="form-row">
+        <div class="form-field"><label>種別</label><select class="inp" id="af-type"><option>普通預金</option><option>定期預金</option><option>証券口座</option><option>現金</option><option>その他</option></select></div>
+        <div class="form-field"><label>残高</label><input class="inp" type="number" id="af-balance" inputmode="decimal"></div>
+      </div>`;
+    document.getElementById('modal-asset-form').innerHTML=html;
+    if(item){setValue('af-name',item.name);setSelectValue('af-type',item.type);setValue('af-balance',item.balance);}
+  } else if(type==='debt'){
+    html=`
+      <div class="form-field"><label>名称</label><input class="inp" id="af-name" placeholder="住宅ローン、カードローン..."></div>
+      <div class="form-row">
+        <div class="form-field"><label>残高</label><input class="inp" type="number" id="af-balance" inputmode="decimal"></div>
+        <div class="form-field"><label>金利(%)</label><input class="inp" type="number" id="af-rate" step="0.01" inputmode="decimal"></div>
+      </div>
+      <div class="form-field"><label>メモ</label><input class="inp" id="af-memo"></div>`;
+    document.getElementById('modal-asset-form').innerHTML=html;
+    if(item){setValue('af-name',item.name);setValue('af-balance',item.balance);setValue('af-rate',item.rate||0);setValue('af-memo',item.memo||'');}
+  }
+}
+function setValue(id,v){const el=document.getElementById(id);if(el&&v!==undefined&&v!=='')el.value=v;}
+function setSelectValue(id,v){const el=document.getElementById(id);if(el)el.value=v;}
+function getVal(id){const el=document.getElementById(id);return el?el.value.trim():'';}
+function getNum(id){const v=parseFloat(getVal(id));return isNaN(v)?0:v;}
+
+function lookupStock(code){
+  const name=STOCK_DICT[code];
+  if(name)document.getElementById('af-name').value=name;
+}
+
+async function fetchStockPrice(){
+  const code=getVal('af-code');
+  const currency=getVal('af-currency')||'JPY';
+  if(!code){alert('証券コードを入力してください');return;}
+  const btn=document.getElementById('fetch-btn');
+  const status=document.getElementById('fetch-status');
+  btn.textContent='取得中…';btn.disabled=true;
+  status.textContent='';
+  const ticker=currency==='JPY'?code+'.T':code;
+  const url=`https://query1.finance.yahoo.com/v8/finance/chart/${ticker}?interval=1d&range=1d`;
+  const tryFetch=async(fetchUrl)=>{
+    const r=await fetch(fetchUrl,{headers:{'Accept':'application/json'}});
+    if(!r.ok)throw new Error('HTTP '+r.status);
+    const d=await r.json();
+    const meta=d?.chart?.result?.[0]?.meta;
+    if(!meta||!meta.regularMarketPrice)throw new Error('データなし');
+    return meta;
+  };
+  let meta=null;
+  try{meta=await tryFetch(url);}catch(e){
+    try{meta=await tryFetch('https://corsproxy.io/?'+encodeURIComponent(url));}catch(e2){}
+  }
+  if(meta){
+    const price=meta.regularMarketPrice;
+    const prevClose=meta.chartPreviousClose||meta.previousClose;
+    const change=prevClose?(((price-prevClose)/prevClose)*100):null;
+    document.getElementById('af-cur').value=price;
+    calcStockPnl();
+    const ts=new Date().toLocaleTimeString('ja-JP',{hour:'2-digit',minute:'2-digit'});
+    const changeStr=change!=null?`　前日比: <span style="color:${change>=0?'var(--green)':'var(--red)'}">${change>=0?'▲':'▼'}${Math.abs(change).toFixed(2)}%</span>`:'';
+    status.innerHTML=`<span style="color:var(--green)">✓ ${ts} 取得成功</span>${changeStr}`;
+  }else{
+    status.innerHTML='<span style="color:var(--red)">⚠ 取得失敗 — 手動で入力してください</span>';
+  }
+  btn.textContent='📡 株価取得';btn.disabled=false;
+}
+
+function calcStockPnl(){
+  const buy=getNum('af-buy');const cur=getNum('af-cur');const qty=getNum('af-qty');
+  const prev=document.getElementById('af-pnl-preview');if(!prev)return;
+  if(!buy||!qty){prev.innerHTML='';return;}
+  const cost=buy*qty;const val=(cur||buy)*qty;const pnl=val-cost;const pct=cost>0?(pnl/cost*100):0;
+  const stopLoss=getNum('af-stop');const atStop=stopLoss>0&&(cur||buy)<=stopLoss;
+  prev.innerHTML=`<div style="display:grid;grid-template-columns:1fr 1fr;gap:6px">
+    <div><span style="color:var(--text3)">取得総額</span><br><strong>¥${fmt(cost)}</strong></div>
+    <div><span style="color:var(--text3)">現在評価額</span><br><strong>¥${fmt(val)}</strong></div>
+    <div><span style="color:var(--text3)">含み損益</span><br><strong style="color:${pnl>=0?'var(--green)':'var(--red)'}">${fmtSign(Math.round(pnl))} (${pct>=0?'+':''}${pct.toFixed(1)}%)</strong></div>
+    ${atStop?'<div style="color:var(--red);font-weight:700">⚠️ 損切ライン到達</div>':''}
+  </div>`;
+}
+function saveAsset(){
+  const type=editAssetType;
+  let item={id:editAssetId||uid()};
+  if(type==='stock'){
+    item={...item,code:getVal('af-code'),name:getVal('af-name'),qty:getNum('af-qty'),buyPrice:getNum('af-buy'),curPrice:getNum('af-cur')||undefined,target:getNum('af-target')||0,stopLoss:getNum('af-stop')||0,currency:getVal('af-currency'),sector:getVal('af-sector'),memo:getVal('af-memo')};
+  } else if(type==='fund'){
+    item={...item,name:getVal('af-name'),units:getNum('af-units'),buyPrice:getNum('af-buy'),curPrice:getNum('af-cur')||undefined,target:getNum('af-target')||0,memo:getVal('af-memo')};
+  } else if(type==='crypto'){
+    item={...item,symbol:getVal('af-symbol'),name:getVal('af-name'),qty:getNum('af-qty'),buyPrice:getNum('af-buy'),curPrice:getNum('af-cur')||undefined,target:getNum('af-target')||0,stopLoss:getNum('af-stop')||0,memo:getVal('af-memo')};
+  } else if(type==='cash'){
+    item={...item,name:getVal('af-name'),type:getVal('af-type'),balance:getNum('af-balance')};
+  } else if(type==='debt'){
+    item={...item,name:getVal('af-name'),balance:getNum('af-balance'),rate:getNum('af-rate'),memo:getVal('af-memo')};
+  }
+  const list=getAssetList(type);
+  const idx=list.findIndex(x=>x.id===item.id);
+  if(idx>=0)list[idx]=item;else list.push(item);
+  saveAndSync();closeModal('modal-asset');renderAssets();
+}
+function delAsset(){
+  if(!confirm('削除しますか？'))return;
+  const type=editAssetType;const id=editAssetId;
+  if(type==='stock')ST.stocks=ST.stocks.filter(x=>x.id!==id);
+  else if(type==='fund')ST.funds=ST.funds.filter(x=>x.id!==id);
+  else if(type==='crypto')ST.cryptos=ST.cryptos.filter(x=>x.id!==id);
+  else if(type==='cash')ST.cashAccounts=ST.cashAccounts.filter(x=>x.id!==id);
+  else ST.debts=ST.debts.filter(x=>x.id!==id);
+  saveAndSync();closeModal('modal-asset');renderAssets();
+}
+
+// ===================== BUDGET / INCOME =====================
+function prevIncMonth(){if(incM===1){incY--;incM=12;}else incM--;renderBudgetTab();}
+function nextIncMonth(){if(incM===12){incY++;incM=1;}else incM++;renderBudgetTab();}
+function renderBudgetTab(){
+  document.getElementById('inc-month-label').textContent=`${incY}年${incM}月`;
+  // Income form
+  const inc=ST.incomes.find(i=>i.year===incY&&i.month===incM)||{year:incY,month:incM,items:[{name:'給与',amount:0},{name:'その他',amount:0}]};
+  let ihtml='';
+  inc.items.forEach((item,idx)=>{
+    ihtml+=`<div class="income-item-row"><input class="inp flex1" id="inc-name-${idx}" value="${item.name}"><input class="inp" type="number" id="inc-amt-${idx}" value="${item.amount||''}" inputmode="decimal" style="width:120px" placeholder="金額"></div>`;
+  });
+  ihtml+=`<button class="btn btn-secondary btn-sm mt8" onclick="addIncomeRow()">＋ 行を追加</button>`;
+  document.getElementById('income-form').innerHTML=ihtml;
+  document.getElementById('income-form').dataset.count=inc.items.length;
+  // Budget form
+  let bhtml='';
+  ST.categories.forEach(cat=>{
+    const v=ST.budgets[cat]||'';
+    bhtml+=`<div class="budget-input-row"><label>${CAT_EMOJI[cat]||''} ${cat}</label><input class="inp-sm inp" type="number" id="bud-${cat}" value="${v}" inputmode="decimal" placeholder="0"></div>`;
+  });
+  document.getElementById('budget-form').innerHTML=bhtml;
+}
+function addIncomeRow(){
+  const cnt=parseInt(document.getElementById('income-form').dataset.count||0);
+  const row=document.createElement('div');row.className='income-item-row';
+  row.innerHTML=`<input class="inp flex1" id="inc-name-${cnt}" placeholder="収入項目"><input class="inp" type="number" id="inc-amt-${cnt}" inputmode="decimal" style="width:120px" placeholder="金額">`;
+  document.getElementById('income-form').insertBefore(row,document.getElementById('income-form').lastElementChild);
+  document.getElementById('income-form').dataset.count=cnt+1;
+}
+function saveIncome(){
+  const cnt=parseInt(document.getElementById('income-form').dataset.count||0);
+  const items=[];
+  for(let i=0;i<cnt;i++){
+    const name=document.getElementById('inc-name-'+i)?.value||'';
+    const amount=parseFloat(document.getElementById('inc-amt-'+i)?.value)||0;
+    if(name||amount)items.push({name,amount});
+  }
+  const idx=ST.incomes.findIndex(i=>i.year===incY&&i.month===incM);
+  if(idx>=0)ST.incomes[idx]={year:incY,month:incM,items};
+  else ST.incomes.push({year:incY,month:incM,items});
+  saveAndSync();alert('保存しました');
+}
+function saveBudgets(){
+  ST.categories.forEach(cat=>{
+    const v=parseFloat(document.getElementById('bud-'+cat)?.value)||0;
+    if(v>0)ST.budgets[cat]=v;else delete ST.budgets[cat];
+  });
+  saveAndSync();alert('予算を保存しました');
+}
+
+// ===================== SETTINGS =====================
+function renderSettings(){
+  document.getElementById('s-p1').value=ST.p1Name;
+  document.getElementById('s-p2').value=ST.p2Name;
+  document.getElementById('s-apikey').value=ST.apiKey;
+  document.getElementById('s-binid').value=ST.binId;
+  document.getElementById('sync-info').textContent=ST.binId?'Bin ID: '+ST.binId:'';
+  renderCatList();
+  document.getElementById('arch-count').textContent=ARCH.length+'件';
+  document.getElementById('new-count').textContent=ST.expenses.length+'件';
+}
+function savePeople(){ST.p1Name=document.getElementById('s-p1').value||'メンバー1';ST.p2Name=document.getElementById('s-p2').value||'メンバー2';saveAndSync();alert('保存しました');}
+function renderCatList(){
+  document.getElementById('cat-list').innerHTML=ST.categories.map((c,i)=>
+    `<div class="setting-row"><span>${CAT_EMOJI[c]||'📦'} ${c}</span><button class="btn btn-danger btn-sm" onclick="delCategory(${i})">削除</button></div>`
+  ).join('');
+}
+function addCategory(){const v=document.getElementById('new-cat-inp').value.trim();if(!v)return;if(ST.categories.includes(v)){alert('既に存在します');return;}ST.categories.push(v);document.getElementById('new-cat-inp').value='';saveLocal();renderCatList();}
+function delCategory(i){if(!confirm('削除しますか？'))return;ST.categories.splice(i,1);saveLocal();renderCatList();}
+
+// ===================== CSV =====================
+function handleCSV(evt){
+  const f=evt.target.files[0];if(!f)return;
+  const r=new FileReader();
+  r.onload=e=>importCSV(e.target.result);
+  r.readAsText(f,'UTF-8');
+}
+function parseCSVLine(line){
+  const result=[];let inQ=false;let cur='';
+  for(let i=0;i<line.length;i++){
+    if(line[i]==='"'){if(inQ&&line[i+1]==='"'){cur+='"';i++;}else inQ=!inQ;}
+    else if(line[i]===','&&!inQ){result.push(cur);cur='';}
+    else cur+=line[i];
+  }
+  result.push(cur);return result;
+}
+function importCSV(text){
+  const lines=text.split(/\r?\n/).filter(l=>l.trim());
+  if(lines.length<2){alert('データがありません');return;}
+  const header=parseCSVLine(lines[0]).map(h=>h.replace(/"/g,'').trim());
+  const idxMap={};
+  ['ID','Version','Year','Month','Day','Amount','Category','Name','Note'].forEach(k=>{idxMap[k]=header.indexOf(k);});
+  let count=0;
+  const existing=new Set([...ST.expenses,...ARCH].map(e=>e.id));
+  for(let i=1;i<lines.length;i++){
+    const cols=parseCSVLine(lines[i]);
+    const getId=k=>idxMap[k]>=0?cols[idxMap[k]]?.replace(/"/g,'').trim():'';
+    const id=getId('ID')||uid();
+    if(existing.has(id))continue;
+    const year=parseInt(getId('Year'));const month=parseInt(getId('Month'));const day=parseInt(getId('Day'));
+    const amount=parseInt(getId('Amount'))||0;
+    if(!year||!month||!amount)continue;
+    // Parse tags from note
+    const rawNote=getId('Note');
+    const tags=[];let note=rawNote;
+    const tagMatches=rawNote.matchAll(/\[tag:([^\]]+)\]/g);
+    for(const m of tagMatches){tags.push(m[1]);note=note.replace(m[0],'').trim();}
+    ARCH.push({id,year,month,day,amount,category:getId('Category')||'その他',name:getId('Name'),tags,person:ST.p1Name,note});
+    count++;
+  }
+  saveArchive();
+  document.getElementById('arch-count').textContent=ARCH.length+'件';
+  alert(`${count}件インポートしました`);
+}
+function exportCSV(){
+  const all=[...ST.expenses,...ARCH].sort((a,b)=>a.year-b.year||a.month-b.month||a.day-b.day);
+  const rows=[['ID','Version','Year','Month','Day','Amount','Category','Name','Note']];
+  all.forEach(e=>{
+    const tagStr=(e.tags||[]).map(t=>`[tag:${t}]`).join(' ');
+    const note=[e.note||'',tagStr].filter(Boolean).join(' ');
+    rows.push([e.id,'1',e.year,e.month,e.day,e.amount,e.category,e.name||'',note]);
+  });
+  const csv=rows.map(r=>r.map(v=>`"${String(v).replace(/"/g,'""')}"`).join(',')).join('\n');
+  const blob=new Blob(['\uFEFF'+csv],{type:'text/csv;charset=utf-8'});
+  const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=`moneynote_${new Date().toISOString().slice(0,10)}.csv`;a.click();
+}
+function clearArchive(){if(!confirm(`アーカイブ${ARCH.length}件を削除しますか？`))return;ARCH=[];saveArchive();document.getElementById('arch-count').textContent='0件';}
+function clearNew(){if(!confirm(`新規データ${ST.expenses.length}件を削除しますか？`))return;ST.expenses=[];saveAndSync();document.getElementById('new-count').textContent='0件';}
+
+// ===================== RENDER =====================
+function render(){renderDashboard();renderExpTab();}
+
+// ===================== INIT =====================
+function init(){
+  loadLocal();
+  const now=new Date();
+  dashY=expY=incY=now.getFullYear();
+  dashM=expM=incM=now.getMonth()+1;
+  qaCatSel='';qaPersonSel=ST.p1Name;
+  renderDashboard();
+  renderExpTab();
+  renderBudgetTab();
+  renderSettings();
+  startSyncTimer();
+  if(ST.apiKey&&ST.binId){syncPull();setSyncStatus('ok');}
+}
+document.addEventListener('DOMContentLoaded',init);
+</script>
+</body>
+</html>
