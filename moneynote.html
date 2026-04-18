@@ -220,6 +220,57 @@ input[type=number]::-webkit-inner-spin-button{display:none}
 
 /* SVG Charts */
 .bar-chart svg text{font-family:'JetBrains Mono',monospace}
+
+/* Quick Add Page */
+#page-input{padding:0}
+#input-form-wrap{padding:16px;padding-bottom:24px}
+.qa-section-label{font-size:11px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.05em;margin-bottom:6px}
+.qa-payment-row{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px}
+.qa-payment-chip{background:var(--bg2);border:2px solid transparent;border-radius:20px;padding:5px 12px;font-size:12px;cursor:pointer;transition:all .15s;white-space:nowrap}
+.qa-payment-chip.sel{background:var(--teal-l);border-color:var(--teal);color:var(--teal);font-weight:600}
+.qa-name-section{margin-bottom:12px}
+.qa-amt-big{font-size:36px;font-weight:700;font-family:'JetBrains Mono',monospace;border:none;border-bottom:3px solid var(--teal);background:transparent;padding:4px 0;color:var(--text);outline:none;width:100%}
+.qa-save-btn{width:100%;background:var(--teal);color:#fff;border:none;border-radius:var(--r);padding:16px;font-size:17px;font-weight:700;cursor:pointer;font-family:'Noto Sans JP',sans-serif;margin-top:4px}
+.qa-save-btn:active{background:var(--teal2)}
+
+/* Furusato */
+.fn-year-tab{display:flex;gap:6px;margin-bottom:12px;overflow-x:auto;padding-bottom:2px}
+.fn-ytab{background:var(--bg2);border:none;border-radius:20px;padding:6px 14px;font-size:12px;cursor:pointer;white-space:nowrap;font-family:'Noto Sans JP',sans-serif;color:var(--text2);flex-shrink:0}
+.fn-ytab.active{background:var(--teal);color:#fff;font-weight:600}
+.fn-progress{background:var(--bg2);border-radius:var(--r);padding:14px;margin-bottom:12px}
+.fn-bar-track{height:10px;background:var(--bg3);border-radius:5px;overflow:hidden;margin:6px 0}
+.fn-bar-fill{height:100%;border-radius:5px;background:var(--teal);transition:width .4s}
+.fn-bar-fill.warn{background:var(--amber)}
+.fn-bar-fill.over{background:var(--red)}
+.fn-item{background:var(--card);border-radius:var(--r2);padding:12px;margin-bottom:8px;border:1px solid var(--border)}
+.fn-item-head{display:flex;justify-content:space-between;align-items:start;margin-bottom:4px}
+.fn-item-name{font-size:13px;font-weight:600;flex:1;padding-right:8px;line-height:1.4}
+.fn-item-amt{font-size:14px;font-weight:700;font-family:'JetBrains Mono',monospace;color:var(--teal);flex-shrink:0}
+.fn-item-meta{font-size:11px;color:var(--text3);display:flex;gap:8px;flex-wrap:wrap}
+.fn-rating-◎{color:var(--green);font-weight:700}
+.fn-rating-〇{color:var(--teal)}
+.fn-rating-△{color:var(--amber)}
+.fn-rating-×{color:var(--red)}
+.fn-recv-badge{display:inline-block;background:var(--green-l);color:var(--green);border-radius:10px;padding:1px 7px;font-size:10px;font-weight:600}
+.fn-unrec-badge{display:inline-block;background:var(--amber-l);color:var(--amber);border-radius:10px;padding:1px 7px;font-size:10px;font-weight:600}
+.fn-add-form{background:var(--card);border-radius:var(--r);padding:16px;margin-bottom:12px;border:1px dashed var(--border)}
+/* History chips */
+.hist-chip{background:var(--bg2);border:1px solid var(--border);border-radius:16px;padding:4px 10px;font-size:12px;cursor:pointer;color:var(--text2);transition:all .15s;white-space:nowrap}
+.hist-chip:active,.hist-chip:hover{background:var(--teal-l);border-color:var(--teal);color:var(--teal)}
+/* Monthly template */
+.mt-item{display:flex;align-items:center;gap:8px;padding:10px 0;border-bottom:1px solid var(--bg2)}
+.mt-item:last-child{border-bottom:none}
+.mt-toggle{width:40px;height:22px;border-radius:11px;border:none;cursor:pointer;position:relative;transition:background .2s;flex-shrink:0}
+.mt-toggle.on{background:var(--teal)}
+.mt-toggle.off{background:var(--bg3)}
+.mt-toggle::after{content:'';position:absolute;top:3px;width:16px;height:16px;border-radius:50%;background:#fff;transition:left .2s}
+.mt-toggle.on::after{left:21px}
+.mt-toggle.off::after{left:3px}
+.mt-item-info{flex:1;min-width:0}
+.mt-item-name{font-size:13px;font-weight:600}
+.mt-item-sub{font-size:11px;color:var(--text3)}
+/* Budget override badge */
+.bud-override{font-size:10px;background:var(--amber-l);color:var(--amber);border-radius:8px;padding:1px 6px;font-weight:600}
 </style>
 </head>
 <body>
@@ -236,7 +287,34 @@ input[type=number]::-webkit-inner-spin-button{display:none}
 </div>
 
 <!-- Pages -->
-<div id="page-dash" class="page active">
+<div id="page-input" class="page active">
+  <div id="input-form-wrap">
+    <!-- Amount -->
+    <div style="background:var(--teal);padding:20px 16px 16px;border-bottom-left-radius:16px;border-bottom-right-radius:16px;margin-bottom:16px">
+      <div style="color:rgba(255,255,255,.7);font-size:12px;margin-bottom:4px">金額</div>
+      <div style="display:flex;align-items:center;gap:8px">
+        <span style="color:#fff;font-size:24px;font-weight:700">¥</span>
+        <input type="number" id="pi-amount" class="qa-amt-big" placeholder="0" inputmode="numeric" style="color:#fff;border-bottom-color:rgba(255,255,255,.5)">
+      </div>
+    </div>
+    <!-- Name/Store FIRST -->
+    <div class="qa-section-label">店名・用途</div>
+    <input type="text" id="pi-name" class="inp" placeholder="カテゴリを選ぶと履歴候補が表示されます" autocomplete="off" style="margin-bottom:8px">
+    <div id="pi-hist-chips" style="display:flex;flex-wrap:wrap;gap:5px;margin-bottom:12px"></div>
+    <!-- Categories SECOND -->
+    <div class="qa-section-label">カテゴリ</div>
+    <div class="qa-cats" id="pi-cats" style="margin-bottom:10px"></div>
+    <!-- Payment Method -->
+    <div class="qa-section-label">支払方法</div>
+    <div class="qa-payment-row" id="pi-payments"></div>
+    <!-- Person -->
+    <div class="qa-section-label">メンバー</div>
+    <div class="qa-persons" id="pi-persons" style="margin-bottom:16px"></div>
+    <button class="qa-save-btn" onclick="pageInputSave()">💾 保存する</button>
+  </div>
+</div>
+
+<div id="page-dash" class="page">
   <div class="month-nav">
     <button class="nav-btn" onclick="prevDashMonth()">‹</button>
     <span class="month-label" id="dash-month-label"></span>
@@ -353,6 +431,38 @@ input[type=number]::-webkit-inner-spin-button{display:none}
     <button class="btn btn-primary btn-sm" onclick="savePeople()">保存</button>
   </div>
   <div class="card">
+    <div class="card-title"><span>💳</span>支払方法の管理</div>
+    <div id="s-pm-list"></div>
+    <div class="row mt8">
+      <input class="inp flex1" id="new-pm-inp" placeholder="例：PayPay、現金、三井住友カード">
+      <button class="btn btn-primary btn-sm" onclick="addPaymentMethod()">追加</button>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-title" style="justify-content:space-between">
+      <span><span>🎯</span> カテゴリ別予算（月次）</span>
+      <span id="s-bud-month-label" style="font-size:12px;color:var(--text3)"></span>
+    </div>
+    <div style="display:flex;gap:6px;margin-bottom:10px">
+      <button class="nav-btn btn-sm" onclick="prevBudMonth()">‹</button>
+      <button class="today-btn" onclick="goBudCurrent()" style="font-size:11px">今月</button>
+      <button class="nav-btn btn-sm" onclick="nextBudMonth()">›</button>
+      <span id="s-bud-override-badge" style="display:none" class="bud-override">月別変更あり</span>
+    </div>
+    <div style="font-size:11px;color:var(--text3);margin-bottom:8px">デフォルト予算は毎月に適用されます。特定の月だけ変えたい場合はその月を表示して入力してください。</div>
+    <div id="s-budget-form"></div>
+    <div style="display:flex;gap:8px;margin-top:12px;flex-wrap:wrap">
+      <button class="btn btn-primary btn-sm" onclick="saveBudgetSettings()">保存</button>
+      <button class="btn btn-danger btn-sm" id="s-bud-reset-btn" style="display:none" onclick="resetMonthBudget()">この月の変更を削除</button>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-title"><span>🔄</span>毎月の定期支出</div>
+    <div style="font-size:12px;color:var(--text3);margin-bottom:10px">毎月1日に自動的に追加されます。</div>
+    <div id="s-monthly-list"></div>
+    <button class="btn btn-secondary btn-sm mt8" onclick="openAddMonthly()">＋ 定期支出を追加</button>
+  </div>
+  <div class="card">
     <div class="card-title"><span>☁️</span>JSONBin.io 同期設定</div>
     <div class="form-field"><label>API Key</label><input class="inp" id="s-apikey" placeholder="$2b$10$..."></div>
     <div class="form-field"><label>Bin ID（既存の場合）</label><input class="inp" id="s-binid" placeholder="空欄 = 新規作成"></div>
@@ -392,23 +502,47 @@ input[type=number]::-webkit-inner-spin-button{display:none}
   </div>
 </div>
 
+<div id="page-fn" class="page">
+  <div class="fn-year-tab" id="fn-year-tabs"></div>
+  <div id="fn-progress-card" class="card"></div>
+  <div class="card fn-add-form">
+    <div class="card-title"><span>➕</span>新規追加</div>
+    <div class="form-row">
+      <div class="form-field"><label>申込日</label><input class="inp" type="date" id="fn-new-date"></div>
+      <div class="form-field"><label>金額</label><input class="inp" type="number" id="fn-new-amount" inputmode="decimal" placeholder="10000"></div>
+    </div>
+    <div class="form-field"><label>都道府県・自治体</label><input class="inp" id="fn-new-pref" placeholder="例：山形県天童市"></div>
+    <div class="form-field"><label>返礼品</label><input class="inp" id="fn-new-item" placeholder="例：シャインマスカット 1kg"></div>
+    <div class="form-row">
+      <div class="form-field"><label>サイト</label><input class="inp" id="fn-new-site" placeholder="さとふる等"></div>
+      <div class="form-field"><label>発送時期</label><input class="inp" id="fn-new-ship" placeholder="例：9月上旬"></div>
+    </div>
+    <button class="btn btn-primary btn-sm mt8" onclick="fnAdd()">追加する</button>
+  </div>
+  <div id="fn-list"></div>
+</div>
+
 <!-- Tab Bar -->
 <div id="tab-bar">
-  <button class="tab-btn active" onclick="switchTab('dash',this)">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
-    ダッシュ
+  <button class="tab-btn active" id="tab-input-btn" onclick="switchTab('input',this)">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
+    入力
   </button>
   <button class="tab-btn" onclick="switchTab('exp',this)">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 7H5a2 2 0 00-2 2v8a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-4M9 7V5a2 2 0 014 0v2M9 7h6"/></svg>
     支出
   </button>
+  <button class="tab-btn" onclick="switchTab('dash',this)">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+    分析
+  </button>
   <button class="tab-btn" onclick="switchTab('asset',this)">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg>
     資産
   </button>
-  <button class="tab-btn" onclick="switchTab('budget',this)">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
-    収支設定
+  <button class="tab-btn" onclick="switchTab('fn',this)">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
+    ふるさと
   </button>
   <button class="tab-btn" onclick="switchTab('settings',this)">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 01-2-2 2 2 0 012-2h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 012-2 2 2 0 012 2v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 0 2 2 0 010 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 012 2 2 2 0 01-2 2h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
@@ -428,12 +562,32 @@ input[type=number]::-webkit-inner-spin-button{display:none}
   <input type="text" id="qa-name" class="inp" placeholder="内容（任意）" list="qa-name-dl" autocomplete="off">
   <datalist id="qa-name-dl"></datalist>
   <div class="qa-cats" id="qa-cats"></div>
+  <div style="font-size:11px;font-weight:700;color:var(--text3);margin-bottom:5px">支払方法</div>
+  <div class="qa-payment-row" id="qa-payments-float" style="margin-bottom:10px"></div>
   <div class="qa-persons" id="qa-persons"></div>
   <button id="qa-save" onclick="quickSave()">保存する</button>
 </div>
 
 <!-- Modals -->
-<div class="overlay" id="modal-sync" onclick="if(event.target===this)closeModal('modal-sync')">
+<div class="overlay" id="modal-monthly" onclick="if(event.target===this)closeModal('modal-monthly')">
+  <div class="modal">
+    <div class="modal-title" id="modal-monthly-title">定期支出を追加 <button class="modal-close" onclick="closeModal('modal-monthly')">✕</button></div>
+    <input type="hidden" id="mt-edit-id">
+    <div class="form-row">
+      <div class="form-field"><label>項目名</label><input class="inp" id="mt-name" placeholder="例：NHK、Netflix"></div>
+      <div class="form-field"><label>金額</label><input class="inp" type="number" id="mt-amount" inputmode="decimal"></div>
+    </div>
+    <div class="form-field"><label>カテゴリ</label><div class="chip-row" id="mt-cats"></div></div>
+    <div class="form-field"><label>支払方法（任意）</label><div class="chip-row" id="mt-payments"></div></div>
+    <div style="display:flex;gap:8px;margin-top:14px">
+      <button class="btn btn-danger flex1" id="mt-del-btn" style="display:none" onclick="delMonthlyTemplate()">削除</button>
+      <button class="btn btn-primary flex1" onclick="saveMonthlyTemplate()">保存</button>
+    </div>
+  </div>
+</div>
+
+<div class="overlay" id="modal-sync"
+ onclick="if(event.target===this)closeModal('modal-sync')">
   <div class="modal">
     <div class="modal-title">同期状態 <button class="modal-close" onclick="closeModal('modal-sync')">✕</button></div>
     <div id="modal-sync-content"></div>
@@ -460,6 +614,9 @@ input[type=number]::-webkit-inner-spin-button{display:none}
     <div class="form-field"><label>メンバー</label>
       <div class="chip-row" id="edit-persons"></div>
     </div>
+    <div class="form-field"><label>支払方法</label>
+      <div class="chip-row" id="edit-payment"></div>
+    </div>
     <div class="form-field"><label>メモ</label><input class="inp" id="edit-note"></div>
     <div style="display:flex;gap:8px;margin-top:14px">
       <button class="btn btn-danger flex1" onclick="delExp()">削除</button>
@@ -481,6 +638,10 @@ input[type=number]::-webkit-inner-spin-button{display:none}
 
 <script>
 // ===================== DATA =====================
+const PAYMENT_METHODS = ['楽天カード','PayPayカード','三井住友カード','PayPay','au PAY','Suica','三井住友銀行','新生銀行','みずほ銀行','楽天銀行','現金','その他'];
+const PM_EMOJI = {'楽天カード':'💳','PayPayカード':'💳','三井住友カード':'💳','PayPay':'📱','au PAY':'📱','Suica':'🚃','三井住友銀行':'🏦','新生銀行':'🏦','みずほ銀行':'🏦','楽天銀行':'🏦','現金':'💴','その他':'📦'};
+const CSV_HISTORY = {"お酒": ["ドンキーホーテ", "光屋", "コンビニ(セブンイレブン)", "イオン", "酒屋", "まいばすけっと", "カクヤス", "オオゼキ", "キヨスク", "スーパー", "ワールド", "肉のハナマサ", "コンビニ(ファミリーマート)", "ダイエー", "マルキョウ", "かもす", "鈴傳", "ライフ", "宿泊先", "ロピア"], "その他": ["国連UNHCR", "ふるさと納税", "送料", "切手", "コンビニ(セブンイレブン)", "住民票", "コピー", "年賀状", "自転車部品", "日本家族再生センター", "コンビニ(ファミリーマート)", "ヤマダ電機", "固定資産税", "養育費", "パソコン", "証明写真", "ヘッドホン", "あきばおー", "御守り", "浅間神社"], "もなた": ["うさぎご飯", "ラパスペットクリニック", "ドンキーホーテ", "うさぎグッズ", "テント", "山手動物病院", "夜間救急動物病院", "うさぎのしっぽ", "病院", "ホームセンター", "タクシー", "ケージ", "もなた", "お土産", "ネットショップ", "あず動物病院", "もなた部屋", "梅原往診病院"], "クリーニング": ["クリーニング", "クリーニング券", "回転寿司"], "交通": ["電車", "タクシー", "高速道路", "駐車場", "バス", "新幹線", "ガソリン", "Times カーシェア", "ANA", "スカイマーク", "スターフライヤー", "pasmo", "レンタカー", "ANAパック", "有料道路", "ジャパンレンタカー", "JAL", "フェリー", "オリックスレンタカー", "飛行機"], "交際": ["会社", "お土産", "APU", "地元", "珠莉友人", "デート", "珠莉家族", "家族", "イノマネ", "取引先", "プレゼント", "ご祝儀", "珠莉会社", "東急ストア", "お年玉", "アフラック", "二次会", "花屋", "ご近所", "御香典"], "保険": ["保険", "JA共済", "ウェルス年金", "はなさく生命", "FWD生命", "アフラック", "火災共済", "都民共済個人賠償保険", "楽天損害保険"], "光熱・通信": ["日経新聞", "yahoo", "電気代", "ガス", "softbank", "上下水道", "Y!mobile", "docomo", "イー・モバイル", "NHK", "Biglobe", "楽天モバイル", "ソフトバンク光", "docomo wifi", "WiMAX"], "医療": ["病院", "調剤薬局", "西馬込あくつ耳鼻咽喉科", "歯医者", "リーフ整骨院", "産婦人科", "ドラッグストア", "オオサカ堂", "マツモトキヨシ", "竹山クリニック", "せき山王クリニック", "北里大学研究所病院", "眼科", "ココカラファイン", "サプリメント", "iHarb", "健康保険組合", "ドンキーホーテ", "大森町整形外科内科クリニック", "長島クリニック"], "娯楽・教養": ["雑誌", "漫画", "Dマガジン", "Spotify", "Netflix", "温泉", "漫画グッズ", "お土産", "ゴルフ", "美術館", "ゲームセンター", "観光", "インターネット", "漫画イベント", "旅行", "ゴルフ練習", "園芸", "銭湯", "映画", "ゲオ"], "子供関係": ["ネットショップ", "メルカリ", "絵本", "ココカラファイン", "西松屋", "ジモティ", "アカチャンホンポ", "百円ショップ", "ドンキーホーテ", "AMAZON", "オムツサブスク"], "家賃": ["家賃", "住宅ローン", "管理費・修繕積立金", "自転車駐輪料", "初期費用", "自転車置場", "住宅ローンボーナス払い"], "宿泊費": ["ANAパック", "ホテル(草津)", "Airbnb", "ホテル(福岡)", "ホテル(亀山)", "ホテル(大森)", "ホテル(南草津)", "ホテル(難波)", "ホテル(摩耶)", "ホテル(姫路)", "ホテル(東京)", "ホテル(近江八幡)", "ホテル(水口)", "ホテル(猪名川)", "ホテル(長崎)", "皆花楼", "ホテル(梅田)", "ホテル(大津)", "ホテル(久留米)", "ホテル(高知)"], "小遣い": ["BAR", "ゲームセンター", "咲智お土産", "映画", "アグリパーク竜王", "咲智プレゼント", "ヨーデルの森", "信貴山のどか村", "咲智服", "御守り", "インターネット", "アプリ", "水郷水産センター", "お土産", "宝くじ", "イチゴ狩り", "みえこどもの城", "東急ハンズ", "咲智クリスマスプレゼント", "東条湖おもちゃ王国"], "教育": ["書籍", "奨学金", "コピー", "雑誌", "ブックオフ", "Co-working Space", "英語教材", "受験料", "文具", "社会保険労務士", "法政MBA", "Claude API", "ドンキーホーテ", "アンケート調査料", "医療経営士", "絵本", "医療経営士年会費", "証明書発行", "百円ショップ"], "日用品": ["百円ショップ", "ドンキーホーテ", "ココカラファイン", "ネットショップ", "ドラッグストア", "化粧品", "文房具", "マツモトキヨシ", "ニトリ", "ダイコクドラッグ", "コンタクトレンズ", "ホームセンター", "携帯パーツ", "あきばおー", "無印良品", "コンビニ(セブンイレブン)", "パソコン関連", "雑貨", "浄水器カートリッジ", "ナフコ"], "服飾": ["美容院", "洋服", "UNIQLO", "メルカリ", "TAKA:Q", "靴", "インターネット", "下着", "小物", "靴修理", "ドン・キホーテ", "鞄", "アクセサリー", "ネイル", "傘", "アウトレット", "ドンキーホーテ", "手袋", "まつげパーマ", "咲智服"], "車関係": ["Times カーシェア", "駐車代", "高速道路", "ガソリン", "保険料", "洗車代", "Anyca", "レンタカー", "カー用品", "メンテナンス代", "ドンキーホーテ", "自動車税", "車検", "三井カーシェアーズ", "反則金"], "食費": ["コンビニ(セブンイレブン)", "コンビニ(ファミリーマート)", "オオゼキ", "ラーメン", "飲み物", "和食", "肉のハナマサ", "ドンキーホーテ", "弁当", "スターバックス", "うどん", "そば", "スーパー", "中華", "パン屋", "東急ストア", "洋食", "道の駅", "コンビニ(ローソン)", "コンビニ(ミニストップ)"]};
+const FN_LIMITS = {"2022": 152000, "2023": 202000, "2024": 210000, "2025": 264000};
 const CATS = ['食費','光熱・通信','娯楽・教養','交際','保険','医療','交通','日用品','服飾','教育','子供関係','車関係','もなた','家賃','小遣い','宿泊費','クリーニング','お酒','その他'];
 const CAT_EMOJI = {食費:'🍽',光熱・通信:'💡',娯楽・教養:'🎭',交際:'🤝',保険:'🛡',医療:'💊',交通:'🚃',日用品:'🛒',服飾:'👗',教育:'📚',子供関係:'👶',車関係:'🚗',もなた:'🐾',家賃:'🏠',小遣い:'💴',宿泊費:'🏨',クリーニング:'👔',お酒:'🍺',その他:'📦'};
 const PIE_COLORS=['#0E7168','#1A9F93','#F59E0B','#EF4444','#8B5CF6','#EC4899','#14B8A6','#F97316','#84CC16','#06B6D4','#6366F1','#D97706','#10B981','#EF4444','#7C3AED','#DB2777','#0891B2','#65A30D','#E11D48'];
@@ -488,6 +649,13 @@ const PIE_COLORS=['#0E7168','#1A9F93','#F59E0B','#EF4444','#8B5CF6','#EC4899','#
 // Stock dictionary
 const STOCK_DICT = {
   '7203':'トヨタ自動車','9984':'ソフトバンクグループ','9432':'日本電信電話(NTT)','9433':'KDDI','6758':'ソニーグループ','6861':'キーエンス','4519':'中外製薬','9983':'ファーストリテイリング','6367':'ダイキン工業','8058':'三菱商事','7267':'本田技研工業','6954':'ファナック','4063':'信越化学工業','8035':'東京エレクトロン','4661':'オリエンタルランド','3382':'セブン&アイ','4519':'中外製薬','2914':'JT','8031':'三井物産','9020':'東日本旅客鉄道','9022':'東海旅客鉄道','8766':'東京海上HD','8306':'三菱UFJ FG','8316':'三井住友FG','8411':'みずほFG','4543':'テルモ','4568':'第一三共','6501':'日立製作所','6702':'富士通','6723':'ルネサス','6762':'TDK','6857':'アドバンテスト','7201':'日産自動車','7741':'HOYA','8001':'伊藤忠商事','8002':'丸紅','9101':'日本郵船','9602':'東宝','9613':'NTTデータ','4755':'楽天グループ','3659':'ネクソン','4689':'Zホールディングス','2502':'アサヒグループ','2503':'キリンHD','4452':'花王','4901':'富士フイルムHD','7912':'大日本印刷','8750':'第一生命','4819':'デジタルガレージ',
+  // 実際の保有・ウォッチ銘柄
+  '9202':'ANAホールディングス','7185':'ヒロセ通商','7201':'日産自動車','1694':'WTニッケル',
+  '2782':'セリア','3655':'ブレインパッド','7779':'CYBERDYNE','4612':'日本ペイントHD',
+  '2413':'エムスリー','1671':'WTI原油','7004':'カナデビア','3680':'ホットリンク',
+  '6035':'アイレップ','7683':'ダブルエー','4388':'エーアイ','3995':'スキャンデックス',
+  '7532':'ドン・キホーテ','4565':'そーせいグループ','4385':'メルカリ','6027':'弁護士ドットコム',
+  'D05':'DBS Group Holdings','AFL':'AFLAC','NVDA':'NVIDIA','CRWD':'CrowdStrike','NU':'Nu Holdings(Nubank)',
   'AAPL':'Apple','MSFT':'Microsoft','GOOGL':'Alphabet','AMZN':'Amazon','META':'Meta','NVDA':'NVIDIA','TSLA':'Tesla','BRK.B':'Berkshire Hathaway','JPM':'JPMorgan','V':'Visa','MA':'Mastercard','UNH':'UnitedHealth','JNJ':'Johnson & Johnson','PG':'Procter & Gamble','WMT':'Walmart',
   '1306':'TOPIX連動ETF','1321':'日経225連動ETF','1348':'MAXIS日経225','2558':'MAXIS米国株S&P500','2559':'MXS全世界株','1655':'iシェアーズS&P500','1657':'iシェアーズ先進国株'
 };
@@ -495,10 +663,82 @@ const STOCK_DICT = {
 // Default state
 const DEF_STATE = {
   apiKey:'',binId:'',setupDate:'',lastSyncHash:'',syncStatus:'none',
-  p1Name:'Satoshi',p2Name:'妻',
-  expenses:[],incomes:[],budgets:{},
-  stocks:[],funds:[],cryptos:[],cashAccounts:[],debts:[],
-  categories:[...CATS]
+  p1Name:'智史',p2Name:'珠莉',
+  expenses:[],
+  incomes:[
+    {year:2024,month:1,items:[{"name":"給与","amount":613037}]},
+    {year:2024,month:2,items:[{"name":"給与","amount":553728}]},
+    {year:2024,month:3,items:[{"name":"給与","amount":603423}]},
+    {year:2024,month:4,items:[{"name":"給与","amount":658460},{"name":"賞与","amount":336145}]},
+    {year:2024,month:5,items:[{"name":"給与","amount":579835}]},
+    {year:2024,month:6,items:[{"name":"給与","amount":659539}]},
+    {year:2024,month:7,items:[{"name":"給与","amount":578041}]},
+    {year:2024,month:8,items:[{"name":"給与","amount":578041}]},
+    {year:2024,month:9,items:[{"name":"給与","amount":578149}]},
+    {year:2024,month:10,items:[{"name":"給与","amount":878035},{"name":"ウェルス年金","amount":74103},{"name":"リノベ給付金","amount":224000}]},
+    {year:2024,month:11,items:[{"name":"給与","amount":586695}]},
+    {year:2024,month:12,items:[{"name":"給与","amount":711776},{"name":"年末調整","amount":131341}]},
+    {year:2025,month:1,items:[{"name":"給与","amount":580435}]},
+    {year:2025,month:2,items:[{"name":"給与","amount":602435}]},
+    {year:2025,month:3,items:[{"name":"給与","amount":580435}]},
+    {year:2025,month:4,items:[{"name":"給与","amount":698361},{"name":"ウェルス年金","amount":78451}]},
+    {year:2025,month:5,items:[{"name":"給与","amount":619910}]},
+    {year:2025,month:6,items:[{"name":"給与","amount":630113}]},
+    {year:2025,month:7,items:[{"name":"給与","amount":630615}]},
+    {year:2025,month:8,items:[{"name":"給与","amount":630615},{"name":"賞与","amount":1010872}]},
+    {year:2025,month:9,items:[{"name":"給与","amount":716187},{"name":"アフラック給付金","amount":75000}]},
+    {year:2025,month:10,items:[{"name":"給与","amount":732213},{"name":"ウェルス年金","amount":77382}]},
+    {year:2025,month:11,items:[{"name":"給与","amount":654831}]},
+    {year:2025,month:12,items:[{"name":"給与","amount":654831}]},
+  ],
+  budgets:{食費:80000,光熱・通信:30000,娯楽・教養:30000,交際:20000,保険:20000,医療:10000,交通:20000,日用品:20000,服飾:15000,教育:10000,子供関係:30000,車関係:10000,もなた:5000,家賃:0,小遣い:30000,宿泊費:20000,クリーニング:3000,お酒:5000,その他:20000},
+  stocks:[
+    {id:'s001',code:'9202',name:'ANAホールディングス',qty:300,buyPrice:1890,curPrice:2979,target:3500,stopLoss:1800,currency:'JPY',sector:'航空',memo:'2025/12末: 2,979円'},
+    {id:'s002',code:'4819',name:'デジタルガレージ',qty:200,buyPrice:3500,curPrice:2721,target:5000,stopLoss:2000,currency:'JPY',sector:'IT',memo:'勤務先 2025/12末: 2,721円'},
+    {id:'s003',code:'7185',name:'ヒロセ通商',qty:200,buyPrice:1821,curPrice:3550,target:5000,stopLoss:2500,currency:'JPY',sector:'商社',memo:'2025/12末: 3,550円'},
+    {id:'s004',code:'7201',name:'日産自動車',qty:500,buyPrice:379,curPrice:393,target:600,stopLoss:250,currency:'JPY',sector:'自動車',memo:'2025/12末: 393.4円'},
+    {id:'s005',code:'1694',name:'WisdomTree ニッケル',qty:0,buyPrice:1991,curPrice:1991,target:2500,stopLoss:1500,currency:'JPY',sector:'コモディティ',memo:'2025/12末: 1,991円 ※数量要確認'},
+    {id:'s006',code:'2782',name:'セリア',qty:100,buyPrice:4100,curPrice:3025,target:4500,stopLoss:2500,currency:'JPY',sector:'小売',memo:'2025/12末: 3,025円'},
+    {id:'s007',code:'3655',name:'ブレインパッド',qty:300,buyPrice:1416,curPrice:1269,target:2000,stopLoss:800,currency:'JPY',sector:'IT',memo:'2025/12末: 1,269円'},
+    {id:'s008',code:'7779',name:'CYBERDYNE',qty:200,buyPrice:1821,curPrice:198,target:400,stopLoss:100,currency:'JPY',sector:'テクノロジー',memo:'2025/12末: 198円'},
+    {id:'s009',code:'4612',name:'日本ペイントHD',qty:200,buyPrice:837,curPrice:1048,target:1500,stopLoss:700,currency:'JPY',sector:'化学',memo:'2025/12末: 1,047.5円'},
+    {id:'s010',code:'2413',name:'エムスリー',qty:100,buyPrice:4500,curPrice:2114,target:4000,stopLoss:1500,currency:'JPY',sector:'IT・ヘルスケア',memo:'2025/12末: 2,114円'},
+    {id:'s011',code:'1671',name:'WTI原油ETF',qty:0,buyPrice:2978,curPrice:2978,target:3500,stopLoss:2000,currency:'JPY',sector:'コモディティ',memo:'2025/12末: 2,978円 ※数量要確認'},
+    {id:'s012',code:'7004',name:'カナデビア',qty:0,buyPrice:950,curPrice:950,target:1500,stopLoss:600,currency:'JPY',sector:'機械',memo:'2025/12末: 950円 ※数量要確認'},
+    {id:'s013',code:'D05',name:'DBS Group Holdings',qty:16742,buyPrice:20.63,curPrice:56.36,target:65,stopLoss:35,currency:'SGD',sector:'金融',memo:'シンガポール銀行株 2025/12末: 56.36 SGD'},
+    {id:'s014',code:'AFL',name:'AFLAC',qty:500,buyPrice:60,curPrice:110.27,target:130,stopLoss:70,currency:'USD',sector:'保険',memo:'2025/12末: 110.27 USD'},
+    {id:'s015',code:'NVDA',name:'NVIDIA',qty:10,buyPrice:150,curPrice:135,target:300,stopLoss:80,currency:'USD',sector:'半導体',memo:'2025/12末: 135.13 USD'},
+    {id:'s016',code:'CRWD',name:'CrowdStrike',qty:5,buyPrice:300,curPrice:469,target:600,stopLoss:200,currency:'USD',sector:'サイバーセキュリティ',memo:'2025/12末: 468.76 USD'},
+    {id:'s017',code:'NU',name:'Nu Holdings (Nubank)',qty:100,buyPrice:10,curPrice:16.74,target:25,stopLoss:8,currency:'USD',sector:'フィンテック',memo:'2025/12末: 16.74 USD'},
+  ],
+  funds:[
+    {id:'f001',name:'ニッセイ国内株式インデックス',units:20000,buyPrice:5854,curPrice:7124,target:10000,stopLoss:4000,memo:'資産シート: Stock除く米 9,460,000円相当'},
+  ],
+  cryptos:[
+    {id:'c001',symbol:'BTC',name:'ビットコイン',qty:0.04564,buyPrice:2051268,curPrice:2670000,target:5000000,stopLoss:1500000,memo:'資産シート2025/12: BitCoin 267万円'},
+  ],
+  cashAccounts:[
+    {id:'ca001',name:'新生銀行',type:'普通預金',balance:2600000},
+    {id:'ca002',name:'みずほ銀行',type:'普通預金',balance:920000},
+    {id:'ca003',name:'三井住友銀行(Min)',type:'普通預金',balance:200000},
+    {id:'ca004',name:'Sony銀行',type:'普通預金',balance:140000},
+    {id:'ca005',name:'みずほ銀行(珠莉)',type:'普通預金',balance:2550000},
+    {id:'ca006',name:'SMBC',type:'普通預金',balance:3240000},
+    {id:'ca007',name:'NWL（保険）',type:'その他',balance:12300000},
+    {id:'ca008',name:'確定拠出年金(401K)',type:'その他',balance:5560000},
+    {id:'ca009',name:'不動産(Real)',type:'その他',balance:600000},
+    {id:'ca010',name:'保険(Insu)',type:'その他',balance:980000},
+  ],
+  debts:[],
+  categories:[...CATS],
+  paymentMethods:[...PAYMENT_METHODS],
+  monthlyTemplates:[
+    {id:'mt1',name:'保険',category:'保険',amount:25573,enabled:true,tags:[]},
+    {id:'mt2',name:'JA共済',category:'保険',amount:852,enabled:true,tags:[]},
+    {id:'mt3',name:'yahoo',category:'光熱・通信',amount:628,enabled:true,tags:[]},
+  ],
+  monthBudgets:{},
+  furusato:[{"id": "fn4", "year": 2022, "orderDate": "2022-11-30", "site": "さとふる", "pref": "鹿児島県南さつま市", "item": "黒豚のプロフェッショナル【定期便全6回】", "amount": 60000, "shipTime": "", "recvDate": "", "received": true, "rating": "〇", "points": 0}, {"id": "fn5", "year": 2022, "orderDate": "2022-11-30", "site": "さとふる", "pref": "鹿児島県南九州市", "item": "黒豚しゃぶしゃぶ食べ比べ1100g", "amount": 10000, "shipTime": "", "recvDate": "", "received": true, "rating": "〇", "points": 0}, {"id": "fn6", "year": 2022, "orderDate": "2022-11-30", "site": "さとふる", "pref": "長野県中野市", "item": "シャインマスカット1Kg以上", "amount": 10000, "shipTime": "2023年10月中旬", "recvDate": "", "received": true, "rating": "◎", "points": 0}, {"id": "fn7", "year": 2022, "orderDate": "2023-11-30", "site": "さとふる", "pref": "山形県", "item": "山形県産　桃（品種・玉数おまかせ）3Kg", "amount": 10000, "shipTime": "", "recvDate": "2023-08-04", "received": true, "rating": "〇", "points": 0}, {"id": "fn8", "year": 2022, "orderDate": "2023-11-30", "site": "さとふる", "pref": "福岡県朝倉市", "item": "朝倉市産　桃約4kg（12～20玉）", "amount": 15000, "shipTime": "", "recvDate": "2023-07-11", "received": true, "rating": "◎", "points": 0}, {"id": "fn9", "year": 2022, "orderDate": "2023-11-30", "site": "さとふる", "pref": "北海道弟子屈町", "item": "鱒いくらしょうゆ漬け　計300g", "amount": 11000, "shipTime": "", "recvDate": "2022-12-24", "received": true, "rating": "〇", "points": 0}, {"id": "fn10", "year": 2022, "orderDate": "2023-11-30", "site": "ふるなび", "pref": "福岡県川崎町", "item": "【先行予約】川崎町産 井手上農園直送 梨(新高)5㎏", "amount": 10000, "shipTime": "2023年9月中旬～", "recvDate": "2023-09-20", "received": true, "rating": "◎", "points": 0}, {"id": "fn11", "year": 2022, "orderDate": "2024-11-30", "site": "ふるなび", "pref": "山形県上山市", "item": "さくらんぼ（佐藤錦）１ｋｇ　ご家庭用", "amount": 12000, "shipTime": "", "recvDate": "2023-06-10", "received": true, "rating": "◎", "points": 0}, {"id": "fn12", "year": 2022, "orderDate": "2023-11-30", "site": "ふるなび", "pref": "和歌山県美浜町", "item": "和歌山有田みかん ご家庭用 約7kg(2Lか3Lサイズおまかせ)", "amount": 5000, "shipTime": "", "recvDate": "2023-12-20", "received": true, "rating": "◎", "points": 0}, {"id": "fn13", "year": 2022, "orderDate": "2023-11-30", "site": "ふるなび", "pref": "長野県飯綱町", "item": "りんご サンふじ 5kg 訳あり 長野県 林檎 ふじ 不揃い", "amount": 7000, "shipTime": "", "recvDate": "2023-12-15", "received": true, "rating": "◎", "points": 0}, {"id": "fn14", "year": 2022, "orderDate": "2023-11-30", "site": "ふるなび", "pref": "鹿児島県天城町", "item": "【2023年発送】徳之島 天城町産 完熟マンゴー1kg", "amount": 9000, "shipTime": "", "recvDate": "2023-07-15", "received": true, "rating": "△", "points": 0}, {"id": "fn15", "year": 2022, "orderDate": "2023-11-30", "site": "ふるなび", "pref": "長崎県諫早市", "item": "長崎県産 シャインマスカット1.3kg～ 1.5kg", "amount": 10000, "shipTime": "8/16～", "recvDate": "2023-08-26", "received": true, "rating": "〇", "points": 0}, {"id": "fn24", "year": 2023, "orderDate": "2023-05-15", "site": "ふるなび", "pref": "長崎県長崎市", "item": "【5月クール便発送】（13度糖度保証）王林 約5kg", "amount": 10000, "shipTime": "5月", "recvDate": "2023-05-20", "received": true, "rating": "〇", "points": 0}, {"id": "fn25", "year": 2023, "orderDate": "2023-06-25", "site": "さとふる", "pref": "長崎県長崎市", "item": "訳ありおまかせ干物セット（8種類24種）", "amount": 10000, "shipTime": "", "recvDate": "2023-07-18", "received": true, "rating": "△", "points": 0}, {"id": "fn26", "year": 2023, "orderDate": "2023-06-25", "site": "ふるなび", "pref": "青森県五所川原市", "item": "りんご【6月・7月発送】星の金貨5kg", "amount": 10000, "shipTime": "6月・7月", "recvDate": "2023-07-05", "received": true, "rating": "◎", "points": 0}, {"id": "fn27", "year": 2023, "orderDate": "2023-08-15", "site": "さとふる", "pref": "山形県寒河江市", "item": "山形の白桃＜硬めの桃＞3Kg品種おまかせ（8～16玉）", "amount": 12000, "shipTime": "8/22～9/16", "recvDate": "2023-08-27", "received": true, "rating": "◎", "points": 0}, {"id": "fn28", "year": 2023, "orderDate": "2023-08-15", "site": "ふるなび", "pref": "山形県山辺町", "item": "山形県産品種おまかせりんご黄色系5kg", "amount": 7000, "shipTime": "10月上旬", "recvDate": "2023-10-05", "received": true, "rating": "△", "points": 0}, {"id": "fn29", "year": 2023, "orderDate": "2023-09-25", "site": "チョイス", "pref": "福岡県八女市", "item": "九州・福岡フルーツ王国八女　産地直送！梨（豊水）約５ｋｇ", "amount": 10000, "shipTime": "2024年9月下旬", "recvDate": "2024-09-20", "received": true, "rating": "◎", "points": 0}, {"id": "fn30", "year": 2023, "orderDate": "2023-11-15", "site": "さとふる", "pref": "北海道三笠市", "item": "ゆめぴりか10kg（5kg×2）", "amount": 11000, "shipTime": "2023年12月上旬", "recvDate": "2023-12-15", "received": true, "rating": "〇", "points": 0}, {"id": "fn31", "year": 2023, "orderDate": "2023-11-15", "site": "さとふる", "pref": "長野県中野市", "item": "シャインマスカット1Kg以上", "amount": 10000, "shipTime": "2024年9月下旬～11月", "recvDate": "2024-09-20", "received": true, "rating": "〇", "points": 0}, {"id": "fn32", "year": 2023, "orderDate": "2023-11-15", "site": "さとふる", "pref": "熊本県和水市", "item": "令和5年度家庭用温州みかん5kg不揃い", "amount": 6000, "shipTime": "11月", "recvDate": "2023-11-30", "received": true, "rating": "△", "points": 0}, {"id": "fn33", "year": 2023, "orderDate": "2023-11-15", "site": "さとふる", "pref": "高知県四万十市", "item": "あぐり窪川の具だくさん豚まん", "amount": 6000, "shipTime": "12月", "recvDate": "2023-12-09", "received": true, "rating": "◎", "points": 0}, {"id": "fn34", "year": 2023, "orderDate": "2023-11-15", "site": "チョイス", "pref": "鹿児島県大崎町", "item": "おおさきうなぎ　鹿児島県産うなぎきざみ8袋セット", "amount": 11000, "shipTime": "11月", "recvDate": "2023-11-25", "received": true, "rating": "◎", "points": 0}, {"id": "fn35", "year": 2023, "orderDate": "2023-11-25", "site": "ふるなび", "pref": "福島県伊達市", "item": "福島の桃まどか5kg（13～18玉）", "amount": 15000, "shipTime": "2024年秋", "recvDate": "2024-08-02", "received": true, "rating": "◎", "points": 0}, {"id": "fn36", "year": 2023, "orderDate": "2023-11-05", "site": "ふるなび", "pref": "高知県室戸市", "item": "災害・非常時保存用「10年保存水1.8リットル×36本", "amount": 33000, "shipTime": "11月", "recvDate": "2023-11-10", "received": true, "rating": "◎", "points": 0}, {"id": "fn37", "year": 2023, "orderDate": "2023-12-31", "site": "楽天", "pref": "山形県長井市", "item": "佐藤錦800g　小玉Mサイズ200g×4パック", "amount": 10000, "shipTime": "45444", "recvDate": "2024-06-15", "received": true, "rating": "〇", "points": 0}, {"id": "fn38", "year": 2023, "orderDate": "2023-12-31", "site": "楽天", "pref": "佐賀県鹿島市", "item": "訳あり不知火デコポン　約11kgイタミ保証含む", "amount": 10000, "shipTime": "2024年1月～3月", "recvDate": "2024-02-28", "received": true, "rating": "△", "points": 0}, {"id": "fn39", "year": 2023, "orderDate": "2023-12-31", "site": "楽天", "pref": "愛媛県愛南町", "item": "訳あり愛媛みかん約5.5kg光センサー選果", "amount": 7000, "shipTime": "順次", "recvDate": "2024-01-10", "received": true, "rating": "〇", "points": 0}, {"id": "fn40", "year": 2023, "orderDate": "2023-12-31", "site": "楽天", "pref": "新潟県燕市", "item": "ドリップケトルつや消し1.2ℓ", "amount": 8000, "shipTime": "順次", "recvDate": "2024-01-20", "received": true, "rating": "◎", "points": 0}, {"id": "fn41", "year": 2023, "orderDate": "2023-12-31", "site": "楽天", "pref": "宮城県大崎市", "item": "厚切り牛タン600g+タン切落し200g", "amount": 10000, "shipTime": "2月～4月", "recvDate": "2024-03-05", "received": true, "rating": "◎", "points": 0}, {"id": "fn47", "year": 2024, "orderDate": "2024-08-25", "site": "チョイス", "pref": "山形県天童市", "item": "硬い！！もも（美晴白桃）3Kg", "amount": 10000, "shipTime": "8月下旬～9月上旬", "recvDate": "2024-09-03", "received": true, "rating": "◎", "points": 0}, {"id": "fn48", "year": 2024, "orderDate": "2024-08-25", "site": "ふるなび", "pref": "大分県国東市", "item": "粗びきウインナー＆フランク2Kg", "amount": 10000, "shipTime": "9月中旬", "recvDate": "2024-09-05", "received": true, "rating": "◎", "points": 0}, {"id": "fn49", "year": 2024, "orderDate": "2024-08-25", "site": "ふるなび", "pref": "福岡県福智町", "item": "博多若杉【訳あり】牛もつ鍋（2人前×5）1Kg", "amount": 12000, "shipTime": "9月上旬", "recvDate": "2024-09-10", "received": true, "rating": "〇", "points": 0}, {"id": "fn50", "year": 2024, "orderDate": "2024-09-22", "site": "チョイス", "pref": "青森県南部町", "item": "青森りんご 星の金貨 約５ｋｇ", "amount": 16000, "shipTime": "10月下旬～1月", "recvDate": "2024-11-02", "received": true, "rating": "◎", "points": 0}, {"id": "fn51", "year": 2024, "orderDate": "2024-09-23", "site": "さとふる", "pref": "新潟県三条市", "item": "おろし金セット 極み&手のひらフィットおろし スライサー", "amount": 13000, "shipTime": "順次", "recvDate": "2024-09-28", "received": true, "rating": "〇", "points": 0}, {"id": "fn52", "year": 2024, "orderDate": "2024-09-23", "site": "さとふる", "pref": "岩手県花巻市", "item": "厚切り牛タン塩味　1kg(500g×2パック)", "amount": 15000, "shipTime": "順次", "recvDate": "2024-10-25", "received": true, "rating": "×", "points": 0}, {"id": "fn53", "year": 2024, "orderDate": "2024-09-23", "site": "チョイス", "pref": "長野県豊丘村", "item": "もも　あかつき 約5kg【小玉 20〜22玉】", "amount": 13000, "shipTime": "順次", "recvDate": "2024-10-05", "received": true, "rating": "◎", "points": 0}, {"id": "fn54", "year": 2024, "orderDate": "2024-11-16", "site": "ふるなび", "pref": "青森県青森市", "item": "りんご 希少品種「きみと」 家庭用 約3kg (8〜11玉)", "amount": 10000, "shipTime": "順次", "recvDate": "2024-11-28", "received": true, "rating": "△", "points": 0}, {"id": "fn55", "year": 2024, "orderDate": "2024-11-17", "site": "チョイス", "pref": "福岡県広川町", "item": "先行予約 　梨（甘太）約5kg なし", "amount": 11000, "shipTime": "2025年9月より", "recvDate": "", "received": false, "rating": "", "points": 0}, {"id": "fn56", "year": 2024, "orderDate": "2024-11-17", "site": "チョイス", "pref": "岐阜県下呂市", "item": "訳あり（簡易包装）飛騨舞茸 1kg", "amount": 7000, "shipTime": "順次", "recvDate": "2024-11-17", "received": true, "rating": "〇", "points": 0}, {"id": "fn57", "year": 2024, "orderDate": "2024-11-17", "site": "さとふる", "pref": "高知県室戸市", "item": "芋けんぴ1320g(海洋深層水仕込み)【12袋×110g】", "amount": 8000, "shipTime": "順次", "recvDate": "2024-12-01", "received": true, "rating": "〇", "points": 0}, {"id": "fn58", "year": 2024, "orderDate": "2024-11-17", "site": "さとふる", "pref": "神奈川県川崎市", "item": "【MATTE BLACK】final ZE2000 完全ワイヤレスイヤホン", "amount": 20000, "shipTime": "順次", "recvDate": "2025-12-10", "received": true, "rating": "◎", "points": 0}, {"id": "fn59", "year": 2024, "orderDate": "2024-11-17", "site": "さとふる", "pref": "愛媛県愛南町", "item": "訳あり ポンカン 約5kg 吉田農園", "amount": 7000, "shipTime": "2025年1月～3月", "recvDate": "2025-01-20", "received": true, "rating": "◎", "points": 0}, {"id": "fn60", "year": 2024, "orderDate": "2024-11-17", "site": "さとふる", "pref": "長野県中野市", "item": "【2025年発送】訳ありシャインマスカット3房1.3kg以上", "amount": 14000, "shipTime": "2025年9月中旬～11月", "recvDate": "", "received": false, "rating": "", "points": 0}, {"id": "fn61", "year": 2024, "orderDate": "2024-11-17", "site": "さとふる", "pref": "鹿児島県指宿市", "item": "黒豚しゃぶしゃぶ食べ比べ1000g+黒豚生ハム100g", "amount": 10000, "shipTime": "2025年1月～3月", "recvDate": "2025-01-25", "received": true, "rating": "◎", "points": 0}, {"id": "fn62", "year": 2024, "orderDate": "2024-11-17", "site": "さとふる", "pref": "高知県四万十町", "item": "四万十産ブランド豚のみ使用! あぐり窪川の具だくさん豚まん", "amount": 7000, "shipTime": "順次", "recvDate": "2025-12-10", "received": true, "rating": "◎", "points": 0}, {"id": "fn71", "year": 2025, "orderDate": "2025-06-15", "site": "チョイス", "pref": "山形県天童市", "item": "ラ・フランス&サンふじ詰合せ約6kg", "amount": 10000, "shipTime": "11月？", "recvDate": "2025-12-10", "received": true, "rating": "◎", "points": 1300}, {"id": "fn72", "year": 2025, "orderDate": "2025-07-15", "site": "Yahoo", "pref": "長野県豊丘村", "item": "あかつき桃　秀品　小玉20〜22玉　約5kg", "amount": 16000, "shipTime": "7月下旬〜順次発送", "recvDate": "", "received": true, "rating": "△", "points": 2160}, {"id": "fn73", "year": 2025, "orderDate": "2025-07-15", "site": "ふるなび", "pref": "山形県山辺町", "item": "桃 品種おまかせ 白桃 ご家庭用 約5kg(10~25個程度)", "amount": 13500, "shipTime": "9月上旬", "recvDate": "2024-09-10", "received": true, "rating": "〇", "points": 1159}, {"id": "fn74", "year": 2025, "orderDate": "2025-08-30", "site": "Yahoo", "pref": "愛南町愛媛県", "item": "お試し用 訳あり ポンカン 3kg 吉田農園", "amount": 7000, "shipTime": "2026年1月～", "recvDate": "", "received": false, "rating": "", "points": 1120}, {"id": "fn75", "year": 2025, "orderDate": "2025-08-30", "site": "Yahoo", "pref": "愛媛県八幡浜市", "item": "愛媛で育った夕やけみかん【極】3kg", "amount": 10000, "shipTime": "10月後半～1月", "recvDate": "2025-11-15", "received": true, "rating": "△", "points": 1600}, {"id": "fn76", "year": 2025, "orderDate": "2025-08-31", "site": "Yahoo", "pref": "新潟県三条市", "item": "スライド水切りラック2段タイプ 水切りかご 流れるトレー付き", "amount": 30000, "shipTime": "順次", "recvDate": "2025-09-15", "received": true, "rating": "◎", "points": 5600}, {"id": "fn77", "year": 2025, "orderDate": "2025-08-31", "site": "Yahoo", "pref": "新潟県燕市", "item": "ミニパスタポット18cm(ストレーナー付)", "amount": 20000, "shipTime": "順次", "recvDate": "2025-10-15", "received": true, "rating": "〇", "points": 3800}, {"id": "fn78", "year": 2025, "orderDate": "2025-08-31", "site": "Yahoo", "pref": "群馬県安中市", "item": "3種プレミアムミックスナッツ　2kg　くるみ　アーモンド　カシューナッツ", "amount": 12000, "shipTime": "順次", "recvDate": "2025-09-15", "received": true, "rating": "△", "points": 2280}, {"id": "fn79", "year": 2025, "orderDate": "2025-08-31", "site": "Yahoo", "pref": "神奈川県海老名市", "item": "薄さ14mm 最大PD65W出力 GaN採用 USB Type-C×2 AC充電", "amount": 16000, "shipTime": "順次", "recvDate": "2025-09-15", "received": true, "rating": "〇", "points": 3040}, {"id": "fn80", "year": 2025, "orderDate": "2025-09-28", "site": "Yahoo", "pref": "千葉県多古町", "item": "秋山農園から話題のさつまいも「栗かぐや(R)」5kg", "amount": 9000, "shipTime": "順次", "recvDate": "2025-10-15", "received": true, "rating": "◎", "points": 1575}, {"id": "fn81", "year": 2025, "orderDate": "2025-09-28", "site": "チョイス", "pref": "埼玉県草加市", "item": "チョコ屋 カカオ80％ クーベルチュールチョコレート 80枚", "amount": 14500, "shipTime": "順次", "recvDate": "2025-10-15", "received": true, "rating": "〇", "points": 1884}, {"id": "fn82", "year": 2025, "orderDate": "2025-09-28", "site": "Yahoo", "pref": "北海道根室市", "item": "いくら醤油漬け(鮭卵)70g×4P(計280g) A-11005", "amount": 14000, "shipTime": "", "recvDate": "2025-10-12", "received": true, "rating": "〇", "points": 2380}, {"id": "fn83", "year": 2025, "orderDate": "2025-09-28", "site": "Yahoo", "pref": "大阪府泉佐野市", "item": "泉州南部織/ハニカム織シングルケット", "amount": 20000, "shipTime": "", "recvDate": "2025-10-15", "received": true, "rating": "〇", "points": 3500}, {"id": "fn84", "year": 2025, "orderDate": "2025-09-30", "site": "Yahoo", "pref": "宮崎県西都市", "item": "やまや蒸留所 3品評会 受賞セット 逢初・クラフトジン 各720ml", "amount": 12000, "shipTime": "", "recvDate": "2025-10-20", "received": true, "rating": "△", "points": 1500}, {"id": "fn85", "year": 2025, "orderDate": "2025-09-30", "site": "Yahoo", "pref": "茨城県大洗町", "item": "さば缶詰24缶セット(水煮)", "amount": 22000, "shipTime": "", "recvDate": "2026-12-05", "received": true, "rating": "", "points": 2750}, {"id": "fn86", "year": 2025, "orderDate": "2025-09-30", "site": "Yahoo", "pref": "山形県庄内町", "item": "雪若丸玄米パックごはん24個", "amount": 17000, "shipTime": "", "recvDate": "2025-10-25", "received": true, "rating": "〇", "points": 2125}, {"id": "fn87", "year": 2025, "orderDate": "2025-09-30", "site": "Yahoo", "pref": "北海道千歳市", "item": "無添加ドライフルーツ 〜ブルーベリー×キウイフルーツ×ミカン〜", "amount": 13000, "shipTime": "", "recvDate": "2025-10-15", "received": true, "rating": "×", "points": 1625}, {"id": "fn88", "year": 2025, "orderDate": "2025-11-30", "site": "", "pref": "大分県玖珠町", "item": "さつまいも 5kg(12〜8月:紅はるか)", "amount": 11000, "shipTime": "", "recvDate": "2025-11-30", "received": true, "rating": "◎", "points": 0}, {"id": "fn90", "year": 2025, "orderDate": "2025-12-12", "site": "", "pref": "愛知県小牧市", "item": "水分たっぷり純水99% おしりふき80枚入×36個", "amount": 12000, "shipTime": "", "recvDate": "", "received": false, "rating": "", "points": 0}, {"id": "fn91", "year": 2025, "orderDate": "2025-12-12", "site": "", "pref": "宮城県気仙沼市", "item": "鮭 無添加 減塩 銀鮭 切身 総重量 1kg", "amount": 8500, "shipTime": "", "recvDate": "", "received": false, "rating": "", "points": 0}, {"id": "fn92", "year": 2025, "orderDate": "2025-12-12", "site": "", "pref": "北海道根室市", "item": "天然根鰤しゃぶセット", "amount": 14000, "shipTime": "", "recvDate": "2025-12-29", "received": true, "rating": "×", "points": 0}]
 };
 
 let ST = {};
@@ -619,10 +859,12 @@ function switchTab(name,btn){
   document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
   document.getElementById('page-'+name).classList.add('active');
   if(btn)btn.classList.add('active');
-  if(name==='dash')renderDashboard();
+  if(name==='input')renderPageInput();
+  else if(name==='dash')renderDashboard();
   else if(name==='exp')renderExpTab();
   else if(name==='asset')renderAssets();
   else if(name==='budget')renderBudgetTab();
+  else if(name==='fn')renderFurusato();
   else if(name==='settings')renderSettings();
   // Close QA if open
   document.getElementById('qa-panel').classList.remove('open');
@@ -643,10 +885,14 @@ function renderQaCats(){
   cats.innerHTML=ST.categories.map(c=>`<div class="qa-cat ${c===qaCatSel?'sel':''}" onclick="selectCat('${c}')">${CAT_EMOJI[c]||'📦'}<br>${c}</div>`).join('');
   const ps=document.getElementById('qa-persons');
   ps.innerHTML=[ST.p1Name,ST.p2Name].map(n=>`<div class="qa-person ${n===qaPersonSel?'sel':''}" onclick="selectPerson('${n}')">${n}</div>`).join('');
+  // payment chips in floating panel
+  const pmDiv=document.getElementById('qa-payments-float');
+  if(pmDiv)pmDiv.innerHTML=PAYMENT_METHODS.map(m=>`<div class="qa-payment-chip ${m===qaPaymentSel?'sel':''}" onclick="selectPayment('${m}')">${PM_EMOJI[m]||''} ${m}</div>`).join('');
   updateNameDl();
 }
 function selectCat(c){qaCatSel=c;renderQaCats();}
 function selectPerson(p){qaPersonSel=p;renderQaCats();}
+function selectPayment(m){qaPaymentSel=qaPaymentSel===m?'':m;renderQaCats();}
 function updateNameDl(){
   const cat=qaCatSel;
   const hist=(ST.expenses.filter(e=>!cat||e.category===cat).map(e=>e.name).filter(Boolean));
@@ -658,13 +904,70 @@ function quickSave(){
   if(amt<=0){alert('金額を入力してください');return;}
   if(!qaCatSel){alert('カテゴリを選択してください');return;}
   const now=new Date();
-  const exp={id:uid(),year:now.getFullYear(),month:now.getMonth()+1,day:now.getDate(),amount:amt,category:qaCatSel,name:document.getElementById('qa-name').value.trim(),tags:[],person:qaPersonSel||ST.p1Name,note:''};
+  const tags=qaPaymentSel?[qaPaymentSel]:[];
+  const exp={id:uid(),year:now.getFullYear(),month:now.getMonth()+1,day:now.getDate(),amount:amt,category:qaCatSel,name:document.getElementById('qa-name').value.trim(),tags,person:qaPersonSel||ST.p1Name,note:''};
   ST.expenses.push(exp);
   document.getElementById('qa-amount').value='';
   document.getElementById('qa-name').value='';
   saveAndSync();
   render();
   toggleQa();
+}
+
+// Page Input (main input tab)
+let piCatSel='', piPersonSel='', piPaymentSel='';
+
+function getHistoryForCat(cat){
+  // 1. Count from actual expense history (ST.expenses + ARCH)
+  const allExp=[...ST.expenses,...ARCH].filter(e=>!cat||e.category===cat);
+  const cnt={};
+  allExp.forEach(e=>{if(e.name){cnt[e.name]=(cnt[e.name]||0)+1;}});
+  // 2. Merge with CSV history as baseline (lower weight: count as 1 if not in real history)
+  const csvHist=(CSV_HISTORY[cat]||[]);
+  csvHist.forEach(name=>{if(!cnt[name])cnt[name]=0;});
+  // 3. Sort: real history by count desc, then CSV order for unvisited
+  const real=Object.entries(cnt).filter(([,v])=>v>0).sort((a,b)=>b[1]-a[1]).map(([n])=>n);
+  const csv=csvHist.filter(n=>!cnt[n]||cnt[n]===0);
+  return [...real,...csv].slice(0,16);
+}
+
+function renderPageInput(){
+  piPersonSel=piPersonSel||ST.p1Name;
+  document.getElementById('pi-cats').innerHTML=ST.categories.map(c=>`<div class="qa-cat ${c===piCatSel?'sel':''}" onclick="piSelCat('${c}')">${CAT_EMOJI[c]||'📦'}<br>${c}</div>`).join('');
+  document.getElementById('pi-payments').innerHTML=(ST.paymentMethods||PAYMENT_METHODS).map(m=>`<div class="qa-payment-chip ${m===piPaymentSel?'sel':''}" onclick="piSelPayment('${m}')">${PM_EMOJI[m]||''} ${m}</div>`).join('');
+  document.getElementById('pi-persons').innerHTML=[ST.p1Name,ST.p2Name].map(n=>`<div class="qa-person ${n===piPersonSel?'sel':''}" onclick="piSelPerson('${n}')">${n}</div>`).join('');
+  // History chips: show when category is selected
+  const histDiv=document.getElementById('pi-hist-chips');
+  if(piCatSel){
+    const hist=getHistoryForCat(piCatSel);
+    histDiv.innerHTML=hist.map(n=>`<span class="hist-chip" onclick="piPickName('${n.replace(/'/g,'\'')}')">📌 ${n}</span>`).join('');
+    histDiv.style.display='flex';
+  } else {
+    histDiv.innerHTML='<span style="font-size:12px;color:var(--text3)">← カテゴリを選択すると履歴が表示されます</span>';
+    histDiv.style.display='flex';
+  }
+}
+function piSelCat(c){piCatSel=c;document.getElementById('pi-name').value='';renderPageInput();document.getElementById('pi-name').focus();}
+function piSelPerson(p){piPersonSel=p;renderPageInput();}
+function piSelPayment(m){piPaymentSel=piPaymentSel===m?'':m;renderPageInput();}
+function piPickName(name){document.getElementById('pi-name').value=name;}
+function pageInputSave(){
+  const amt=parseInt(document.getElementById('pi-amount').value)||0;
+  if(amt<=0){alert('金額を入力してください');return;}
+  if(!piCatSel){alert('カテゴリを選択してください');return;}
+  const now=new Date();
+  const tags=piPaymentSel?[piPaymentSel]:[];
+  const exp={id:uid(),year:now.getFullYear(),month:now.getMonth()+1,day:now.getDate(),amount:amt,category:piCatSel,name:document.getElementById('pi-name').value.trim(),tags,person:piPersonSel||ST.p1Name,note:''};
+  ST.expenses.push(exp);
+  saveAndSync();render();
+  // Reset amount and name, keep category/payment/person
+  document.getElementById('pi-amount').value='';
+  document.getElementById('pi-name').value='';
+  // Show brief success toast
+  const btn=document.querySelector('.qa-save-btn');
+  const orig=btn.textContent;
+  btn.textContent='✓ 保存しました！';btn.style.background='var(--green)';
+  setTimeout(()=>{btn.textContent=orig;btn.style.background='';},1500);
 }
 
 // ===================== EXPENSE =====================
@@ -699,13 +1002,15 @@ function renderBudgetBarsIn(containerId,y,m){
   if(!hasBudget){document.getElementById(containerId).innerHTML='<div class="empty">予算が設定されていません</div>';return;}
   let html='';
   ST.categories.forEach(cat=>{
-    const bud=ST.budgets[cat]||0;
+    const bud=getEffectiveBudget(cat,y,m);
     const act=catTotals[cat]||0;
     if(bud===0&&act===0)return;
     const pct=bud>0?Math.min((act/bud)*100,100):100;
     const cls=pct>=100?'over':pct>=80?'warn':'';
+    const key=`${y}-${m}`;
+    const isOverride=ST.monthBudgets&&ST.monthBudgets[key]&&ST.monthBudgets[key][cat]!==undefined;
     html+=`<div class="budget-bar-item">
-      <div class="budget-bar-header"><span class="cat-name">${CAT_EMOJI[cat]||''} ${cat}</span><span class="amt">¥${fmt(act)}${bud>0?' / ¥'+fmt(bud):''}</span></div>
+      <div class="budget-bar-header"><span class="cat-name">${CAT_EMOJI[cat]||''} ${cat}${isOverride?' <span class="bud-override">月別</span>':''}</span><span class="amt">¥${fmt(act)}${bud>0?' / ¥'+fmt(bud):''}</span></div>
       <div class="budget-bar-track"><div class="budget-bar-fill ${cls}" style="width:${pct}%"></div></div>
     </div>`;
   });
@@ -747,6 +1052,9 @@ function openEditExp(id){
   catDiv.innerHTML=ST.categories.map(c=>`<div class="chip ${c===e.category?'sel':''}" onclick="chipSel(this,'edit-cats')">${c}</div>`).join('');
   const pDiv=document.getElementById('edit-persons');
   pDiv.innerHTML=[ST.p1Name,ST.p2Name].map(n=>`<div class="chip ${n===e.person?'sel':''}" onclick="chipSel(this,'edit-persons')">${n}</div>`).join('');
+  const pmDiv=document.getElementById('edit-payment');
+  const curPm=(e.tags||[])[0]||'';
+  pmDiv.innerHTML=['（なし）',...PAYMENT_METHODS].map(m=>`<div class="chip ${m===curPm||(!curPm&&m==='（なし）')?'sel':''}" onclick="chipSel(this,'edit-payment')">${m==='（なし）'?m:(PM_EMOJI[m]||'')+' '+m}</div>`).join('');
   openModal('modal-exp-edit');
 }
 function chipSel(el,groupId){
@@ -757,9 +1065,11 @@ function saveEditExp(){
   const id=document.getElementById('edit-exp-id').value;
   const si=ST.expenses.findIndex(x=>x.id===id);
   const ai=ARCH.findIndex(x=>x.id===id);
+  const pm=document.getElementById('edit-payment')?.querySelector('.sel')?.textContent||'';
+  const pmTag=pm&&pm!=='（なし）'?[pm.replace(/^[^ ]+ /,'').trim()]:[];
   const updated={id,year:+document.getElementById('edit-year').value,month:+document.getElementById('edit-month').value,day:+document.getElementById('edit-day').value,amount:+document.getElementById('edit-amount').value,name:document.getElementById('edit-name').value,note:document.getElementById('edit-note').value,
     category:document.getElementById('edit-cats').querySelector('.sel')?.textContent||'その他',
-    person:document.getElementById('edit-persons').querySelector('.sel')?.textContent||ST.p1Name,tags:[]};
+    person:document.getElementById('edit-persons').querySelector('.sel')?.textContent||ST.p1Name,tags:pmTag};
   if(si>=0){ST.expenses[si]=updated;saveAndSync();}
   else if(ai>=0){ARCH[ai]=updated;saveLocal();saveArchive();}
   closeModal('modal-exp-edit');render();
@@ -1255,6 +1565,79 @@ function saveBudgets(){
 }
 
 // ===================== SETTINGS =====================
+let budSettingY=new Date().getFullYear(), budSettingM=new Date().getMonth()+1;
+function prevBudMonth(){if(budSettingM===1){budSettingY--;budSettingM=12;}else budSettingM--;renderBudgetSettings();}
+function nextBudMonth(){if(budSettingM===12){budSettingY++;budSettingM=1;}else budSettingM++;renderBudgetSettings();}
+function goBudCurrent(){const n=new Date();budSettingY=n.getFullYear();budSettingM=n.getMonth()+1;renderBudgetSettings();}
+
+function getEffectiveBudget(cat, y, m){
+  const key=`${y}-${m}`;
+  if(ST.monthBudgets&&ST.monthBudgets[key]&&ST.monthBudgets[key][cat]!==undefined)
+    return ST.monthBudgets[key][cat];
+  return ST.budgets[cat]||0;
+}
+
+function renderBudgetSettings(){
+  const key=`${budSettingY}-${budSettingM}`;
+  const hasOverride=ST.monthBudgets&&ST.monthBudgets[key]&&Object.keys(ST.monthBudgets[key]).length>0;
+  document.getElementById('s-bud-month-label').textContent=`${budSettingY}年${budSettingM}月`;
+  document.getElementById('s-bud-override-badge').style.display=hasOverride?'inline-block':'none';
+  document.getElementById('s-bud-reset-btn').style.display=hasOverride?'':'none';
+  let html='';
+  ST.categories.forEach(cat=>{
+    const def=ST.budgets[cat]||0;
+    const monthly=ST.monthBudgets?.[key]?.[cat];
+    const val=monthly!==undefined?monthly:def;
+    const isOverride=monthly!==undefined;
+    html+=`<div class="budget-input-row">
+      <label>${CAT_EMOJI[cat]||''} ${cat}${isOverride?' <span class="bud-override">月別</span>':''}</label>
+      <div style="display:flex;align-items:center;gap:4px">
+        ${isOverride?`<span style="font-size:10px;color:var(--text3)">default:¥${fmt(def)}</span>`:''}
+        <input class="inp-sm inp" type="number" id="bud-s-${cat}" value="${val||''}" inputmode="decimal" placeholder="${def||'0'}">
+      </div>
+    </div>`;
+  });
+  document.getElementById('s-budget-form').innerHTML=html;
+}
+function saveBudgetSettings(){
+  const key=`${budSettingY}-${budSettingM}`;
+  const now=new Date();
+  const isCurrentMonth=(budSettingY===now.getFullYear()&&budSettingM===now.getMonth()+1);
+  if(isCurrentMonth){
+    // Save as default budgets if current month
+    ST.categories.forEach(cat=>{
+      const v=parseFloat(document.getElementById('bud-s-'+cat)?.value)||0;
+      if(v>0)ST.budgets[cat]=v;else delete ST.budgets[cat];
+    });
+    // Also check if values differ from adjacent months (save as monthBudget if different)
+  } else {
+    // Save as month override
+    if(!ST.monthBudgets)ST.monthBudgets={};
+    const overrides={};
+    ST.categories.forEach(cat=>{
+      const v=parseFloat(document.getElementById('bud-s-'+cat)?.value)||0;
+      if(v>0&&v!==ST.budgets[cat])overrides[cat]=v;
+    });
+    if(Object.keys(overrides).length>0)ST.monthBudgets[key]=overrides;
+    else delete ST.monthBudgets[key];
+  }
+  // Always update defaults from current month values
+  if(isCurrentMonth){
+    ST.categories.forEach(cat=>{
+      const v=parseFloat(document.getElementById('bud-s-'+cat)?.value)||0;
+      if(v>0)ST.budgets[cat]=v;else delete ST.budgets[cat];
+    });
+  }
+  saveAndSync();
+  renderBudgetSettings();
+  alert('予算を保存しました');
+}
+function resetMonthBudget(){
+  const key=`${budSettingY}-${budSettingM}`;
+  if(ST.monthBudgets)delete ST.monthBudgets[key];
+  saveAndSync();renderBudgetSettings();
+}
+
 function renderSettings(){
   document.getElementById('s-p1').value=ST.p1Name;
   document.getElementById('s-p2').value=ST.p2Name;
@@ -1262,6 +1645,9 @@ function renderSettings(){
   document.getElementById('s-binid').value=ST.binId;
   document.getElementById('sync-info').textContent=ST.binId?'Bin ID: '+ST.binId:'';
   renderCatList();
+  renderPMList();
+  renderMonthlyList();
+  renderBudgetSettings();
   document.getElementById('arch-count').textContent=ARCH.length+'件';
   document.getElementById('new-count').textContent=ST.expenses.length+'件';
 }
@@ -1273,6 +1659,112 @@ function renderCatList(){
 }
 function addCategory(){const v=document.getElementById('new-cat-inp').value.trim();if(!v)return;if(ST.categories.includes(v)){alert('既に存在します');return;}ST.categories.push(v);document.getElementById('new-cat-inp').value='';saveLocal();renderCatList();}
 function delCategory(i){if(!confirm('削除しますか？'))return;ST.categories.splice(i,1);saveLocal();renderCatList();}
+
+// Payment Methods settings
+function renderPMList(){
+  const pms=ST.paymentMethods||PAYMENT_METHODS;
+  document.getElementById('s-pm-list').innerHTML=pms.map((m,i)=>
+    `<div class="setting-row"><span>${PM_EMOJI[m]||'💳'} ${m}</span><button class="btn btn-danger btn-sm" onclick="delPM(${i})">削除</button></div>`
+  ).join('');
+}
+function addPaymentMethod(){
+  const v=document.getElementById('new-pm-inp').value.trim();if(!v)return;
+  if(!ST.paymentMethods)ST.paymentMethods=[...PAYMENT_METHODS];
+  if(ST.paymentMethods.includes(v)){alert('既に存在します');return;}
+  ST.paymentMethods.push(v);document.getElementById('new-pm-inp').value='';saveLocal();renderPMList();
+}
+function delPM(i){
+  if(!confirm('削除しますか？'))return;
+  if(!ST.paymentMethods)ST.paymentMethods=[...PAYMENT_METHODS];
+  ST.paymentMethods.splice(i,1);saveLocal();renderPMList();
+}
+
+// Monthly Templates
+function renderMonthlyList(){
+  const tmpl=ST.monthlyTemplates||[];
+  if(!tmpl.length){document.getElementById('s-monthly-list').innerHTML='<div class="empty">定期支出が設定されていません</div>';return;}
+  document.getElementById('s-monthly-list').innerHTML=tmpl.map((t,i)=>`
+    <div class="mt-item">
+      <button class="mt-toggle ${t.enabled?'on':'off'}" onclick="toggleMonthly(${i})"></button>
+      <div class="mt-item-info">
+        <div class="mt-item-name">${t.name}</div>
+        <div class="mt-item-sub">${t.category} · ¥${fmt(t.amount)}${t.tags&&t.tags[0]?' · '+t.tags[0]:''}</div>
+      </div>
+      <button class="btn btn-secondary btn-sm" onclick="openEditMonthly(${i})">編集</button>
+    </div>`).join('');
+}
+function toggleMonthly(i){
+  if(!ST.monthlyTemplates)return;
+  ST.monthlyTemplates[i].enabled=!ST.monthlyTemplates[i].enabled;
+  saveLocal();renderMonthlyList();
+}
+function openAddMonthly(){
+  document.getElementById('mt-edit-id').value='';
+  document.getElementById('mt-name').value='';
+  document.getElementById('mt-amount').value='';
+  document.getElementById('mt-del-btn').style.display='none';
+  document.getElementById('modal-monthly-title').innerHTML='定期支出を追加 <button class="modal-close" onclick="closeModal(\'modal-monthly\')">✕</button>';
+  const pms=['（なし）',...(ST.paymentMethods||PAYMENT_METHODS)];
+  document.getElementById('mt-payments').innerHTML=pms.map(m=>`<div class="chip" onclick="chipSel(this,'mt-payments')">${m}</div>`).join('');
+  document.getElementById('mt-payments').querySelector('.chip').classList.add('sel');
+  document.getElementById('mt-cats').innerHTML=ST.categories.map(c=>`<div class="chip" onclick="chipSel(this,'mt-cats')">${c}</div>`).join('');
+  openModal('modal-monthly');
+}
+function openEditMonthly(i){
+  const t=ST.monthlyTemplates[i];
+  document.getElementById('mt-edit-id').value=i;
+  document.getElementById('mt-name').value=t.name;
+  document.getElementById('mt-amount').value=t.amount;
+  document.getElementById('mt-del-btn').style.display='';
+  document.getElementById('modal-monthly-title').innerHTML='定期支出を編集 <button class="modal-close" onclick="closeModal(\'modal-monthly\')">✕</button>';
+  const pms=['（なし）',...(ST.paymentMethods||PAYMENT_METHODS)];
+  const curPm=(t.tags&&t.tags[0])||'';
+  document.getElementById('mt-payments').innerHTML=pms.map(m=>`<div class="chip ${(m===curPm||(m==='（なし）'&&!curPm))?'sel':''}" onclick="chipSel(this,'mt-payments')">${m}</div>`).join('');
+  document.getElementById('mt-cats').innerHTML=ST.categories.map(c=>`<div class="chip ${c===t.category?'sel':''}" onclick="chipSel(this,'mt-cats')">${c}</div>`).join('');
+  openModal('modal-monthly');
+}
+function saveMonthlyTemplate(){
+  const name=document.getElementById('mt-name').value.trim();
+  const amount=parseInt(document.getElementById('mt-amount').value)||0;
+  const cat=document.getElementById('mt-cats').querySelector('.sel')?.textContent||ST.categories[0];
+  const pm=document.getElementById('mt-payments').querySelector('.sel')?.textContent||'';
+  const tags=pm&&pm!=='（なし）'?[pm]:[];
+  if(!name||!amount){alert('項目名と金額を入力してください');return;}
+  const editIdx=document.getElementById('mt-edit-id').value;
+  if(!ST.monthlyTemplates)ST.monthlyTemplates=[];
+  if(editIdx!==''){
+    ST.monthlyTemplates[parseInt(editIdx)]={...ST.monthlyTemplates[parseInt(editIdx)],name,amount,category:cat,tags};
+  } else {
+    ST.monthlyTemplates.push({id:uid(),name,amount,category:cat,tags,enabled:true});
+  }
+  saveLocal();closeModal('modal-monthly');renderMonthlyList();
+}
+function delMonthlyTemplate(){
+  const i=parseInt(document.getElementById('mt-edit-id').value);
+  if(!confirm('削除しますか？'))return;
+  ST.monthlyTemplates.splice(i,1);saveLocal();closeModal('modal-monthly');renderMonthlyList();
+}
+
+// Check and apply monthly auto-entries
+function checkMonthlyAutoInsert(){
+  const now=new Date();
+  if(now.getDate()!==1)return; // only on 1st of month
+  const y=now.getFullYear(),m=now.getMonth()+1;
+  const alreadyKey=`auto_${y}_${m}`;
+  if(localStorage.getItem(alreadyKey))return; // already done
+  const tmpl=ST.monthlyTemplates||[];
+  const enabled=tmpl.filter(t=>t.enabled);
+  if(!enabled.length)return;
+  enabled.forEach(t=>{
+    const exp={id:uid(),year:y,month:m,day:1,amount:t.amount,category:t.category,name:t.name,tags:t.tags||[],person:ST.p1Name,note:'[定期支出]'};
+    ST.expenses.push(exp);
+  });
+  localStorage.setItem(alreadyKey,'1');
+  saveAndSync();
+  if(enabled.length>0){
+    setTimeout(()=>alert(`📅 ${y}年${m}月の定期支出 ${enabled.length}件を自動追加しました`),500);
+  }
+}
 
 // ===================== CSV =====================
 function handleCSV(evt){
@@ -1337,12 +1829,95 @@ function clearNew(){if(!confirm(`新規データ${ST.expenses.length}件を削�
 function render(){renderDashboard();renderExpTab();}
 
 // ===================== INIT =====================
+// ===================== FURUSATO NOZEI =====================
+let fnYear = new Date().getFullYear();
+function renderFurusato(){
+  const years=[...new Set((ST.furusato||[]).map(r=>r.year))].sort((a,b)=>b-a);
+  if(!years.includes(fnYear)&&years.length)fnYear=years[0];
+  document.getElementById('fn-year-tabs').innerHTML=years.map(y=>`<button class="fn-ytab ${y===fnYear?'active':''}" onclick="fnSetYear(${y},this)">${y}年</button>`).join('');
+  renderFnProgress();renderFnList();
+  // set today as default date for new entry
+  const nd=document.getElementById('fn-new-date');
+  if(nd&&!nd.value)nd.value=new Date().toISOString().split('T')[0];
+}
+function fnSetYear(y,btn){fnYear=y;document.querySelectorAll('.fn-ytab').forEach(b=>b.classList.remove('active'));btn.classList.add('active');renderFnProgress();renderFnList();}
+function renderFnProgress(){
+  const items=(ST.furusato||[]).filter(r=>r.year===fnYear);
+  const total=items.reduce((s,r)=>s+r.amount,0);
+  const limit=FN_LIMITS[fnYear]||0;
+  const pct=limit>0?Math.min((total/limit)*100,100):0;
+  const cls=pct>=100?'over':pct>=80?'warn':'';
+  const remaining=limit-total;
+  document.getElementById('fn-progress-card').innerHTML=`
+    <div class="card-title"><span>🎁</span>${fnYear}年 ふるさと納税</div>
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
+      <div><div style="font-size:11px;color:var(--text3)">寄付総額</div><div class="mono" style="font-size:22px;font-weight:700;color:var(--teal)">¥${fmt(total)}</div></div>
+      <div style="text-align:right"><div style="font-size:11px;color:var(--text3)">上限目安</div><div class="mono" style="font-size:16px;font-weight:600">¥${fmt(limit)}</div></div>
+    </div>
+    <div class="fn-bar-track"><div class="fn-bar-fill ${cls}" style="width:${pct.toFixed(0)}%"></div></div>
+    <div style="display:flex;justify-content:space-between;font-size:12px;margin-top:4px">
+      <span style="color:var(--text3)">${pct.toFixed(0)}% 使用</span>
+      <span style="color:${remaining>=0?'var(--green)':'var(--red)'};font-weight:600">${remaining>=0?'残り ¥'+fmt(remaining):'超過 ¥'+fmt(-remaining)}</span>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-top:12px;font-size:12px">
+      <div style="background:var(--bg2);border-radius:8px;padding:8px;text-align:center"><div style="color:var(--text3)">件数</div><div style="font-weight:700">${items.length}件</div></div>
+      <div style="background:var(--green-l);border-radius:8px;padding:8px;text-align:center"><div style="color:var(--text3)">受領済</div><div style="font-weight:700;color:var(--green)">${items.filter(r=>r.received).length}件</div></div>
+      <div style="background:var(--amber-l);border-radius:8px;padding:8px;text-align:center"><div style="color:var(--text3)">未受領</div><div style="font-weight:700;color:var(--amber)">${items.filter(r=>!r.received).length}件</div></div>
+    </div>`;
+}
+function renderFnList(){
+  const items=(ST.furusato||[]).filter(r=>r.year===fnYear).sort((a,b)=>b.orderDate.localeCompare(a.orderDate));
+  if(!items.length){document.getElementById('fn-list').innerHTML='<div class="empty">データがありません</div>';return;}
+  document.getElementById('fn-list').innerHTML=items.map(r=>`
+    <div class="fn-item">
+      <div class="fn-item-head">
+        <div class="fn-item-name">${r.pref||''}<br><span style="font-weight:400;color:var(--text2)">${r.item||''}</span></div>
+        <div class="fn-item-amt">¥${fmt(r.amount)}</div>
+      </div>
+      <div class="fn-item-meta">
+        ${r.received?'<span class="fn-recv-badge">✓ 受領済</span>':'<span class="fn-unrec-badge">未受領</span>'}
+        ${r.site?`<span>${r.site}</span>`:''}
+        ${r.orderDate?`<span>${r.orderDate}</span>`:''}
+        ${r.rating?`<span class="fn-rating-${r.rating}">${r.rating}</span>`:''}
+        ${r.points?`<span style="color:var(--teal)">🎫 ${r.points}pt</span>`:''}
+      </div>
+    </div>`).join('');
+}
+function fnAdd(){
+  const amount=parseInt(document.getElementById('fn-new-amount').value)||0;
+  const pref=document.getElementById('fn-new-pref').value.trim();
+  const item=document.getElementById('fn-new-item').value.trim();
+  if(!amount){alert('金額を入力してください');return;}
+  const dateStr=document.getElementById('fn-new-date').value||new Date().toISOString().split('T')[0];
+  const year=parseInt(dateStr.split('-')[0]);
+  const rec={id:uid(),year,orderDate:dateStr,site:document.getElementById('fn-new-site').value.trim(),pref,item,amount,shipTime:document.getElementById('fn-new-ship').value.trim(),recvDate:'',received:false,rating:'',points:0};
+  if(!ST.furusato)ST.furusato=[];
+  ST.furusato.push(rec);
+  fnYear=year;
+  saveAndSync();renderFurusato();
+  document.getElementById('fn-new-amount').value='';
+  document.getElementById('fn-new-pref').value='';
+  document.getElementById('fn-new-item').value='';
+  document.getElementById('fn-new-site').value='';
+  document.getElementById('fn-new-ship').value='';
+}
+
+// Update expense item display to show tags (payment method)
+function renderExpItemTag(tags){
+  if(!tags||!tags.length)return '';
+  return tags.map(t=>`<span class="tag-badge">${PM_EMOJI[t]||''}${t}</span>`).join('');
+}
+
 function init(){
   loadLocal();
   const now=new Date();
   dashY=expY=incY=now.getFullYear();
   dashM=expM=incM=now.getMonth()+1;
-  qaCatSel='';qaPersonSel=ST.p1Name;
+  budSettingY=now.getFullYear();budSettingM=now.getMonth()+1;
+  qaCatSel='';qaPersonSel=ST.p1Name;qaPaymentSel='';
+  piPersonSel=ST.p1Name;
+  checkMonthlyAutoInsert();
+  renderPageInput();
   renderDashboard();
   renderExpTab();
   renderBudgetTab();
