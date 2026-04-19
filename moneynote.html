@@ -310,10 +310,18 @@ input[type=number]::-webkit-inner-spin-button{display:none}
   <div id="input-form-wrap">
     <!-- Amount -->
     <div style="background:var(--teal);padding:20px 16px 16px;border-bottom-left-radius:16px;border-bottom-right-radius:16px;margin-bottom:16px">
-      <div style="color:rgba(255,255,255,.7);font-size:12px;margin-bottom:4px">金額</div>
-      <div style="display:flex;align-items:center;gap:8px">
-        <span style="color:#fff;font-size:24px;font-weight:700">¥</span>
-        <input type="number" id="pi-amount" class="qa-amt-big" placeholder="0" inputmode="numeric" style="color:#fff;border-bottom-color:rgba(255,255,255,.5)">
+      <div style="display:flex;align-items:flex-end;gap:16px">
+        <div style="flex:1">
+          <div style="color:rgba(255,255,255,.7);font-size:12px;margin-bottom:4px">金額</div>
+          <div style="display:flex;align-items:center;gap:8px">
+            <span style="color:#fff;font-size:24px;font-weight:700">¥</span>
+            <input type="number" id="pi-amount" class="qa-amt-big" placeholder="0" inputmode="numeric" style="color:#fff;border-bottom-color:rgba(255,255,255,.5)">
+          </div>
+        </div>
+        <div style="flex-shrink:0">
+          <div style="color:rgba(255,255,255,.7);font-size:12px;margin-bottom:4px">日付</div>
+          <input type="date" id="pi-date" style="background:transparent;border:none;border-bottom:2px solid rgba(255,255,255,.5);color:#fff;font-size:14px;font-family:'Noto Sans JP',sans-serif;padding:2px 0;outline:none;color-scheme:dark">
+        </div>
       </div>
     </div>
     <!-- Categories FIRST -->
@@ -991,6 +999,12 @@ function getHistoryForCat(cat){
 
 function renderPageInput(){
   piPersonSel=piPersonSel||ST.p1Name;
+  // Set today's date as default if not already set
+  const dateEl=document.getElementById('pi-date');
+  if(dateEl&&!dateEl.value){
+    const n=new Date();
+    dateEl.value=`${n.getFullYear()}-${String(n.getMonth()+1).padStart(2,'0')}-${String(n.getDate()).padStart(2,'0')}`;
+  }
   document.getElementById('pi-cats').innerHTML=ST.categories.map(c=>`<div class="qa-cat ${c===piCatSel?'sel':''}" onclick="piSelCat('${c}')">${CAT_EMOJI[c]||'📦'}<br>${c}</div>`).join('');
   document.getElementById('pi-payments').innerHTML=(ST.paymentMethods||PAYMENT_METHODS).map(m=>`<div class="qa-payment-chip ${m===piPaymentSel?'sel':''}" onclick="piSelPayment('${m}')">${PM_EMOJI[m]||''} ${m}</div>`).join('');
   document.getElementById('pi-persons').innerHTML=[ST.p1Name,ST.p2Name].map(n=>`<div class="qa-person ${n===piPersonSel?'sel':''}" onclick="piSelPerson('${n}')">${n}</div>`).join('');
@@ -1013,12 +1027,15 @@ function pageInputSave(){
   const amt=parseInt(document.getElementById('pi-amount').value)||0;
   if(amt<=0){alert('金額を入力してください');return;}
   if(!piCatSel){alert('カテゴリを選択してください');return;}
+  const dateVal=document.getElementById('pi-date').value;
   const now=new Date();
+  let year=now.getFullYear(),month=now.getMonth()+1,day=now.getDate();
+  if(dateVal){const p=dateVal.split('-');year=+p[0];month=+p[1];day=+p[2];}
   const tags=piPaymentSel?[piPaymentSel]:[];
-  const exp={id:uid(),year:now.getFullYear(),month:now.getMonth()+1,day:now.getDate(),amount:amt,category:piCatSel,name:document.getElementById('pi-name').value.trim(),tags,person:piPersonSel||ST.p1Name,note:''};
+  const exp={id:uid(),year,month,day,amount:amt,category:piCatSel,name:document.getElementById('pi-name').value.trim(),tags,person:piPersonSel||ST.p1Name,note:''};
   ST.expenses.push(exp);
   saveAndSync();render();
-  // Reset amount and name, keep category/payment/person
+  // Reset amount and name, keep date/category/payment/person
   document.getElementById('pi-amount').value='';
   document.getElementById('pi-name').value='';
   // Show brief success toast
