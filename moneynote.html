@@ -1307,9 +1307,15 @@ function renderAssetSummary(){
   const stocks=ST.stocks.reduce((s,x)=>{
     const curr=x.currency||'JPY';
     const fxRate=getFXRate(curr);
-    const curLocal=x.curPriceLocal||(curr!=='JPY'?x.curPrice/fxRate:x.curPrice)||x.buyPrice||0;
-    const curJPY=curr!=='JPY'?curLocal*fxRate:(x.curPrice||x.buyPrice||0);
-    const buyJPY=curr!=='JPY'?x.buyPrice*fxRate:x.buyPrice;
+    const isForeign=curr!=='JPY';
+    let curJPY, buyJPY;
+    if(x.curPriceLocal){
+      curJPY = isForeign ? x.curPriceLocal*fxRate : (x.curPrice||x.curPriceLocal);
+    } else {
+      const cl = x.curPrice||x.buyPrice||0;
+      curJPY = isForeign ? cl*fxRate : cl;
+    }
+    buyJPY = isForeign ? x.buyPrice*fxRate : x.buyPrice;
     return {val:s.val+curJPY*x.qty, cost:s.cost+buyJPY*x.qty};
   },{val:0,cost:0});
   const cash=ST.cashAccounts.reduce((s,x)=>s+x.balance,0);
@@ -1342,10 +1348,20 @@ function renderStocks(){
     const curr=s.currency||'JPY';
     const isForeign=curr!=='JPY';
     const fxRate=getFXRate(curr);
-    // curPriceLocal = price in original currency; curPrice = JPY equivalent
-    const curLocal=s.curPriceLocal||(isForeign?s.curPrice/fxRate:s.curPrice)||s.buyPrice||0;
-    const curJPY=isForeign?curLocal*fxRate:(s.curPrice||s.buyPrice||0);
-    const buyJPY=isForeign?s.buyPrice*fxRate:s.buyPrice; // buyPrice stored in local currency
+    // Two formats exist:
+    // - Initial/old: curPrice is in local currency (e.g. 110.27 USD), curPriceLocal not set
+    // - Post-fetch:  curPriceLocal = local price, curPrice = JPY equivalent (large number)
+    let curLocal, curJPY;
+    if(s.curPriceLocal){
+      // Post-fetch format
+      curLocal = s.curPriceLocal;
+      curJPY   = isForeign ? curLocal*fxRate : (s.curPrice||curLocal);
+    } else {
+      // Initial format: curPrice is already in local currency
+      curLocal = s.curPrice||s.buyPrice||0;
+      curJPY   = isForeign ? curLocal*fxRate : curLocal;
+    }
+    const buyJPY=isForeign?s.buyPrice*fxRate:s.buyPrice;
     const cost=buyJPY*s.qty;
     const val=curJPY*s.qty;
     const pnl=val-cost;
