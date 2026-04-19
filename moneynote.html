@@ -398,6 +398,10 @@ input[type=number]::-webkit-inner-spin-button{display:none}
 </div>
 
 <div id="page-asset" class="page">
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
+    <div id="asset-fx-status" style="font-size:11px;color:var(--text3)"></div>
+    <button class="btn btn-primary btn-sm" id="asset-update-btn" onclick="fetchAllPrices()">📡 株価・為替を更新</button>
+  </div>
   <div class="asset-summary" id="asset-summary-row"></div>
   <div class="asset-tabs" id="asset-tabs">
     <button class="asset-tab active" onclick="switchAssetTab('stock',this)">📈 株式</button>
@@ -756,6 +760,7 @@ const DEF_STATE = {
     {year:2025,month:12,items:[{"name":"給与","amount":654831}]},
   ],
   budgets:{食費:80000,光熱・通信:30000,娯楽・教養:30000,交際:20000,保険:20000,医療:10000,交通:20000,日用品:20000,服飾:15000,教育:10000,子供関係:30000,車関係:10000,もなた:5000,家賃:0,小遣い:30000,宿泊費:20000,クリーニング:3000,お酒:5000,その他:20000},
+  fxRates:{USDJPY:150,SGDJPY:112,updatedAt:''},
   stocks:[
     {id:'s001',code:'9202',name:'ANAホールディングス',qty:300,buyPrice:1890,curPrice:2979,target:3500,stopLoss:1800,currency:'JPY',sector:'航空',memo:'2025/12末: 2,979円'},
     {id:'s002',code:'4819',name:'デジタルガレージ',qty:200,buyPrice:3500,curPrice:2721,target:5000,stopLoss:2000,currency:'JPY',sector:'IT',memo:'勤務先 2025/12末: 2,721円'},
@@ -1299,41 +1304,76 @@ function renderAssets(){
   renderStocks();renderFunds();renderCryptos();renderCash();renderDebts();
 }
 function renderAssetSummary(){
-  const stocks=ST.stocks.reduce((s,x)=>{const v=(x.curPrice||x.buyPrice||0)*x.qty;const b=x.buyPrice*x.qty;return {val:s.val+v,cost:s.cost+b};},{val:0,cost:0});
+  const stocks=ST.stocks.reduce((s,x)=>{
+    const curr=x.currency||'JPY';
+    const fxRate=getFXRate(curr);
+    const curLocal=x.curPriceLocal||(curr!=='JPY'?x.curPrice/fxRate:x.curPrice)||x.buyPrice||0;
+    const curJPY=curr!=='JPY'?curLocal*fxRate:(x.curPrice||x.buyPrice||0);
+    const buyJPY=curr!=='JPY'?x.buyPrice*fxRate:x.buyPrice;
+    return {val:s.val+curJPY*x.qty, cost:s.cost+buyJPY*x.qty};
+  },{val:0,cost:0});
   const cash=ST.cashAccounts.reduce((s,x)=>s+x.balance,0);
   const debt=ST.debts.reduce((s,x)=>s+x.balance,0);
   const stPnl=stocks.val-stocks.cost;
+  const fxInfo=ST.fxRates?.updatedAt?`USD/JPY ${(ST.fxRates.USDJPY||150).toFixed(1)}円`:'';
   document.getElementById('asset-summary-row').innerHTML=`
-    <div class="as-card"><label>株式評価額</label><div class="val mono" style="font-size:13px">¥${fmt(stocks.val)}</div><div style="font-size:10px;color:${stPnl>=0?'var(--green)':'var(--red)'}">${fmtSign(stPnl)}</div></div>
+    <div class="as-card"><label>株式評価額</label><div class="val mono" style="font-size:13px">¥${fmt(Math.round(stocks.val))}</div><div style="font-size:10px;color:${stPnl>=0?'var(--green)':'var(--red)'}">${fmtSign(Math.round(stPnl))}</div></div>
     <div class="as-card"><label>現金・預金</label><div class="val mono" style="font-size:13px">¥${fmt(cash)}</div></div>
     <div class="as-card"><label>負債</label><div class="val mono" style="font-size:13px;color:var(--red)">¥${fmt(debt)}</div></div>
   `;
+  const fxEl=document.getElementById('asset-fx-status');
+  if(fxEl)fxEl.innerHTML=fxInfo?`<span>💱 ${fxInfo}</span>`:'<span style="color:var(--amber)">為替未取得</span>';
+}
+function getFXRate(currency){
+  const rates=ST.fxRates||{USDJPY:150,SGDJPY:112};
+  if(currency==='USD')return rates.USDJPY||150;
+  if(currency==='SGD')return rates.SGDJPY||112;
+  return 1;
+}
+function toJPY(price,currency){return price*getFXRate(currency);}
+function fmtCur(price,currency){
+  if(currency==='USD')return `$${price.toFixed(2)}`;
+  if(currency==='SGD')return `S$${price.toFixed(2)}`;
+  return `¥${fmt(price)}`;
 }
 function renderStocks(){
   if(!ST.stocks.length){document.getElementById('stock-list').innerHTML='<div class="empty">銘柄がありません</div>';return;}
   document.getElementById('stock-list').innerHTML=ST.stocks.map(s=>{
-    const cur=s.curPrice||s.buyPrice||0;
-    const cost=s.buyPrice*s.qty;
-    const val=cur*s.qty;
+    const curr=s.currency||'JPY';
+    const isForeign=curr!=='JPY';
+    const fxRate=getFXRate(curr);
+    // curPriceLocal = price in original currency; curPrice = JPY equivalent
+    const curLocal=s.curPriceLocal||(isForeign?s.curPrice/fxRate:s.curPrice)||s.buyPrice||0;
+    const curJPY=isForeign?curLocal*fxRate:(s.curPrice||s.buyPrice||0);
+    const buyJPY=isForeign?s.buyPrice*fxRate:s.buyPrice; // buyPrice stored in local currency
+    const cost=buyJPY*s.qty;
+    const val=curJPY*s.qty;
     const pnl=val-cost;
     const pnlPct=cost>0?((pnl/cost)*100):0;
-    const toTarget=s.target>0?((cur/s.target)*100):0;
-    const atStop=s.stopLoss>0&&cur<=s.stopLoss;
+    const toTarget=s.target>0?((curLocal/s.target)*100):0;
+    const atStop=s.stopLoss>0&&curLocal<=s.stopLoss;
+    const updTs=s.priceUpdatedAt?`<span style="font-size:10px;color:var(--text3)"> 更新: ${s.priceUpdatedAt}</span>`:'';
     return `<div class="asset-item" onclick="openEditAsset('stock','${s.id}')">
       <div class="asset-item-head">
-        <div><div class="asset-item-name">${s.name}</div><div class="asset-item-code">${s.code||''} ${s.currency||'JPY'}</div></div>
-        <div style="text-align:right"><div class="asset-pnl ${pnl>=0?'pos':'neg'}">${fmtSign(Math.round(pnl))}</div><div style="font-size:11px;color:var(--text3)">${pnlPct>=0?'+':''}${pnlPct.toFixed(1)}%</div></div>
+        <div>
+          <div class="asset-item-name">${s.name}${updTs}</div>
+          <div class="asset-item-code">${s.code||''} <span style="background:${isForeign?'var(--amber-l)':'var(--teal-l)'};color:${isForeign?'var(--amber)':'var(--teal)'};border-radius:4px;padding:1px 5px;font-size:10px">${curr}</span></div>
+        </div>
+        <div style="text-align:right">
+          <div class="asset-pnl ${pnl>=0?'pos':'neg'}">${fmtSign(Math.round(pnl))}</div>
+          <div style="font-size:11px;color:var(--text3)">${pnlPct>=0?'+':''}${pnlPct.toFixed(1)}%</div>
+        </div>
       </div>
       <div class="asset-detail-row">
         <div class="asset-detail"><strong>数量</strong> ${s.qty}</div>
-        <div class="asset-detail"><strong>取得単価</strong> ¥${fmt(s.buyPrice)}</div>
-        <div class="asset-detail"><strong>現在値</strong> ¥${fmt(cur)}</div>
-        <div class="asset-detail"><strong>評価額</strong> ¥${fmt(val)}</div>
-        ${s.target>0?`<div class="asset-detail"><strong>目標</strong> ¥${fmt(s.target)}</div>`:''}
-        ${s.stopLoss>0?`<div class="asset-detail"><strong>損切</strong> ¥${fmt(s.stopLoss)}</div>`:''}
+        <div class="asset-detail"><strong>取得単価</strong> ${fmtCur(s.buyPrice,curr)}</div>
+        <div class="asset-detail"><strong>現在値</strong> ${isForeign?`${fmtCur(curLocal,curr)}<span style="color:var(--text3);font-size:10px"> (¥${fmt(Math.round(curJPY))})</span>`:fmtCur(curJPY,'JPY')}</div>
+        <div class="asset-detail"><strong>評価額</strong> ¥${fmt(Math.round(val))}${isForeign?`<span style="color:var(--text3);font-size:10px"> @${fxRate.toFixed(1)}</span>`:''}</div>
+        ${s.target>0?`<div class="asset-detail"><strong>目標</strong> ${fmtCur(s.target,curr)}</div>`:''}
+        ${s.stopLoss>0?`<div class="asset-detail"><strong>損切</strong> ${fmtCur(s.stopLoss,curr)}</div>`:''}
       </div>
       ${s.target>0?`<div class="progress-bar"><div class="progress-fill ${toTarget>=100?'warn':''}" style="width:${Math.min(toTarget,100)}%"></div></div><div style="font-size:10px;color:var(--text3);margin-top:2px">目標達成率 ${toTarget.toFixed(0)}%</div>`:''}
-      ${atStop?`<div class="stop-loss-warn">⚠️ 損切ライン到達 (¥${fmt(s.stopLoss)})</div>`:''}
+      ${atStop?`<div class="stop-loss-warn">⚠️ 損切ライン到達 (${fmtCur(s.stopLoss,curr)})</div>`:''}
     </div>`;
   }).join('');
 }
@@ -1548,13 +1588,18 @@ async function fetchStockPrice(){
 
 function calcStockPnl(){
   const buy=getNum('af-buy');const cur=getNum('af-cur');const qty=getNum('af-qty');
+  const curr=getVal('af-currency')||'JPY';
   const prev=document.getElementById('af-pnl-preview');if(!prev)return;
   if(!buy||!qty){prev.innerHTML='';return;}
-  const cost=buy*qty;const val=(cur||buy)*qty;const pnl=val-cost;const pct=cost>0?(pnl/cost*100):0;
+  const fx=getFXRate(curr);
+  const buyJPY=curr==='JPY'?buy:buy*fx;
+  const curJPY=curr==='JPY'?(cur||buy):(cur||buy)*fx;
+  const cost=buyJPY*qty;const val=curJPY*qty;const pnl=val-cost;const pct=cost>0?(pnl/cost*100):0;
   const stopLoss=getNum('af-stop');const atStop=stopLoss>0&&(cur||buy)<=stopLoss;
+  const isForeign=curr!=='JPY';
   prev.innerHTML=`<div style="display:grid;grid-template-columns:1fr 1fr;gap:6px">
-    <div><span style="color:var(--text3)">取得総額</span><br><strong>¥${fmt(cost)}</strong></div>
-    <div><span style="color:var(--text3)">現在評価額</span><br><strong>¥${fmt(val)}</strong></div>
+    <div><span style="color:var(--text3)">取得総額</span><br><strong>¥${fmt(Math.round(cost))}${isForeign?`<span style="font-size:10px;color:var(--text3)"> @${fx.toFixed(1)}</span>`:''}</strong></div>
+    <div><span style="color:var(--text3)">現在評価額</span><br><strong>¥${fmt(Math.round(val))}${isForeign?`<span style="font-size:10px;color:var(--text3)"> (${fmtCur(cur||buy,curr)})</span>`:''}</strong></div>
     <div><span style="color:var(--text3)">含み損益</span><br><strong style="color:${pnl>=0?'var(--green)':'var(--red)'}">${fmtSign(Math.round(pnl))} (${pct>=0?'+':''}${pct.toFixed(1)}%)</strong></div>
     ${atStop?'<div style="color:var(--red);font-weight:700">⚠️ 損切ライン到達</div>':''}
   </div>`;
@@ -2049,8 +2094,106 @@ function renderExpItemTag(tags){
   return tags.map(t=>`<span class="tag-badge">${PM_EMOJI[t]||''}${t}</span>`).join('');
 }
 
+// ===================== BULK PRICE UPDATE =====================
+async function yahooFetch(ticker){
+  const url=`https://query1.finance.yahoo.com/v8/finance/chart/${ticker}?interval=1d&range=5d`;
+  const tryF=async(u)=>{
+    const r=await fetch(u,{headers:{Accept:'application/json'},signal:AbortSignal.timeout(8000)});
+    if(!r.ok)throw new Error(r.status);
+    const d=await r.json();
+    const meta=d?.chart?.result?.[0]?.meta;
+    if(!meta?.regularMarketPrice)throw new Error('no data');
+    return meta;
+  };
+  try{return await tryF(url);}catch(e){
+    return await tryF('https://corsproxy.io/?'+encodeURIComponent(url));
+  }
+}
 
-// ===================== ASSET TRACKER =====================
+async function yahooHistClose(ticker,year,month){
+  const d1=new Date(year,month-1,20);
+  const d2=new Date(year,month,5);
+  const p1=Math.floor(d1/1000);const p2=Math.floor(d2/1000);
+  const url=`https://query1.finance.yahoo.com/v8/finance/chart/${ticker}?period1=${p1}&period2=${p2}&interval=1d`;
+  const tryF=async(u)=>{
+    const r=await fetch(u,{headers:{Accept:'application/json'},signal:AbortSignal.timeout(8000)});
+    if(!r.ok)throw new Error(r.status);
+    const d=await r.json();
+    const result=d?.chart?.result?.[0];
+    if(!result)throw new Error('no result');
+    const timestamps=result.timestamp||[];
+    const closes=result.indicators?.quote?.[0]?.close||[];
+    let lastClose=null;
+    for(let i=timestamps.length-1;i>=0;i--){
+      const dt=new Date(timestamps[i]*1000);
+      if(dt.getFullYear()===year&&dt.getMonth()===month-1&&closes[i]!=null){
+        lastClose=closes[i];break;
+      }
+    }
+    if(lastClose===null)throw new Error('no monthly close');
+    return lastClose;
+  };
+  try{return await tryF(url);}catch(e){
+    return await tryF('https://corsproxy.io/?'+encodeURIComponent(url));
+  }
+}
+
+async function fetchAllPrices(){
+  const btn=document.getElementById('asset-update-btn');
+  if(!btn)return;
+  btn.disabled=true;btn.textContent='更新中…';
+  const errors=[];
+  const now=new Date();
+  const nowStr=now.toLocaleString('ja-JP',{month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit'});
+
+  // 1. FX rates
+  try{
+    const [usd,sgd]=await Promise.allSettled([yahooFetch('USDJPY=X'),yahooFetch('SGDJPY=X')]);
+    ST.fxRates={
+      USDJPY:usd.status==='fulfilled'?usd.value.regularMarketPrice:(ST.fxRates?.USDJPY||150),
+      SGDJPY:sgd.status==='fulfilled'?sgd.value.regularMarketPrice:(ST.fxRates?.SGDJPY||112),
+      updatedAt:nowStr
+    };
+  }catch(e){errors.push('FX:'+e.message);}
+
+  // 2. Stocks (sequential to avoid rate limit)
+  for(const s of ST.stocks){
+    if(!s.code||s.qty===0)continue;
+    const curr=s.currency||'JPY';
+    let ticker=curr==='JPY'?s.code+'.T':s.code;
+    if(curr==='SGD'&&!s.code.endsWith('.SI'))ticker=s.code+'.SI';
+    try{
+      const meta=await yahooFetch(ticker);
+      const localPrice=meta.regularMarketPrice;
+      s.curPriceLocal=parseFloat(localPrice.toFixed(4));
+      s.curPrice=curr==='JPY'?Math.round(localPrice):Math.round(localPrice*getFXRate(curr));
+      s.priceUpdatedAt=nowStr;
+    }catch(e){errors.push(`${s.code}:${e.message}`);}
+    await new Promise(r=>setTimeout(r,300)); // small delay
+  }
+
+  // 3. Crypto
+  for(const c of ST.cryptos){
+    const sym=c.symbol==='BTC'?'BTC-JPY':c.symbol+'-JPY';
+    try{
+      const meta=await yahooFetch(sym);
+      c.curPrice=Math.round(meta.regularMarketPrice);
+      c.priceUpdatedAt=nowStr;
+    }catch(e){errors.push(`${c.symbol}:${e.message}`);}
+  }
+
+  saveAndSync();renderAssets();
+  btn.disabled=false;
+  if(errors.length){
+    btn.textContent=`⚠ ${ST.stocks.length - errors.length}/${ST.stocks.length}件成功`;
+    setTimeout(()=>btn.textContent='📡 株価・為替を更新',4000);
+  }else{
+    btn.textContent='✓ 更新完了';
+    setTimeout(()=>btn.textContent='📡 株価・為替を更新',2000);
+  }
+}
+
+
 const TRACKER_FIELDS = [
   {key:'BankTotal', label:'銀行合計', color:'#0E7168', sub:['Shin','Miz','Min','Sony','MizS','SMBC']},
   {key:'Stock',     label:'Stock（株式）', color:'#6366F1'},
