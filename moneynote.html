@@ -761,6 +761,7 @@ const DEF_STATE = {
   ],
   budgets:{食費:80000,光熱・通信:30000,娯楽・教養:30000,交際:20000,保険:20000,医療:10000,交通:20000,日用品:20000,服飾:15000,教育:10000,子供関係:30000,車関係:10000,もなた:5000,家賃:0,小遣い:30000,宿泊費:20000,クリーニング:3000,お酒:5000,その他:20000},
   fxRates:{USDJPY:150,SGDJPY:112,updatedAt:''},
+  _ver:{categories:0,paymentMethods:0,monthlyTemplates:0,budgets:0,monthBudgets:0},
   stocks:[
     {id:'s001',code:'9202',name:'ANAホールディングス',qty:300,buyPrice:1890,curPrice:2979,target:3500,stopLoss:1800,currency:'JPY',sector:'航空',memo:'2025/12末: 2,979円'},
     {id:'s002',code:'4819',name:'デジタルガレージ',qty:200,buyPrice:3500,curPrice:2721,target:5000,stopLoss:2000,currency:'JPY',sector:'IT',memo:'勤務先 2025/12末: 2,721円'},
@@ -822,6 +823,8 @@ let dashY, dashM, expY, expM, incY, incM;
 let activeAnalysis = 'trend';
 
 // ===================== STORAGE =====================
+// バージョンを上げてからsaveAndSync
+function bumpVer(field){if(!ST._ver)ST._ver={};ST._ver[field]=(ST._ver[field]||0)+1;}
 function saveLocal(){
   try{localStorage.setItem('mn2_state',JSON.stringify(ST));}catch(e){alert('保存失敗: '+e.message);}
 }
@@ -859,16 +862,35 @@ async function syncPull(){
     });
     // For other arrays/objects: overwrite if remote has data
     if(remote.incomes&&remote.incomes.length>0)ST.incomes=remote.incomes;
-    if(remote.budgets&&Object.keys(remote.budgets).length>0)ST.budgets=remote.budgets;
-    if(remote.monthlyTemplates&&remote.monthlyTemplates.length>0)ST.monthlyTemplates=remote.monthlyTemplates;
-    if(remote.monthBudgets&&Object.keys(remote.monthBudgets||{}).length>0)ST.monthBudgets=remote.monthBudgets;
-    if(remote.paymentMethods&&remote.paymentMethods.length>0)ST.paymentMethods=remote.paymentMethods;
+    // バージョン比較：リモートのバージョンがローカル以上のときだけ上書き
+    // これにより「ローカルで変更中→プッシュ前にプルが来る」競合を防ぐ
+    const rv=remote._ver||{};
+    const lv=ST._ver||{};
+    const remoteNewer=(field)=>(rv[field]||0)>=(lv[field]||0);
+
+    if(remoteNewer('categories')&&remote.categories&&remote.categories.length>0)
+      ST.categories=remote.categories;
+    if(remoteNewer('paymentMethods')&&remote.paymentMethods&&remote.paymentMethods.length>0)
+      ST.paymentMethods=remote.paymentMethods;
+    if(remoteNewer('monthlyTemplates')&&remote.monthlyTemplates&&remote.monthlyTemplates.length>0)
+      ST.monthlyTemplates=remote.monthlyTemplates;
+    if(remoteNewer('budgets')&&remote.budgets&&Object.keys(remote.budgets).length>0)
+      ST.budgets=remote.budgets;
+    if(remoteNewer('monthBudgets')&&remote.monthBudgets&&Object.keys(remote.monthBudgets||{}).length>0)
+      ST.monthBudgets=remote.monthBudgets;
+    // バージョン管理不要なフィールド（末端データ）
     if(remote.trackerData&&remote.trackerData.length>0)ST.trackerData=remote.trackerData;
     if(remote.fxRates&&remote.fxRates.updatedAt)ST.fxRates=remote.fxRates;
     if(remote.p1Name)ST.p1Name=remote.p1Name;
     if(remote.p2Name)ST.p2Name=remote.p2Name;
-    if(remote.categories&&remote.categories.length>0)ST.categories=remote.categories;
     if(remote.furusato&&remote.furusato.length>0)ST.furusato=remote.furusato;
+    // バージョン番号はリモートの最大値を採用（他デバイスからの変更を取り込む）
+    if(remote._ver){
+      if(!ST._ver)ST._ver={};
+      Object.keys(remote._ver).forEach(k=>{
+        ST._ver[k]=Math.max(ST._ver[k]||0, remote._ver[k]||0);
+      });
+    }
     saveLocal();setSyncStatus('ok');render();
   }catch(e){setSyncStatus('err');console.error(e);}
 }
@@ -886,7 +908,8 @@ async function syncPush(){
         categories:ST.categories,monthlyTemplates:ST.monthlyTemplates||[],
         monthBudgets:ST.monthBudgets||{},paymentMethods:ST.paymentMethods||[],
         trackerData:ST.trackerData||[],fxRates:ST.fxRates||{},
-        furusato:ST.furusato||[]
+        furusato:ST.furusato||[],
+        _ver:ST._ver||{}
       })
     });
     if(!r.ok)throw new Error(r.status);
@@ -1777,7 +1800,7 @@ function saveBudgetSettings(){
       if(v>0)ST.budgets[cat]=v;else delete ST.budgets[cat];
     });
   }
-  saveAndSync();
+  bumpVer('budgets');bumpVer('monthBudgets');saveAndSync();
   renderBudgetSettings();
   alert('予算を保存しました');
 }
@@ -1826,17 +1849,17 @@ function catDrop(e,i){
   const item=arr.splice(catDragIdx,1)[0];
   arr.splice(i,0,item);
   catDragIdx=null;
-  saveAndSync();renderCatList();renderPageInput();
+  bumpVer('categories');saveAndSync();renderCatList();renderPageInput();
 }
 function moveCat(i,dir){
   const arr=ST.categories;
   const ni=i+dir;
   if(ni<0||ni>=arr.length)return;
   [arr[i],arr[ni]]=[arr[ni],arr[i]];
-  saveAndSync();renderCatList();renderPageInput();
+  bumpVer('categories');saveAndSync();renderCatList();renderPageInput();
 }
-function addCategory(){const v=document.getElementById('new-cat-inp').value.trim();if(!v)return;if(ST.categories.includes(v)){alert('既に存在します');return;}ST.categories.push(v);document.getElementById('new-cat-inp').value='';saveAndSync();renderCatList();}
-function delCategory(i){if(!confirm('削除しますか？'))return;ST.categories.splice(i,1);saveAndSync();renderCatList();}
+function addCategory(){const v=document.getElementById('new-cat-inp').value.trim();if(!v)return;if(ST.categories.includes(v)){alert('既に存在します');return;}ST.categories.push(v);document.getElementById('new-cat-inp').value='';bumpVer('categories');saveAndSync();renderCatList();}
+function delCategory(i){if(!confirm('削除しますか？'))return;ST.categories.splice(i,1);bumpVer('categories');saveAndSync();renderCatList();}
 
 // Payment Methods settings
 function renderPMList(){
@@ -1849,12 +1872,12 @@ function addPaymentMethod(){
   const v=document.getElementById('new-pm-inp').value.trim();if(!v)return;
   if(!ST.paymentMethods)ST.paymentMethods=[...PAYMENT_METHODS];
   if(ST.paymentMethods.includes(v)){alert('既に存在します');return;}
-  ST.paymentMethods.push(v);document.getElementById('new-pm-inp').value='';saveAndSync();renderPMList();
+  ST.paymentMethods.push(v);document.getElementById('new-pm-inp').value='';bumpVer('paymentMethods');saveAndSync();renderPMList();
 }
 function delPM(i){
   if(!confirm('削除しますか？'))return;
   if(!ST.paymentMethods)ST.paymentMethods=[...PAYMENT_METHODS];
-  ST.paymentMethods.splice(i,1);saveAndSync();renderPMList();
+  ST.paymentMethods.splice(i,1);bumpVer('paymentMethods');saveAndSync();renderPMList();
 }
 
 // Monthly Templates
@@ -1874,7 +1897,7 @@ function renderMonthlyList(){
 function toggleMonthly(i){
   if(!ST.monthlyTemplates)return;
   ST.monthlyTemplates[i].enabled=!ST.monthlyTemplates[i].enabled;
-  saveAndSync();renderMonthlyList();
+  bumpVer('monthlyTemplates');saveAndSync();renderMonthlyList();
 }
 function openAddMonthly(){
   document.getElementById('mt-edit-id').value='';
@@ -1915,12 +1938,12 @@ function saveMonthlyTemplate(){
   } else {
     ST.monthlyTemplates.push({id:uid(),name,amount,category:cat,tags,enabled:true});
   }
-  saveAndSync();closeModal('modal-monthly');renderMonthlyList();
+  bumpVer('monthlyTemplates');saveAndSync();closeModal('modal-monthly');renderMonthlyList();
 }
 function delMonthlyTemplate(){
   const i=parseInt(document.getElementById('mt-edit-id').value);
   if(!confirm('削除しますか？'))return;
-  ST.monthlyTemplates.splice(i,1);saveAndSync();closeModal('modal-monthly');renderMonthlyList();
+  ST.monthlyTemplates.splice(i,1);bumpVer('monthlyTemplates');saveAndSync();closeModal('modal-monthly');renderMonthlyList();
 }
 
 // Check and apply monthly auto-entries
