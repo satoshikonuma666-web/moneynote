@@ -849,16 +849,26 @@ async function syncPull(){
     if(!r.ok)throw new Error(r.status);
     const d=await r.json();
     const remote=d.record;
-    // merge
+    // merge expenses (append new ones)
     const localIds=new Set(ST.expenses.map(e=>e.id));
     (remote.expenses||[]).forEach(e=>{if(!localIds.has(e.id))ST.expenses.push(e);});
-    ['stocks','funds','cryptos','cashAccounts','debts','incomes'].forEach(k=>{
-      if(remote[k])ST[k]=remote[k];
+    // For asset arrays: only overwrite if remote has actual data (non-empty)
+    // This prevents an empty remote bin from wiping local preset data
+    ['stocks','funds','cryptos','cashAccounts','debts'].forEach(k=>{
+      if(remote[k]&&remote[k].length>0)ST[k]=remote[k];
     });
-    if(remote.budgets)ST.budgets=remote.budgets;
+    // For other arrays/objects: overwrite if remote has data
+    if(remote.incomes&&remote.incomes.length>0)ST.incomes=remote.incomes;
+    if(remote.budgets&&Object.keys(remote.budgets).length>0)ST.budgets=remote.budgets;
+    if(remote.monthlyTemplates&&remote.monthlyTemplates.length>0)ST.monthlyTemplates=remote.monthlyTemplates;
+    if(remote.monthBudgets&&Object.keys(remote.monthBudgets||{}).length>0)ST.monthBudgets=remote.monthBudgets;
+    if(remote.paymentMethods&&remote.paymentMethods.length>0)ST.paymentMethods=remote.paymentMethods;
+    if(remote.trackerData&&remote.trackerData.length>0)ST.trackerData=remote.trackerData;
+    if(remote.fxRates&&remote.fxRates.updatedAt)ST.fxRates=remote.fxRates;
     if(remote.p1Name)ST.p1Name=remote.p1Name;
     if(remote.p2Name)ST.p2Name=remote.p2Name;
-    if(remote.categories)ST.categories=remote.categories;
+    if(remote.categories&&remote.categories.length>0)ST.categories=remote.categories;
+    if(remote.furusato&&remote.furusato.length>0)ST.furusato=remote.furusato;
     saveLocal();setSyncStatus('ok');render();
   }catch(e){setSyncStatus('err');console.error(e);}
 }
@@ -873,7 +883,10 @@ async function syncPush(){
         expenses:ST.expenses,stocks:ST.stocks,funds:ST.funds,
         cryptos:ST.cryptos,cashAccounts:ST.cashAccounts,debts:ST.debts,
         incomes:ST.incomes,budgets:ST.budgets,p1Name:ST.p1Name,p2Name:ST.p2Name,
-        categories:ST.categories
+        categories:ST.categories,monthlyTemplates:ST.monthlyTemplates||[],
+        monthBudgets:ST.monthBudgets||{},paymentMethods:ST.paymentMethods||[],
+        trackerData:ST.trackerData||[],fxRates:ST.fxRates||{},
+        furusato:ST.furusato||[]
       })
     });
     if(!r.ok)throw new Error(r.status);
