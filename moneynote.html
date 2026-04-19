@@ -1826,17 +1826,17 @@ function catDrop(e,i){
   const item=arr.splice(catDragIdx,1)[0];
   arr.splice(i,0,item);
   catDragIdx=null;
-  saveLocal();renderCatList();renderPageInput();
+  saveAndSync();renderCatList();renderPageInput();
 }
 function moveCat(i,dir){
   const arr=ST.categories;
   const ni=i+dir;
   if(ni<0||ni>=arr.length)return;
   [arr[i],arr[ni]]=[arr[ni],arr[i]];
-  saveLocal();renderCatList();renderPageInput();
+  saveAndSync();renderCatList();renderPageInput();
 }
-function addCategory(){const v=document.getElementById('new-cat-inp').value.trim();if(!v)return;if(ST.categories.includes(v)){alert('既に存在します');return;}ST.categories.push(v);document.getElementById('new-cat-inp').value='';saveLocal();renderCatList();}
-function delCategory(i){if(!confirm('削除しますか？'))return;ST.categories.splice(i,1);saveLocal();renderCatList();}
+function addCategory(){const v=document.getElementById('new-cat-inp').value.trim();if(!v)return;if(ST.categories.includes(v)){alert('既に存在します');return;}ST.categories.push(v);document.getElementById('new-cat-inp').value='';saveAndSync();renderCatList();}
+function delCategory(i){if(!confirm('削除しますか？'))return;ST.categories.splice(i,1);saveAndSync();renderCatList();}
 
 // Payment Methods settings
 function renderPMList(){
@@ -1849,12 +1849,12 @@ function addPaymentMethod(){
   const v=document.getElementById('new-pm-inp').value.trim();if(!v)return;
   if(!ST.paymentMethods)ST.paymentMethods=[...PAYMENT_METHODS];
   if(ST.paymentMethods.includes(v)){alert('既に存在します');return;}
-  ST.paymentMethods.push(v);document.getElementById('new-pm-inp').value='';saveLocal();renderPMList();
+  ST.paymentMethods.push(v);document.getElementById('new-pm-inp').value='';saveAndSync();renderPMList();
 }
 function delPM(i){
   if(!confirm('削除しますか？'))return;
   if(!ST.paymentMethods)ST.paymentMethods=[...PAYMENT_METHODS];
-  ST.paymentMethods.splice(i,1);saveLocal();renderPMList();
+  ST.paymentMethods.splice(i,1);saveAndSync();renderPMList();
 }
 
 // Monthly Templates
@@ -1874,7 +1874,7 @@ function renderMonthlyList(){
 function toggleMonthly(i){
   if(!ST.monthlyTemplates)return;
   ST.monthlyTemplates[i].enabled=!ST.monthlyTemplates[i].enabled;
-  saveLocal();renderMonthlyList();
+  saveAndSync();renderMonthlyList();
 }
 function openAddMonthly(){
   document.getElementById('mt-edit-id').value='';
@@ -1915,12 +1915,12 @@ function saveMonthlyTemplate(){
   } else {
     ST.monthlyTemplates.push({id:uid(),name,amount,category:cat,tags,enabled:true});
   }
-  saveLocal();closeModal('modal-monthly');renderMonthlyList();
+  saveAndSync();closeModal('modal-monthly');renderMonthlyList();
 }
 function delMonthlyTemplate(){
   const i=parseInt(document.getElementById('mt-edit-id').value);
   if(!confirm('削除しますか？'))return;
-  ST.monthlyTemplates.splice(i,1);saveLocal();closeModal('modal-monthly');renderMonthlyList();
+  ST.monthlyTemplates.splice(i,1);saveAndSync();closeModal('modal-monthly');renderMonthlyList();
 }
 
 // Check and apply monthly auto-entries
