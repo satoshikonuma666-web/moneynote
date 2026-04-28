@@ -17,6 +17,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
 <style>
 :root{
+  --hdr-h: 42px;
   --bg:#F8F6F2;--bg2:#F0EDE6;--bg3:#E8E4DC;
   --teal:#0E7168;--teal2:#0a5a52;--teal-l:#E0F2F0;
   --red:#B91C1C;--red-l:#FEE2E2;
@@ -32,9 +33,9 @@ body{background:var(--bg);color:var(--text);font-family:'Noto Sans JP',sans-seri
 .mono{font-family:'JetBrains Mono',monospace}
 
 /* Header */
-#hdr{background:var(--card);border-bottom:1px solid var(--border);padding:12px 16px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;box-shadow:var(--shadow)}
-#hdr h1{font-size:18px;font-weight:700;color:var(--teal)}
-#hdr .sub{font-size:11px;color:var(--text3)}
+#hdr{background:var(--card);border-bottom:1px solid var(--border);padding:6px 16px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;box-shadow:var(--shadow)}
+#hdr h1{font-size:14px;font-weight:700;color:var(--teal);margin:0}
+#hdr .sub{font-size:10px;color:var(--text3)}
 #sync-dot{width:8px;height:8px;border-radius:50%;background:#ccc;cursor:pointer}
 #sync-dot.ok{background:var(--green)}
 #sync-dot.err{background:var(--red)}
@@ -73,8 +74,7 @@ body{background:var(--bg);color:var(--text);font-family:'Noto Sans JP',sans-seri
 .month-nav .today-btn{background:var(--teal-l);color:var(--teal);border:none;border-radius:8px;padding:5px 10px;font-size:12px;cursor:pointer;font-weight:600}
 
 /* Quick Add */
-#qa-fab{position:fixed;right:20px;bottom:90px;width:56px;height:56px;border-radius:50%;background:var(--teal);color:#fff;border:none;font-size:28px;cursor:pointer;box-shadow:0 4px 16px rgba(14,113,104,.4);display:flex;align-items:center;justify-content:center;z-index:99;transition:transform .2s}
-#qa-fab:active{transform:scale(.92)}
+#qa-fab{display:none}
 #qa-panel{display:none;position:fixed;bottom:80px;left:0;right:0;background:var(--card);border-top-left-radius:20px;border-top-right-radius:20px;box-shadow:0 -4px 24px rgba(0,0,0,.15);z-index:98;padding:20px 16px 24px}
 #qa-panel.open{display:block}
 #qa-amount-wrap{display:flex;align-items:center;gap:8px;margin-bottom:14px}
@@ -222,7 +222,7 @@ input[type=number]::-webkit-inner-spin-button{display:none}
 .bar-chart svg text{font-family:'JetBrains Mono',monospace}
 
 /* Quick Add Page */
-#page-input{padding:0}
+#page-input{padding:0;display:flex;flex-direction:column;height:calc(100vh - var(--hdr-h) - 56px);overflow:hidden}
 #input-form-wrap{padding:16px;padding-bottom:24px}
 .qa-section-label{font-size:11px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.05em;margin-bottom:6px}
 .qa-payment-row{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px}
@@ -307,7 +307,7 @@ input[type=number]::-webkit-inner-spin-button{display:none}
 
 <!-- Pages -->
 <div id="page-input" class="page active">
-  <div id="input-form-wrap">
+  <div id="input-form-wrap" style="flex:1;overflow:hidden;padding:8px 14px 4px;display:flex;flex-direction:column;gap:6px">
     <!-- Amount -->
     <div style="background:var(--teal);padding:20px 16px 16px;border-bottom-left-radius:16px;border-bottom-right-radius:16px;margin-bottom:16px">
       <div style="display:flex;align-items:flex-end;gap:16px">
@@ -324,20 +324,33 @@ input[type=number]::-webkit-inner-spin-button{display:none}
         </div>
       </div>
     </div>
-    <!-- Categories FIRST -->
-    <div class="qa-section-label">カテゴリ</div>
-    <div class="qa-cats" id="pi-cats" style="margin-bottom:8px"></div>
-    <!-- Name/Store SECOND with history chips -->
-    <div class="qa-section-label">店名・用途</div>
-    <input type="text" id="pi-name" class="inp" placeholder="カテゴリを選ぶと履歴候補が表示されます" autocomplete="off" style="margin-bottom:8px">
-    <div id="pi-hist-chips" style="display:flex;flex-wrap:wrap;gap:5px;margin-bottom:12px"></div>
-    <!-- Payment Method -->
-    <div class="qa-section-label">支払方法</div>
-    <div class="qa-payment-row" id="pi-payments"></div>
-    <!-- Person -->
-    <div class="qa-section-label">メンバー</div>
-    <div class="qa-persons" id="pi-persons" style="margin-bottom:16px"></div>
-    <button class="qa-save-btn" onclick="pageInputSave()">💾 保存する</button>
+    <!-- Categories -->
+    <div class="qa-section-label" style="margin-bottom:3px">カテゴリ</div>
+    <div class="qa-cats" id="pi-cats"></div>
+    <!-- Name: select dropdown -->
+    <div style="display:flex;gap:6px;align-items:center">
+      <div style="flex:1">
+        <div class="qa-section-label" style="margin-bottom:3px">店名・用途</div>
+        <select id="pi-name-sel" class="inp" style="margin-bottom:0" onchange="piPickFromSel(this.value)">
+          <option value="">（カテゴリを選択してください）</option>
+        </select>
+        <input type="text" id="pi-name" class="inp" placeholder="または直接入力" autocomplete="off" style="margin-top:4px">
+      </div>
+    </div>
+    <!-- Payment + Person row -->
+    <div style="display:flex;gap:6px">
+      <div style="flex:1">
+        <div class="qa-section-label" style="margin-bottom:3px">支払方法</div>
+        <select id="pi-payment-sel" class="inp" style="margin-bottom:0" onchange="piPaymentSel=this.value">
+          <option value="">（なし）</option>
+        </select>
+      </div>
+      <div style="flex:1">
+        <div class="qa-section-label" style="margin-bottom:3px">メンバー</div>
+        <div class="qa-persons" id="pi-persons"></div>
+      </div>
+    </div>
+    <button class="qa-save-btn" onclick="pageInputSave()" style="margin-top:auto;padding:12px">💾 保存する</button>
   </div>
 </div>
 
@@ -349,6 +362,11 @@ input[type=number]::-webkit-inner-spin-button{display:none}
       <button class="today-btn" onclick="goDashCurrent()">今月</button>
       <button class="nav-btn" onclick="nextDashMonth()">›</button>
     </div>
+  </div>
+  <div class="card">
+    <div class="card-title" style="justify-content:space-between"><span><span>💰</span>収入</span><button class="btn btn-secondary btn-sm" onclick="toggleDashIncome()">入力</button></div>
+    <div id="dash-income-summary"></div>
+    <div id="dash-income-form" style="display:none"></div>
   </div>
   <div class="kpi-row" id="dash-kpis"></div>
   <div class="card" id="dash-budget-card">
@@ -388,12 +406,12 @@ input[type=number]::-webkit-inner-spin-button{display:none}
     <div id="exp-summary"></div>
   </div>
   <div class="card">
-    <div class="card-title"><span>📋</span>予算 vs 実績</div>
-    <div id="exp-budget-bars"></div>
-  </div>
-  <div class="card">
     <div class="card-title"><span>🧾</span>支出一覧</div>
     <div class="exp-list-wrap" id="exp-list"></div>
+  </div>
+  <div class="card">
+    <div class="card-title"><span>📋</span>予算 vs 実績</div>
+    <div id="exp-budget-bars"></div>
   </div>
 </div>
 
@@ -643,6 +661,10 @@ input[type=number]::-webkit-inner-spin-button{display:none}
     <div class="form-row">
       <div class="form-field"><label>項目名</label><input class="inp" id="mt-name" placeholder="例：NHK、Netflix"></div>
       <div class="form-field"><label>金額</label><input class="inp" type="number" id="mt-amount" inputmode="decimal"></div>
+    </div>
+    <div class="form-row">
+      <div class="form-field"><label>計上日</label><select class="inp" id="mt-day"><option value="1">毎月1日</option><option value="25">毎月25日</option><option value="27">毎月27日</option><option value="28">毎月28日</option><option value="last">月末</option></select></div>
+      <div class="form-field"><label>メンバー</label><select class="inp" id="mt-person"></select></div>
     </div>
     <div class="form-field"><label>カテゴリ</label><div class="chip-row" id="mt-cats"></div></div>
     <div class="form-field"><label>支払方法（任意）</label><div class="chip-row" id="mt-payments"></div></div>
@@ -973,9 +995,7 @@ function switchTab(name,btn){
   else if(name==='tracker')renderTracker();
   else if(name==='fn')renderFurusato();
   else if(name==='settings')renderSettings();
-  // Close QA if open
-  document.getElementById('qa-panel').classList.remove('open');
-  document.getElementById('qa-fab').textContent='＋';
+  // QA panel hidden
 }
 function openModal(id){document.getElementById(id).classList.add('open');}
 function closeModal(id){document.getElementById(id).classList.remove('open');}
@@ -1040,27 +1060,41 @@ function getHistoryForCat(cat){
 
 function renderPageInput(){
   piPersonSel=piPersonSel||ST.p1Name;
-  // Set today's date as default if not already set
+  // Date default
   const dateEl=document.getElementById('pi-date');
   if(dateEl&&!dateEl.value){
     const n=new Date();
     dateEl.value=`${n.getFullYear()}-${String(n.getMonth()+1).padStart(2,'0')}-${String(n.getDate()).padStart(2,'0')}`;
   }
-  document.getElementById('pi-cats').innerHTML=ST.categories.map(c=>`<div class="qa-cat ${c===piCatSel?'sel':''}" onclick="piSelCat('${c}')">${CAT_EMOJI[c]||'📦'}<br>${c}</div>`).join('');
-  document.getElementById('pi-payments').innerHTML=(ST.paymentMethods||PAYMENT_METHODS).map(m=>`<div class="qa-payment-chip ${m===piPaymentSel?'sel':''}" onclick="piSelPayment('${m}')">${PM_EMOJI[m]||''} ${m}</div>`).join('');
-  document.getElementById('pi-persons').innerHTML=[ST.p1Name,ST.p2Name].map(n=>`<div class="qa-person ${n===piPersonSel?'sel':''}" onclick="piSelPerson('${n}')">${n}</div>`).join('');
-  // History chips: show when category is selected
-  const histDiv=document.getElementById('pi-hist-chips');
-  if(piCatSel){
-    const hist=getHistoryForCat(piCatSel);
-    histDiv.innerHTML=hist.map(n=>`<span class="hist-chip" onclick="piPickName('${n.replace(/'/g,'\'')}')">📌 ${n}</span>`).join('');
-    histDiv.style.display='flex';
-  } else {
-    histDiv.innerHTML='<span style="font-size:12px;color:var(--text3)">← カテゴリを選択すると履歴が表示されます</span>';
-    histDiv.style.display='flex';
+  // Category grid — no emoji, just text
+  document.getElementById('pi-cats').innerHTML=ST.categories.map(c=>`<div class="qa-cat ${c===piCatSel?'sel':''}" onclick="piSelCat('${c.replace(/'/g,"\'")}')">${c}</div>`).join('');
+  // Name select dropdown (history sorted by frequency)
+  const nameSel=document.getElementById('pi-name-sel');
+  if(nameSel){
+    const hist=piCatSel?getHistoryForCat(piCatSel):[];
+    nameSel.innerHTML=`<option value="">${piCatSel?'（選択または直接入力）':'（先にカテゴリを選択）'}</option>`
+      +hist.map(n=>`<option value="${n.replace(/"/g,'&quot;')}">${n}</option>`).join('');
+    nameSel.disabled=!piCatSel;
   }
+  // Payment select dropdown
+  const pmSel=document.getElementById('pi-payment-sel');
+  if(pmSel){
+    const pms=(ST.paymentMethods||PAYMENT_METHODS);
+    pmSel.innerHTML='<option value="">（なし）</option>'
+      +pms.map(m=>`<option value="${m}" ${m===piPaymentSel?'selected':''}>${m}</option>`).join('');
+  }
+  // Person
+  document.getElementById('pi-persons').innerHTML=[ST.p1Name,ST.p2Name].map(n=>`<div class="qa-person ${n===piPersonSel?'sel':''}" onclick="piSelPerson('${n}')">${n}</div>`).join('');
 }
-function piSelCat(c){piCatSel=c;document.getElementById('pi-name').value='';renderPageInput();document.getElementById('pi-name').focus();}
+function piPickFromSel(v){
+  if(v){document.getElementById('pi-name').value=v;}
+}
+function piSelCat(c){
+  piCatSel=c;
+  document.getElementById('pi-name').value='';
+  const ns=document.getElementById('pi-name-sel');if(ns)ns.value='';
+  renderPageInput();
+}
 function piSelPerson(p){piPersonSel=p;renderPageInput();}
 function piSelPayment(m){piPaymentSel=piPaymentSel===m?'':m;renderPageInput();}
 function piPickName(name){document.getElementById('pi-name').value=name;}
@@ -1072,7 +1106,9 @@ function pageInputSave(){
   const now=new Date();
   let year=now.getFullYear(),month=now.getMonth()+1,day=now.getDate();
   if(dateVal){const p=dateVal.split('-');year=+p[0];month=+p[1];day=+p[2];}
-  const tags=piPaymentSel?[piPaymentSel]:[];
+  const pmSel=document.getElementById('pi-payment-sel');
+  const payVal=pmSel?pmSel.value:piPaymentSel;
+  const tags=payVal?[payVal]:[];
   const exp={id:uid(),year,month,day,amount:amt,category:piCatSel,name:document.getElementById('pi-name').value.trim(),tags,person:piPersonSel||ST.p1Name,note:''};
   ST.expenses.push(exp);
   saveAndSync();render();
@@ -1110,13 +1146,38 @@ function renderExpTab(){
   // List
   renderExpList(exps);
 }
+// 予算バーでフィルタ中のカテゴリ
+let budFilterCat={};  // {containerId: cat}
+
 function renderBudgetBarsIn(containerId,y,m){
   const exps=getExpenses(y,m);
   const catTotals={};
   exps.forEach(e=>{catTotals[e.category]=(catTotals[e.category]||0)+e.amount;});
   const hasBudget=Object.keys(ST.budgets).length>0;
-  if(!hasBudget){document.getElementById(containerId).innerHTML='<div class="empty">予算が設定されていません</div>';return;}
+  const filterCat=budFilterCat[containerId]||null;
   let html='';
+
+  // Filtered list view
+  if(filterCat){
+    const filtered=exps.filter(e=>e.category===filterCat).sort((a,b)=>b.day-a.day);
+    html+=`<div style="display:flex;align-items:center;gap:8px;margin-bottom:10px">
+      <button onclick="budFilterCat['${containerId}']=null;renderBudgetBarsIn('${containerId}',${y},${m})" style="background:var(--teal-l);color:var(--teal);border:none;border-radius:8px;padding:4px 10px;font-size:12px;cursor:pointer;font-weight:600">← 戻る</button>
+      <span style="font-weight:600">${filterCat}</span>
+      <span style="color:var(--text3);font-size:12px">¥${fmt(catTotals[filterCat]||0)}</span>
+    </div>`;
+    if(!filtered.length){html+='<div class="empty">支出なし</div>';}
+    filtered.forEach(e=>{
+      html+=`<div class="exp-item" onclick="openEditExp('${e.id}')">
+        <div class="exp-cat-badge">${CAT_EMOJI[e.category]||'📦'}</div>
+        <div class="exp-item-info"><div class="exp-item-name">${e.name||e.category}</div><div class="exp-item-cat">${e.day}日${e.tags&&e.tags.length?' · '+e.tags.join(' · '):''}</div></div>
+        <div style="text-align:right"><div class="exp-item-amt">¥${fmt(e.amount)}</div><div class="exp-item-person">${e.person||''}</div></div>
+      </div>`;
+    });
+    document.getElementById(containerId).innerHTML=html;
+    return;
+  }
+
+  if(!hasBudget){document.getElementById(containerId).innerHTML='<div class="empty">予算が設定されていません</div>';return;}
   ST.categories.forEach(cat=>{
     const bud=getEffectiveBudget(cat,y,m);
     const act=catTotals[cat]||0;
@@ -1125,8 +1186,8 @@ function renderBudgetBarsIn(containerId,y,m){
     const cls=pct>=100?'over':pct>=80?'warn':'';
     const key=`${y}-${m}`;
     const isOverride=ST.monthBudgets&&ST.monthBudgets[key]&&ST.monthBudgets[key][cat]!==undefined;
-    html+=`<div class="budget-bar-item">
-      <div class="budget-bar-header"><span class="cat-name">${CAT_EMOJI[cat]||''} ${cat}${isOverride?' <span class="bud-override">月別</span>':''}</span><span class="amt">¥${fmt(act)}${bud>0?' / ¥'+fmt(bud):''}</span></div>
+    html+=`<div class="budget-bar-item" onclick="budFilterCat['${containerId}']='${cat.replace(/'/g,"\'")}';renderBudgetBarsIn('${containerId}',${y},${m})" style="cursor:pointer">
+      <div class="budget-bar-header"><span class="cat-name">${cat}${isOverride?' <span class="bud-override">月別</span>':''}</span><span class="amt">¥${fmt(act)}${bud>0?' / ¥'+fmt(bud):''}</span></div>
       <div class="budget-bar-track"><div class="budget-bar-fill ${cls}" style="width:${pct}%"></div></div>
     </div>`;
   });
@@ -1205,7 +1266,60 @@ function nextDashMonth(){if(dashM===12){dashY++;dashM=1;}else dashM++;renderDash
 function goDashCurrent(){const n=new Date();dashY=n.getFullYear();dashM=n.getMonth()+1;renderDashboard();}
 function getMonthTotal(y,m){return [...ST.expenses,...ARCH].filter(e=>e.year===y&&e.month===m).reduce((s,e)=>s+e.amount,0);}
 function getMonthIncome(y,m){const inc=ST.incomes.find(i=>i.year===y&&i.month===m);return inc?inc.items.reduce((s,i)=>s+i.amount,0):0;}
+function toggleDashIncome(){
+  const f=document.getElementById('dash-income-form');
+  if(!f)return;
+  if(f.style.display==='none'){
+    // Load income form for this month
+    const inc=getIncome(dashY,dashM);
+    let ihtml='';
+    (inc.items||[]).forEach((it,i)=>{
+      ihtml+=`<div class="form-row mt4">
+        <input class="inp flex1" value="${it.name||''}" placeholder="収入項目" onchange="dashIncChange(${i},'name',this.value)">
+        <input class="inp" type="number" style="width:100px" value="${it.amount||''}" inputmode="decimal" onchange="dashIncChange(${i},'amount',this.value)">
+      </div>`;
+    });
+    ihtml+=`<div style="display:flex;gap:8px;margin-top:8px">
+      <button class="btn btn-secondary btn-sm" onclick="dashIncAdd()">＋ 追加</button>
+      <button class="btn btn-primary btn-sm" onclick="dashIncSave()">保存</button>
+    </div>`;
+    f.innerHTML=ihtml;
+    f._items=JSON.parse(JSON.stringify(inc.items||[]));
+    f.style.display='';
+  }else{f.style.display='none';}
+}
+function dashIncChange(i,field,v){
+  const f=document.getElementById('dash-income-form');
+  if(!f._items)f._items=[];
+  if(!f._items[i])f._items[i]={};
+  f._items[i][field]=field==='amount'?parseFloat(v)||0:v;
+}
+function dashIncAdd(){
+  const f=document.getElementById('dash-income-form');
+  if(!f._items)f._items=[];
+  f._items.push({name:'',amount:0});
+  toggleDashIncome();toggleDashIncome();
+}
+function dashIncSave(){
+  const f=document.getElementById('dash-income-form');
+  const items=(f._items||[]).filter(it=>it.name||it.amount);
+  const idx=ST.incomes.findIndex(i=>i.year===dashY&&i.month===dashM);
+  const total=items.reduce((s,i)=>s+(i.amount||0),0);
+  const rec={year:dashY,month:dashM,items,total};
+  if(idx>=0)ST.incomes[idx]=rec;else ST.incomes.push(rec);
+  saveAndSync();f.style.display='none';renderDashboard();
+}
+function renderDashIncomeSummary(){
+  const inc=getIncome(dashY,dashM);
+  const el=document.getElementById('dash-income-summary');
+  if(!el)return;
+  if(!inc||!(inc.total>0)){el.innerHTML='<div style="font-size:12px;color:var(--text3)">未入力 — 「入力」ボタンから追加できます</div>';return;}
+  el.innerHTML=`<div style="font-size:22px;font-weight:700;font-family:monospace;color:var(--green)">¥${fmt(inc.total)}</div>`
+    +(inc.items||[]).map(it=>`<div style="font-size:12px;color:var(--text3)">${it.name}: ¥${fmt(it.amount)}</div>`).join('');
+}
+
 function renderDashboard(){
+  renderDashIncomeSummary();
   document.getElementById('dash-month-label').textContent=`${dashY}年${dashM}月`;
   document.getElementById('hdr-month').textContent=`${dashY}年${dashM}月`;
   const total=getMonthTotal(dashY,dashM);
@@ -1922,6 +2036,10 @@ function openEditMonthly(i){
   const curPm=(t.tags&&t.tags[0])||'';
   document.getElementById('mt-payments').innerHTML=pms.map(m=>`<div class="chip ${(m===curPm||(m==='（なし）'&&!curPm))?'sel':''}" onclick="chipSel(this,'mt-payments')">${m}</div>`).join('');
   document.getElementById('mt-cats').innerHTML=ST.categories.map(c=>`<div class="chip ${c===t.category?'sel':''}" onclick="chipSel(this,'mt-cats')">${c}</div>`).join('');
+  const dayEl=document.getElementById('mt-day');
+  if(dayEl)dayEl.value=t.postDay||'1';
+  const pSelE=document.getElementById('mt-person');
+  if(pSelE){pSelE.innerHTML=[ST.p1Name,ST.p2Name].map(n=>`<option ${n===(t.person||ST.p1Name)?'selected':''}>${n}</option>`).join('');}
   openModal('modal-monthly');
 }
 function saveMonthlyTemplate(){
@@ -1931,12 +2049,14 @@ function saveMonthlyTemplate(){
   const pm=document.getElementById('mt-payments').querySelector('.sel')?.textContent||'';
   const tags=pm&&pm!=='（なし）'?[pm]:[];
   if(!name||!amount){alert('項目名と金額を入力してください');return;}
+  const postDay=document.getElementById('mt-day')?.value||'1';
+  const person=document.getElementById('mt-person')?.value||ST.p1Name;
   const editIdx=document.getElementById('mt-edit-id').value;
   if(!ST.monthlyTemplates)ST.monthlyTemplates=[];
   if(editIdx!==''){
-    ST.monthlyTemplates[parseInt(editIdx)]={...ST.monthlyTemplates[parseInt(editIdx)],name,amount,category:cat,tags};
+    ST.monthlyTemplates[parseInt(editIdx)]={...ST.monthlyTemplates[parseInt(editIdx)],name,amount,category:cat,tags,postDay,person};
   } else {
-    ST.monthlyTemplates.push({id:uid(),name,amount,category:cat,tags,enabled:true});
+    ST.monthlyTemplates.push({id:uid(),name,amount,category:cat,tags,postDay,person,enabled:true});
   }
   bumpVer('monthlyTemplates');saveAndSync();closeModal('modal-monthly');renderMonthlyList();
 }
@@ -1957,7 +2077,9 @@ function checkMonthlyAutoInsert(){
   const enabled=tmpl.filter(t=>t.enabled);
   if(!enabled.length)return;
   enabled.forEach(t=>{
-    const exp={id:uid(),year:y,month:m,day:1,amount:t.amount,category:t.category,name:t.name,tags:t.tags||[],person:ST.p1Name,note:'[定期支出]'};
+    let d=parseInt(t.postDay)||1;
+    if(t.postDay==='last'){const last=new Date(y,m,0);d=last.getDate();}
+    const exp={id:uid(),year:y,month:m,day:d,amount:t.amount,category:t.category,name:t.name,tags:t.tags||[],person:t.person||ST.p1Name,note:'[定期支出]'};
     ST.expenses.push(exp);
   });
   localStorage.setItem(alreadyKey,'1');
