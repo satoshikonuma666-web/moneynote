@@ -87,7 +87,7 @@ body{background:var(--bg);color:var(--text);font-family:'Noto Sans JP',sans-seri
 #qa-name-wrap{display:flex;gap:8px;margin-bottom:12px}
 #qa-name{flex:1;border:1px solid var(--border);border-radius:var(--r2);padding:8px 12px;font-size:14px;font-family:'Noto Sans JP',sans-serif;background:var(--bg);outline:none}
 #qa-name:focus{border-color:var(--teal)}
-.qa-cats{display:grid;grid-template-columns:repeat(4,1fr);gap:3px;margin-bottom:0}
+.qa-cats{display:grid;grid-template-columns:repeat(4,1fr);gap:3px;margin-bottom:0;flex:1;align-content:stretch}
 .qa-cat{background:var(--bg2);border:2px solid transparent;border-radius:10px;padding:9px 4px;text-align:center;font-size:13px;cursor:pointer;transition:all .15s}
 .qa-cat.sel{background:var(--teal-l);border-color:var(--teal);color:var(--teal);font-weight:700}
 .qa-persons{display:flex;gap:8px;margin-bottom:14px}
@@ -328,8 +328,10 @@ input[type=number]::-webkit-inner-spin-button{display:none}
       </div>
     </div>
     <!-- Categories -->
-    <div class="qa-section-label" style="margin-bottom:2px">カテゴリ</div>
-    <div class="qa-cats" id="pi-cats"></div>
+    <div style="flex:1;display:flex;flex-direction:column;min-height:0">
+      <div class="qa-section-label" style="margin-bottom:2px">カテゴリ</div>
+      <div class="qa-cats" id="pi-cats" style="flex:1"></div>
+    </div>
     <!-- Name: select dropdown -->
     <div>
       <div class="qa-section-label" style="margin-bottom:2px">店名・用途</div>
@@ -1070,7 +1072,7 @@ function renderPageInput(){
     dateEl.value=`${n.getFullYear()}-${String(n.getMonth()+1).padStart(2,'0')}-${String(n.getDate()).padStart(2,'0')}`;
   }
   // Category grid — no emoji, just text
-  document.getElementById('pi-cats').innerHTML=ST.categories.map(c=>`<div class="qa-cat ${c===piCatSel?'sel':''}" onclick="piSelCat('${c.replace(/'/g,"\'")}')">${c}</div>`).join('');
+  document.getElementById('pi-cats').innerHTML=ST.categories.map(c=>`<div class="qa-cat ${c===piCatSel?'sel':''}" onclick="piSelCat('${c.replace(/'/g,"\\'")}')"><div style="font-size:16px;line-height:1.3">${CAT_EMOJI[c]||'📦'}</div><div style="font-size:11px;line-height:1.2">${c}</div></div>`).join('');
   // Name select dropdown (history sorted by frequency)
   const nameSel=document.getElementById('pi-name-sel');
   if(nameSel){
