@@ -34,6 +34,7 @@ body{background:var(--bg);color:var(--text);font-family:'Noto Sans JP',sans-seri
 
 /* Header */
 #hdr{background:var(--card);border-bottom:1px solid var(--border);padding:6px 16px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;box-shadow:var(--shadow)}
+#hdr.hidden{display:none}
 #hdr h1{font-size:14px;font-weight:700;color:var(--teal);margin:0}
 #hdr .sub{font-size:10px;color:var(--text3)}
 #sync-dot{width:8px;height:8px;border-radius:50%;background:#ccc;cursor:pointer}
@@ -44,6 +45,7 @@ body{background:var(--bg);color:var(--text);font-family:'Noto Sans JP',sans-seri
 
 /* Tabs */
 #tab-bar{position:fixed;bottom:0;left:0;right:0;background:var(--card);border-top:1px solid var(--border);display:flex;z-index:100;box-shadow:0 -2px 8px rgba(0,0,0,.06)}
+#tab-bar::after{content:"";display:block;position:absolute;bottom:0;left:0;right:0;height:3px;background:var(--teal);opacity:0.35;pointer-events:none}
 .tab-btn{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:6px 4px 8px;font-size:11px;color:var(--text3);cursor:pointer;transition:color .2s;gap:3px;border:none;background:none}
 .tab-btn.active{color:var(--teal)}
 .tab-btn svg{width:26px;height:26px}
@@ -222,7 +224,7 @@ input[type=number]::-webkit-inner-spin-button{display:none}
 .bar-chart svg text{font-family:'JetBrains Mono',monospace}
 
 /* Quick Add Page */
-#page-input{padding:0;display:flex;flex-direction:column;height:calc(100vh - var(--hdr-h) - 56px);overflow:hidden}
+#page-input{padding:0;display:flex;flex-direction:column;height:calc(100vh - var(--hdr-h) - 62px);overflow:hidden}
 #input-form-wrap{padding:16px;padding-bottom:24px}
 .qa-section-label{font-size:11px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.05em;margin-bottom:6px}
 .qa-payment-row{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px}
@@ -307,9 +309,9 @@ input[type=number]::-webkit-inner-spin-button{display:none}
 
 <!-- Pages -->
 <div id="page-input" class="page active">
-  <div id="input-form-wrap" style="flex:1;overflow:hidden;padding:6px 14px 4px;display:flex;flex-direction:column;gap:4px">
+  <div id="input-form-wrap" style="flex:1;overflow:hidden;padding:4px 14px 2px;display:flex;flex-direction:column;gap:3px">
     <!-- Amount -->
-    <div style="background:var(--teal);padding:10px 16px 10px;border-bottom-left-radius:16px;border-bottom-right-radius:16px;margin-bottom:8px">
+    <div style="background:var(--teal);padding:8px 16px 8px;border-bottom-left-radius:16px;border-bottom-right-radius:16px;margin-bottom:4px">
       <div style="display:flex;align-items:flex-end;gap:16px">
         <div style="flex:1">
           <div style="color:rgba(255,255,255,.7);font-size:11px;margin-bottom:2px">金額</div>
@@ -985,6 +987,9 @@ function switchTab(name,btn){
   document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
   document.getElementById('page-'+name).classList.add('active');
   if(btn)btn.classList.add('active');
+  // ヘッダーは入力タブのみ表示
+  const hdr=document.getElementById('hdr');
+  if(hdr)hdr.classList.toggle('hidden', name!=='input');
   if(name==='input')renderPageInput();
   else if(name==='dash')renderDashboard();
   else if(name==='exp')renderExpTab();
@@ -993,7 +998,6 @@ function switchTab(name,btn){
   else if(name==='tracker')renderTracker();
   else if(name==='fn')renderFurusato();
   else if(name==='settings')renderSettings();
-  // QA panel hidden
 }
 function openModal(id){document.getElementById(id).classList.add('open');}
 function closeModal(id){document.getElementById(id).classList.remove('open');}
