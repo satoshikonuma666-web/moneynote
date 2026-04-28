@@ -45,7 +45,7 @@ body{background:var(--bg);color:var(--text);font-family:'Noto Sans JP',sans-seri
 
 /* Tabs */
 #tab-bar{position:fixed;bottom:0;left:0;right:0;background:var(--card);border-top:1px solid var(--border);display:flex;z-index:100;box-shadow:0 -2px 8px rgba(0,0,0,.06)}
-#tab-bar::after{content:"";display:block;position:absolute;bottom:0;left:0;right:0;height:3px;background:var(--teal);opacity:0.35;pointer-events:none}
+#tab-bar::after{content:"";display:block;position:absolute;bottom:0;left:0;right:0;height:6px;background:var(--teal);opacity:0.35;pointer-events:none}
 .tab-btn{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:6px 4px 8px;font-size:11px;color:var(--text3);cursor:pointer;transition:color .2s;gap:3px;border:none;background:none}
 .tab-btn.active{color:var(--teal)}
 .tab-btn svg{width:26px;height:26px}
@@ -53,6 +53,8 @@ body{background:var(--bg);color:var(--text);font-family:'Noto Sans JP',sans-seri
 /* Pages */
 .page{display:none;padding:16px}
 .page.active{display:block}
+#page-input{display:none;padding:0}
+#page-input.active{display:flex;flex-direction:column;height:calc(100vh - var(--hdr-h) - 62px);overflow:hidden}
 
 /* Cards */
 .card{background:var(--card);border-radius:var(--r);padding:16px;box-shadow:var(--shadow);margin-bottom:12px}
@@ -85,7 +87,7 @@ body{background:var(--bg);color:var(--text);font-family:'Noto Sans JP',sans-seri
 #qa-name-wrap{display:flex;gap:8px;margin-bottom:12px}
 #qa-name{flex:1;border:1px solid var(--border);border-radius:var(--r2);padding:8px 12px;font-size:14px;font-family:'Noto Sans JP',sans-serif;background:var(--bg);outline:none}
 #qa-name:focus{border-color:var(--teal)}
-.qa-cats{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-bottom:12px;max-height:160px;overflow-y:auto}
+.qa-cats{display:grid;grid-template-columns:repeat(4,1fr);gap:3px;margin-bottom:0}
 .qa-cat{background:var(--bg2);border:2px solid transparent;border-radius:10px;padding:8px 4px;text-align:center;font-size:11px;cursor:pointer;transition:all .15s}
 .qa-cat.sel{background:var(--teal-l);border-color:var(--teal);color:var(--teal);font-weight:700}
 .qa-persons{display:flex;gap:8px;margin-bottom:14px}
@@ -224,15 +226,14 @@ input[type=number]::-webkit-inner-spin-button{display:none}
 .bar-chart svg text{font-family:'JetBrains Mono',monospace}
 
 /* Quick Add Page */
-#page-input{padding:0;display:flex;flex-direction:column;height:calc(100vh - var(--hdr-h) - 62px);overflow:hidden}
 #input-form-wrap{padding:16px;padding-bottom:24px}
-.qa-section-label{font-size:11px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.05em;margin-bottom:6px}
+.qa-section-label{font-size:10px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.03em;margin-bottom:1px}
 .qa-payment-row{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px}
 .qa-payment-chip{background:var(--bg2);border:2px solid transparent;border-radius:20px;padding:5px 12px;font-size:12px;cursor:pointer;transition:all .15s;white-space:nowrap}
 .qa-payment-chip.sel{background:var(--teal-l);border-color:var(--teal);color:var(--teal);font-weight:600}
 .qa-name-section{margin-bottom:12px}
-.qa-amt-big{font-size:28px;font-weight:700;font-family:'JetBrains Mono',monospace;border:none;border-bottom:3px solid var(--teal);background:transparent;padding:2px 0;color:var(--text);outline:none;width:100%}
-.qa-save-btn{width:100%;background:var(--teal);color:#fff;border:none;border-radius:var(--r);padding:13px;font-size:17px;font-weight:700;cursor:pointer;font-family:'Noto Sans JP',sans-serif;margin-top:0}
+.qa-amt-big{font-size:24px;font-weight:700;font-family:'JetBrains Mono',monospace;border:none;border-bottom:2px solid var(--teal);background:transparent;padding:1px 0;color:var(--text);outline:none;width:100%}
+.qa-save-btn{width:100%;background:var(--teal);color:#fff;border:none;border-radius:var(--r);padding:10px;font-size:16px;font-weight:700;cursor:pointer;font-family:'Noto Sans JP',sans-serif;margin-top:0}
 .qa-save-btn:active{background:var(--teal2)}
 
 /* Furusato */
@@ -309,9 +310,9 @@ input[type=number]::-webkit-inner-spin-button{display:none}
 
 <!-- Pages -->
 <div id="page-input" class="page active">
-  <div id="input-form-wrap" style="flex:1;overflow:hidden;padding:4px 14px 2px;display:flex;flex-direction:column;gap:3px">
+  <div id="input-form-wrap" style="flex:1;overflow:hidden;padding:3px 14px 2px;display:flex;flex-direction:column;gap:2px">
     <!-- Amount -->
-    <div style="background:var(--teal);padding:8px 16px 8px;border-bottom-left-radius:16px;border-bottom-right-radius:16px;margin-bottom:4px">
+    <div style="background:var(--teal);padding:7px 14px 7px;border-bottom-left-radius:14px;border-bottom-right-radius:14px;margin-bottom:2px">
       <div style="display:flex;align-items:flex-end;gap:16px">
         <div style="flex:1">
           <div style="color:rgba(255,255,255,.7);font-size:11px;margin-bottom:2px">金額</div>
@@ -350,7 +351,7 @@ input[type=number]::-webkit-inner-spin-button{display:none}
         <div class="qa-persons" id="pi-persons"></div>
       </div>
     </div>
-    <button class="qa-save-btn" onclick="pageInputSave()" style="margin-top:6px;padding:11px">💾 保存する</button>
+    <button class="qa-save-btn" onclick="pageInputSave()" style="margin-top:4px;padding:10px">💾 保存する</button>
   </div>
 </div>
 
