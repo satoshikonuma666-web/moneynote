@@ -1265,6 +1265,7 @@ function prevDashMonth(){if(dashM===1){dashY--;dashM=12;}else dashM--;renderDash
 function nextDashMonth(){if(dashM===12){dashY++;dashM=1;}else dashM++;renderDashboard();}
 function goDashCurrent(){const n=new Date();dashY=n.getFullYear();dashM=n.getMonth()+1;renderDashboard();}
 function getMonthTotal(y,m){return [...ST.expenses,...ARCH].filter(e=>e.year===y&&e.month===m).reduce((s,e)=>s+e.amount,0);}
+function getIncome(y,m){return ST.incomes.find(i=>i.year===y&&i.month===m)||{year:y,month:m,items:[{name:'給与',amount:0},{name:'その他',amount:0}],total:0};}
 function getMonthIncome(y,m){const inc=ST.incomes.find(i=>i.year===y&&i.month===m);return inc?inc.items.reduce((s,i)=>s+i.amount,0):0;}
 function toggleDashIncome(){
   const f=document.getElementById('dash-income-form');
