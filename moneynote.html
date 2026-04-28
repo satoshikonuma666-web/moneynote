@@ -44,9 +44,9 @@ body{background:var(--bg);color:var(--text);font-family:'Noto Sans JP',sans-seri
 
 /* Tabs */
 #tab-bar{position:fixed;bottom:0;left:0;right:0;background:var(--card);border-top:1px solid var(--border);display:flex;z-index:100;box-shadow:0 -2px 8px rgba(0,0,0,.06)}
-.tab-btn{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:8px 4px 10px;font-size:10px;color:var(--text3);cursor:pointer;transition:color .2s;gap:3px;border:none;background:none}
+.tab-btn{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:6px 4px 8px;font-size:11px;color:var(--text3);cursor:pointer;transition:color .2s;gap:3px;border:none;background:none}
 .tab-btn.active{color:var(--teal)}
-.tab-btn svg{width:22px;height:22px}
+.tab-btn svg{width:26px;height:26px}
 
 /* Pages */
 .page{display:none;padding:16px}
@@ -229,8 +229,8 @@ input[type=number]::-webkit-inner-spin-button{display:none}
 .qa-payment-chip{background:var(--bg2);border:2px solid transparent;border-radius:20px;padding:5px 12px;font-size:12px;cursor:pointer;transition:all .15s;white-space:nowrap}
 .qa-payment-chip.sel{background:var(--teal-l);border-color:var(--teal);color:var(--teal);font-weight:600}
 .qa-name-section{margin-bottom:12px}
-.qa-amt-big{font-size:36px;font-weight:700;font-family:'JetBrains Mono',monospace;border:none;border-bottom:3px solid var(--teal);background:transparent;padding:4px 0;color:var(--text);outline:none;width:100%}
-.qa-save-btn{width:100%;background:var(--teal);color:#fff;border:none;border-radius:var(--r);padding:16px;font-size:17px;font-weight:700;cursor:pointer;font-family:'Noto Sans JP',sans-serif;margin-top:4px}
+.qa-amt-big{font-size:28px;font-weight:700;font-family:'JetBrains Mono',monospace;border:none;border-bottom:3px solid var(--teal);background:transparent;padding:2px 0;color:var(--text);outline:none;width:100%}
+.qa-save-btn{width:100%;background:var(--teal);color:#fff;border:none;border-radius:var(--r);padding:13px;font-size:17px;font-weight:700;cursor:pointer;font-family:'Noto Sans JP',sans-serif;margin-top:0}
 .qa-save-btn:active{background:var(--teal2)}
 
 /* Furusato */
@@ -307,50 +307,48 @@ input[type=number]::-webkit-inner-spin-button{display:none}
 
 <!-- Pages -->
 <div id="page-input" class="page active">
-  <div id="input-form-wrap" style="flex:1;overflow:hidden;padding:8px 14px 4px;display:flex;flex-direction:column;gap:6px">
+  <div id="input-form-wrap" style="flex:1;overflow:hidden;padding:6px 14px 4px;display:flex;flex-direction:column;gap:4px">
     <!-- Amount -->
-    <div style="background:var(--teal);padding:20px 16px 16px;border-bottom-left-radius:16px;border-bottom-right-radius:16px;margin-bottom:16px">
+    <div style="background:var(--teal);padding:10px 16px 10px;border-bottom-left-radius:16px;border-bottom-right-radius:16px;margin-bottom:8px">
       <div style="display:flex;align-items:flex-end;gap:16px">
         <div style="flex:1">
-          <div style="color:rgba(255,255,255,.7);font-size:12px;margin-bottom:4px">金額</div>
-          <div style="display:flex;align-items:center;gap:8px">
-            <span style="color:#fff;font-size:24px;font-weight:700">¥</span>
+          <div style="color:rgba(255,255,255,.7);font-size:11px;margin-bottom:2px">金額</div>
+          <div style="display:flex;align-items:center;gap:6px">
+            <span style="color:#fff;font-size:20px;font-weight:700">¥</span>
             <input type="number" id="pi-amount" class="qa-amt-big" placeholder="0" inputmode="numeric" style="color:#fff;border-bottom-color:rgba(255,255,255,.5)">
           </div>
         </div>
         <div style="flex-shrink:0">
-          <div style="color:rgba(255,255,255,.7);font-size:12px;margin-bottom:4px">日付</div>
-          <input type="date" id="pi-date" style="background:transparent;border:none;border-bottom:2px solid rgba(255,255,255,.5);color:#fff;font-size:14px;font-family:'Noto Sans JP',sans-serif;padding:2px 0;outline:none;color-scheme:dark">
+          <div style="color:rgba(255,255,255,.7);font-size:11px;margin-bottom:2px">日付</div>
+          <input type="date" id="pi-date" style="background:transparent;border:none;border-bottom:2px solid rgba(255,255,255,.5);color:#fff;font-size:13px;font-family:'Noto Sans JP',sans-serif;padding:2px 0;outline:none;color-scheme:dark">
         </div>
       </div>
     </div>
     <!-- Categories -->
-    <div class="qa-section-label" style="margin-bottom:3px">カテゴリ</div>
+    <div class="qa-section-label" style="margin-bottom:2px">カテゴリ</div>
     <div class="qa-cats" id="pi-cats"></div>
     <!-- Name: select dropdown -->
-    <div style="display:flex;gap:6px;align-items:center">
-      <div style="flex:1">
-        <div class="qa-section-label" style="margin-bottom:3px">店名・用途</div>
-        <select id="pi-name-sel" class="inp" style="margin-bottom:0" onchange="piPickFromSel(this.value)">
-          <option value="">（カテゴリを選択してください）</option>
-        </select>
-        <input type="text" id="pi-name" class="inp" placeholder="または直接入力" autocomplete="off" style="margin-top:4px">
-      </div>
+    <div>
+      <div class="qa-section-label" style="margin-bottom:2px">店名・用途</div>
+      <select id="pi-name-sel" class="inp" style="margin-bottom:3px" onchange="piPickFromSel(this.value)">
+        <option value="">（カテゴリを選択してください）</option>
+      </select>
+      <input type="text" id="pi-name" class="inp" placeholder="または直接入力" autocomplete="off">
     </div>
     <!-- Payment + Person row -->
     <div style="display:flex;gap:6px">
       <div style="flex:1">
-        <div class="qa-section-label" style="margin-bottom:3px">支払方法</div>
+        <div class="qa-section-label" style="margin-bottom:2px">支払方法</div>
         <select id="pi-payment-sel" class="inp" style="margin-bottom:0" onchange="piPaymentSel=this.value">
           <option value="">（なし）</option>
         </select>
       </div>
       <div style="flex:1">
-        <div class="qa-section-label" style="margin-bottom:3px">メンバー</div>
+        <div class="qa-section-label" style="margin-bottom:2px">メンバー</div>
         <div class="qa-persons" id="pi-persons"></div>
       </div>
     </div>
-    <button class="qa-save-btn" onclick="pageInputSave()" style="margin-top:auto;padding:12px">💾 保存する</button>
+    <button class="qa-save-btn" onclick="pageInputSave()" style="margin-top:6px;padding:11px">💾 保存する</button>
   </div>
 </div>
 
