@@ -567,6 +567,16 @@ input[type=number]::-webkit-inner-spin-button{display:none}
       <div><div class="setting-label">CSVエクスポート</div><div class="setting-sub">全支出データ</div></div>
       <button class="btn btn-secondary btn-sm" onclick="exportCSV()">書出し</button>
     </div>
+    <div class="divider"></div>
+    <div class="setting-row">
+      <div><div class="setting-label">設定インポート</div><div class="setting-sub">定期支出・予算を JSON から読込</div></div>
+      <label class="btn btn-secondary btn-sm" style="cursor:pointer">選択<input type="file" accept=".json" style="display:none" onchange="handleSettingsImport(event)"></label>
+    </div>
+    <div class="setting-row">
+      <div><div class="setting-label">設定エクスポート</div><div class="setting-sub">定期支出・カテゴリ予算を JSON で保存</div></div>
+      <button class="btn btn-secondary btn-sm" onclick="exportSettings()">書出し</button>
+    </div>
+    <div class="divider"></div>
     <div class="setting-row">
       <div><div class="setting-label">アーカイブデータ</div><div class="setting-sub" id="arch-count"></div></div>
       <button class="btn btn-danger btn-sm" onclick="clearArchive()">削除</button>
@@ -2208,7 +2218,7 @@ function importCSV(text){
   if(lines.length<2){alert('データがありません');return;}
   const header=parseCSVLine(lines[0]).map(h=>h.replace(/"/g,'').trim());
   const idxMap={};
-  ['ID','Version','Year','Month','Day','Amount','Category','Name','Note'].forEach(k=>{idxMap[k]=header.indexOf(k);});
+  ['ID','Version','Year','Month','Day','Amount','Category','Name','Person','TaxDeductible','Note'].forEach(k=>{idxMap[k]=header.indexOf(k);});
   let count=0;
   const existing=new Set([...ST.expenses,...ARCH].map(e=>e.id));
   for(let i=1;i<lines.length;i++){
@@ -2219,12 +2229,15 @@ function importCSV(text){
     const year=parseInt(getId('Year'));const month=parseInt(getId('Month'));const day=parseInt(getId('Day'));
     const amount=parseInt(getId('Amount'))||0;
     if(!year||!month||!amount)continue;
+    const personVal=getId('Person');
+    const person=personVal||ST.p1Name;
+    const taxDeductible=getId('TaxDeductible')==='1';
     // Parse tags from note
     const rawNote=getId('Note');
     const tags=[];let note=rawNote;
     const tagMatches=rawNote.matchAll(/\[tag:([^\]]+)\]/g);
     for(const m of tagMatches){tags.push(m[1]);note=note.replace(m[0],'').trim();}
-    ARCH.push({id,year,month,day,amount,category:getId('Category')||'その他',name:getId('Name'),tags,person:ST.p1Name,note});
+    ARCH.push({id,year,month,day,amount,category:getId('Category')||'その他',name:getId('Name'),tags,person,taxDeductible,note});
     count++;
   }
   saveArchive();
@@ -2233,11 +2246,11 @@ function importCSV(text){
 }
 function exportCSV(){
   const all=[...ST.expenses,...ARCH].sort((a,b)=>a.year-b.year||a.month-b.month||a.day-b.day);
-  const rows=[['ID','Version','Year','Month','Day','Amount','Category','Name','Note']];
+  const rows=[['ID','Version','Year','Month','Day','Amount','Category','Name','Person','TaxDeductible','Note']];
   all.forEach(e=>{
     const tagStr=(e.tags||[]).map(t=>`[tag:${t}]`).join(' ');
     const note=[e.note||'',tagStr].filter(Boolean).join(' ');
-    rows.push([e.id,'1',e.year,e.month,e.day,e.amount,e.category,e.name||'',note]);
+    rows.push([e.id,'1',e.year,e.month,e.day,e.amount,e.category,e.name||'',e.person||ST.p1Name,e.taxDeductible?'1':'0',note]);
   });
   const csv=rows.map(r=>r.map(v=>`"${String(v).replace(/"/g,'""')}"`).join(',')).join('\n');
   const blob=new Blob(['\uFEFF'+csv],{type:'text/csv;charset=utf-8'});
@@ -2245,6 +2258,84 @@ function exportCSV(){
 }
 function clearArchive(){if(!confirm(`アーカイブ${ARCH.length}件を削除しますか？`))return;ARCH=[];saveArchive();document.getElementById('arch-count').textContent='0件';}
 function clearNew(){if(!confirm(`新規データ${ST.expenses.length}件を削除しますか？`))return;ST.expenses=[];saveAndSync();document.getElementById('new-count').textContent='0件';}
+
+// ===================== SETTINGS EXPORT / IMPORT =====================
+function exportSettings(){
+  const data={
+    type:'moneynote_settings',
+    version:1,
+    exported:new Date().toISOString(),
+    monthlyTemplates:ST.monthlyTemplates||[],
+    budgets:ST.budgets||{},
+    monthBudgets:ST.monthBudgets||{}
+  };
+  const json=JSON.stringify(data,null,2);
+  const blob=new Blob([json],{type:'application/json;charset=utf-8'});
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(blob);
+  a.download=`moneynote_settings_${new Date().toISOString().slice(0,10)}.json`;
+  a.click();
+}
+function handleSettingsImport(evt){
+  const f=evt.target.files[0];if(!f)return;
+  evt.target.value='';
+  const r=new FileReader();
+  r.onload=e=>{
+    try{
+      const data=JSON.parse(e.target.result);
+      importSettings(data);
+    }catch(err){
+      alert('JSONの読み込みに失敗しました: '+err.message);
+    }
+  };
+  r.readAsText(f,'UTF-8');
+}
+function importSettings(data){
+  if(data.type!=='moneynote_settings'){
+    alert('このファイルはMoneyNoteの設定ファイルではありません。');
+    return;
+  }
+  const lines=[];
+  // Monthly templates
+  if(Array.isArray(data.monthlyTemplates)&&data.monthlyTemplates.length>0){
+    const existing=ST.monthlyTemplates||[];
+    const existingIds=new Set(existing.map(t=>t.id));
+    let added=0,updated=0;
+    data.monthlyTemplates.forEach(t=>{
+      if(!t.id)t.id=uid();
+      const idx=existing.findIndex(x=>x.id===t.id);
+      if(idx>=0){existing[idx]=t;updated++;}
+      else{existing.push(t);added++;}
+    });
+    ST.monthlyTemplates=existing;
+    bumpVer('monthlyTemplates');
+    lines.push(`定期支出: ${added}件追加、${updated}件更新`);
+  }
+  // Default budgets
+  if(data.budgets&&Object.keys(data.budgets).length>0){
+    const overwrite=confirm('カテゴリ別予算（デフォルト）を上書きしますか？\n「キャンセル」を押すと既存の値を保持したままマージします。');
+    if(overwrite){
+      ST.budgets=data.budgets;
+    }else{
+      Object.entries(data.budgets).forEach(([k,v])=>{if(!ST.budgets[k])ST.budgets[k]=v;});
+    }
+    bumpVer('budgets');
+    lines.push(`デフォルト予算: ${Object.keys(data.budgets).length}カテゴリ`);
+  }
+  // Month budgets
+  if(data.monthBudgets&&Object.keys(data.monthBudgets).length>0){
+    if(!ST.monthBudgets)ST.monthBudgets={};
+    Object.entries(data.monthBudgets).forEach(([key,val])=>{
+      ST.monthBudgets[key]=Object.assign(ST.monthBudgets[key]||{},val);
+    });
+    bumpVer('monthBudgets');
+    lines.push(`月別予算: ${Object.keys(data.monthBudgets).length}ヶ月分`);
+  }
+  if(!lines.length){alert('インポートできるデータがありませんでした。');return;}
+  saveAndSync();
+  renderSettings();
+  alert('インポートしました:\n'+lines.join('\n'));
+}
 
 // ===================== RENDER =====================
 function render(){renderDashboard();renderExpTab();}
