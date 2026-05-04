@@ -274,6 +274,11 @@ input[type=number]::-webkit-inner-spin-button{display:none}
 .mt-item-sub{font-size:11px;color:var(--text3)}
 /* Budget override badge */
 .bud-override{font-size:10px;background:var(--amber-l);color:var(--amber);border-radius:8px;padding:1px 6px;font-weight:600}
+/* Tax deductible */
+.deductible-badge{display:inline-block;background:#DBEAFE;color:#1D4ED8;border-radius:10px;padding:1px 7px;font-size:10px;font-weight:600;margin-left:4px;vertical-align:middle}
+.exp-filter-row{display:flex;gap:6px;margin-bottom:10px}
+.exp-filter-btn{background:var(--bg2);border:none;border-radius:20px;padding:5px 12px;font-size:12px;cursor:pointer;font-family:'Noto Sans JP',sans-serif;color:var(--text2)}
+.exp-filter-btn.active{background:var(--teal);color:#fff;font-weight:600}
 
 /* Asset Tracker (万円管理) */
 .at-header{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:12px}
@@ -354,6 +359,10 @@ input[type=number]::-webkit-inner-spin-button{display:none}
       </div>
     </div>
     <button class="qa-save-btn" onclick="pageInputSave()" style="margin-top:4px;padding:10px">💾 保存する</button>
+    <div style="display:flex;align-items:center;gap:8px;padding:6px 2px 2px">
+      <input type="checkbox" id="pi-deductible" style="width:16px;height:16px;accent-color:var(--teal);cursor:pointer;flex-shrink:0">
+      <label for="pi-deductible" style="font-size:12px;color:var(--text2);cursor:pointer">📝 青色申告の経費として計上する</label>
+    </div>
   </div>
 </div>
 
@@ -409,7 +418,12 @@ input[type=number]::-webkit-inner-spin-button{display:none}
     <div id="exp-summary"></div>
   </div>
   <div class="card">
-    <div class="card-title"><span>🧾</span>支出一覧</div>
+    <div class="card-title" style="justify-content:space-between"><span><span>🧾</span>支出一覧</span></div>
+    <div class="exp-filter-row">
+      <button class="exp-filter-btn active" id="exp-filter-all" onclick="setExpFilter('all',this)">すべて</button>
+      <button class="exp-filter-btn" id="exp-filter-deductible" onclick="setExpFilter('deductible',this)">📝 経費のみ</button>
+    </div>
+    <div id="exp-deductible-summary" style="display:none;background:var(--teal-l);border-radius:var(--r2);padding:10px 12px;margin-bottom:10px;font-size:13px"></div>
     <div class="exp-list-wrap" id="exp-list"></div>
   </div>
   <div class="card">
@@ -510,9 +524,19 @@ input[type=number]::-webkit-inner-spin-button{display:none}
   </div>
   <div class="card">
     <div class="card-title"><span>🔄</span>毎月の定期支出</div>
-    <div style="font-size:12px;color:var(--text3);margin-bottom:10px">毎月1日に自動的に追加されます。</div>
+    <div style="font-size:12px;color:var(--text3);margin-bottom:10px">毎月1日に自動的に追加されます。手動で任意の月に反映することも可能です。</div>
     <div id="s-monthly-list"></div>
     <button class="btn btn-secondary btn-sm mt8" onclick="openAddMonthly()">＋ 定期支出を追加</button>
+    <div class="divider"></div>
+    <div style="font-size:12px;font-weight:600;color:var(--text2);margin-bottom:8px">指定月に手動で反映する</div>
+    <div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap">
+      <input type="number" id="mt-apply-year" class="inp" style="width:72px" placeholder="年" inputmode="numeric">
+      <span style="font-size:13px">年</span>
+      <input type="number" id="mt-apply-month" class="inp" style="width:52px" min="1" max="12" placeholder="月" inputmode="numeric">
+      <span style="font-size:13px">月</span>
+      <button class="btn btn-primary btn-sm" onclick="applyMonthlyForMonth()">この月に反映</button>
+    </div>
+    <div id="mt-apply-result" style="font-size:12px;margin-top:8px;color:var(--text3)"></div>
   </div>
   <div class="card">
     <div class="card-title"><span>☁️</span>JSONBin.io 同期設定</div>
@@ -710,6 +734,10 @@ input[type=number]::-webkit-inner-spin-button{display:none}
       <div class="chip-row" id="edit-payment"></div>
     </div>
     <div class="form-field"><label>メモ</label><input class="inp" id="edit-note"></div>
+    <div class="form-field" style="display:flex;align-items:center;gap:8px;margin-bottom:4px">
+      <input type="checkbox" id="edit-deductible" style="width:16px;height:16px;accent-color:var(--teal);cursor:pointer;flex-shrink:0">
+      <label for="edit-deductible" style="font-size:13px;cursor:pointer;color:var(--text)">📝 青色申告の経費として計上</label>
+    </div>
     <div style="display:flex;gap:8px;margin-top:14px">
       <button class="btn btn-danger flex1" onclick="delExp()">削除</button>
       <button class="btn btn-primary flex1" onclick="saveEditExp()">保存</button>
@@ -846,6 +874,7 @@ let qaCatSel = '';
 let qaPersonSel = '';
 let dashY, dashM, expY, expM, incY, incM;
 let activeAnalysis = 'trend';
+let expFilter = 'all';
 
 // ===================== STORAGE =====================
 // バージョンを上げてからsaveAndSync
@@ -1114,7 +1143,8 @@ function pageInputSave(){
   const pmSel=document.getElementById('pi-payment-sel');
   const payVal=pmSel?pmSel.value:piPaymentSel;
   const tags=payVal?[payVal]:[];
-  const exp={id:uid(),year,month,day,amount:amt,category:piCatSel,name:document.getElementById('pi-name').value.trim(),tags,person:piPersonSel||ST.p1Name,note:''};
+  const deductible=document.getElementById('pi-deductible')?.checked||false;
+  const exp={id:uid(),year,month,day,amount:amt,category:piCatSel,name:document.getElementById('pi-name').value.trim(),tags,person:piPersonSel||ST.p1Name,note:'',taxDeductible:deductible};
   ST.expenses.push(exp);
   saveAndSync();render();
   // Reset amount and name, keep date/category/payment/person
@@ -1141,15 +1171,43 @@ function renderExpTab(){
   // Summary
   const p1=exps.filter(e=>e.person===ST.p1Name).reduce((s,e)=>s+e.amount,0);
   const p2=exps.filter(e=>e.person===ST.p2Name).reduce((s,e)=>s+e.amount,0);
+  const deductTotal=exps.filter(e=>e.taxDeductible).reduce((s,e)=>s+e.amount,0);
   document.getElementById('exp-summary').innerHTML=`
     <div style="display:flex;justify-content:space-between;align-items:center">
-      <div><div style="font-size:11px;color:var(--text3)">合計支出</div><div class="mono" style="font-size:24px;font-weight:700;color:var(--red)">¥${fmt(total)}</div></div>
+      <div>
+        <div style="font-size:11px;color:var(--text3)">合計支出</div>
+        <div class="mono" style="font-size:24px;font-weight:700;color:var(--red)">¥${fmt(total)}</div>
+        ${deductTotal>0?`<div style="font-size:12px;color:#1D4ED8;margin-top:2px">📝 経費計上: ¥${fmt(deductTotal)}</div>`:''}
+      </div>
       <div style="text-align:right;font-size:12px;color:var(--text3)">${ST.p1Name}: ¥${fmt(p1)}<br>${ST.p2Name}: ¥${fmt(p2)}</div>
     </div>`;
   // Budget bars
   renderBudgetBarsIn('exp-budget-bars',expY,expM);
+  // Filter buttons sync
+  document.querySelectorAll('.exp-filter-btn').forEach(b=>b.classList.remove('active'));
+  const activeBtn=document.getElementById('exp-filter-'+expFilter);
+  if(activeBtn)activeBtn.classList.add('active');
   // List
-  renderExpList(exps);
+  if(expFilter==='deductible'){
+    const dExps=exps.filter(e=>e.taxDeductible);
+    const dTotal=dExps.reduce((s,e)=>s+e.amount,0);
+    const summaryEl=document.getElementById('exp-deductible-summary');
+    if(summaryEl){
+      summaryEl.style.display='';
+      summaryEl.innerHTML=`<span style="font-weight:700;color:var(--teal)">📝 青色申告 経費合計：</span><span class="mono" style="font-size:16px;font-weight:700;margin-left:8px">¥${fmt(dTotal)}</span><span style="font-size:11px;color:var(--text3);margin-left:8px">${dExps.length}件</span>`;
+    }
+    renderExpList(dExps);
+  } else {
+    const summaryEl=document.getElementById('exp-deductible-summary');
+    if(summaryEl)summaryEl.style.display='none';
+    renderExpList(exps);
+  }
+}
+function setExpFilter(filter,btn){
+  expFilter=filter;
+  document.querySelectorAll('.exp-filter-btn').forEach(b=>b.classList.remove('active'));
+  if(btn)btn.classList.add('active');
+  renderExpTab();
 }
 // 予算バーでフィルタ中のカテゴリ
 let budFilterCat={};  // {containerId: cat}
@@ -1211,7 +1269,7 @@ function renderExpList(exps){
     dayExps.forEach(e=>{
       html+=`<div class="exp-item" onclick="openEditExp('${e.id}')">
         <div class="exp-cat-badge">${CAT_EMOJI[e.category]||'📦'}</div>
-        <div class="exp-item-info"><div class="exp-item-name">${e.name||e.category}</div><div class="exp-item-cat">${e.category}</div></div>
+        <div class="exp-item-info"><div class="exp-item-name">${e.name||e.category}${e.taxDeductible?'<span class="deductible-badge">経費</span>':''}</div><div class="exp-item-cat">${e.category}</div></div>
         <div style="text-align:right"><div class="exp-item-amt">¥${fmt(e.amount)}</div><div class="exp-item-person">${e.person||''}</div></div>
       </div>`;
     });
@@ -1230,6 +1288,8 @@ function openEditExp(id){
   document.getElementById('edit-amount').value=e.amount;
   document.getElementById('edit-name').value=e.name||'';
   document.getElementById('edit-note').value=e.note||'';
+  const dedEl=document.getElementById('edit-deductible');
+  if(dedEl)dedEl.checked=!!e.taxDeductible;
   const catDiv=document.getElementById('edit-cats');
   catDiv.innerHTML=ST.categories.map(c=>`<div class="chip ${c===e.category?'sel':''}" onclick="chipSel(this,'edit-cats')">${c}</div>`).join('');
   const pDiv=document.getElementById('edit-persons');
@@ -1249,9 +1309,10 @@ function saveEditExp(){
   const ai=ARCH.findIndex(x=>x.id===id);
   const pm=document.getElementById('edit-payment')?.querySelector('.sel')?.textContent||'';
   const pmTag=pm&&pm!=='（なし）'?[pm.replace(/^[^ ]+ /,'').trim()]:[];
+  const taxDeductible=document.getElementById('edit-deductible')?.checked||false;
   const updated={id,year:+document.getElementById('edit-year').value,month:+document.getElementById('edit-month').value,day:+document.getElementById('edit-day').value,amount:+document.getElementById('edit-amount').value,name:document.getElementById('edit-name').value,note:document.getElementById('edit-note').value,
     category:document.getElementById('edit-cats').querySelector('.sel')?.textContent||'その他',
-    person:document.getElementById('edit-persons').querySelector('.sel')?.textContent||ST.p1Name,tags:pmTag};
+    person:document.getElementById('edit-persons').querySelector('.sel')?.textContent||ST.p1Name,tags:pmTag,taxDeductible};
   if(si>=0){ST.expenses[si]=updated;saveAndSync();}
   else if(ai>=0){ARCH[ai]=updated;saveLocal();saveArchive();}
   closeModal('modal-exp-edit');render();
@@ -1940,6 +2001,12 @@ function renderSettings(){
   renderPMList();
   renderMonthlyList();
   renderBudgetSettings();
+  // Set default year/month for manual apply
+  const _now=new Date();
+  const ayEl=document.getElementById('mt-apply-year');
+  const amEl=document.getElementById('mt-apply-month');
+  if(ayEl&&!ayEl.value)ayEl.value=_now.getFullYear();
+  if(amEl&&!amEl.value)amEl.value=_now.getMonth()+1;
   document.getElementById('arch-count').textContent=ARCH.length+'件';
   document.getElementById('new-count').textContent=ST.expenses.length+'件';
 }
@@ -2070,6 +2137,31 @@ function delMonthlyTemplate(){
   const i=parseInt(document.getElementById('mt-edit-id').value);
   if(!confirm('削除しますか？'))return;
   ST.monthlyTemplates.splice(i,1);bumpVer('monthlyTemplates');saveAndSync();closeModal('modal-monthly');renderMonthlyList();
+}
+
+// Manual apply monthly templates for a specific month
+function applyMonthlyForMonth(){
+  const y=parseInt(document.getElementById('mt-apply-year').value)||0;
+  const m=parseInt(document.getElementById('mt-apply-month').value)||0;
+  const resultEl=document.getElementById('mt-apply-result');
+  if(!y||m<1||m>12){resultEl.textContent='年と月を正しく入力してください（例：2025年5月）';resultEl.style.color='var(--red)';return;}
+  const tmpl=(ST.monthlyTemplates||[]).filter(t=>t.enabled);
+  if(!tmpl.length){resultEl.textContent='有効な定期支出がありません。';resultEl.style.color='var(--amber)';return;}
+  const alreadyKey=`auto_${y}_${m}`;
+  const alreadyDone=localStorage.getItem(alreadyKey);
+  if(alreadyDone){
+    if(!confirm(`${y}年${m}月はすでに定期支出が反映済みです。再度追加しますか？`))return;
+  }
+  tmpl.forEach(t=>{
+    let d=parseInt(t.postDay)||1;
+    if(t.postDay==='last'){const last=new Date(y,m,0);d=last.getDate();}
+    ST.expenses.push({id:uid(),year:y,month:m,day:d,amount:t.amount,category:t.category,name:t.name,tags:t.tags||[],person:t.person||ST.p1Name,note:'[定期支出]'});
+  });
+  localStorage.setItem(alreadyKey,'1');
+  saveAndSync();
+  resultEl.textContent=`✓ ${y}年${m}月に定期支出 ${tmpl.length}件を追加しました`;
+  resultEl.style.color='var(--green)';
+  render();
 }
 
 // Check and apply monthly auto-entries
