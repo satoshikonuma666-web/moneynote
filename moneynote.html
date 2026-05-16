@@ -1265,7 +1265,7 @@ function renderExpList(exps){
   days.forEach(d=>{
     const dayExps=byDay[d];
     const dayTotal=dayExps.reduce((s,e)=>s+e.amount,0);
-    html+=`<div class="exp-day-group"><div class="exp-day-label">${expM}月${d}日 <span style="float:right">¥${fmt(dayTotal)}</span></div>`;
+    html+=`<div class="exp-day-group" data-day="${d}"><div class="exp-day-label">${expM}月${d}日 <span style="float:right">¥${fmt(dayTotal)}</span></div>`;
     dayExps.forEach(e=>{
       html+=`<div class="exp-item" onclick="openEditExp('${e.id}')">
         <div class="exp-cat-badge">${CAT_EMOJI[e.category]||'📦'}</div>
@@ -1276,6 +1276,19 @@ function renderExpList(exps){
     html+='</div>';
   });
   document.getElementById('exp-list').innerHTML=html;
+  // 本日の日付グループにスクロール（当月表示時のみ）
+  const now=new Date();
+  if(expY===now.getFullYear()&&expM===now.getMonth()+1){
+    const today=now.getDate();
+    // 今日以降で最も近い日付グループを探す
+    const target=days.find(d=>parseInt(d)<=today)||days[0];
+    const el=document.querySelector(`#exp-list .exp-day-group[data-day="${target}"]`);
+    if(el)el.scrollIntoView({block:'start',behavior:'instant'});
+  }else{
+    // 当月以外は先頭に戻す
+    const wrap=document.getElementById('exp-list');
+    if(wrap)wrap.scrollTop=0;
+  }
 }
 function openEditExp(id){
   const all=[...ST.expenses,...ARCH];
@@ -2156,9 +2169,28 @@ function checkMonthlyAutoInsert(){
 // ===================== CSV =====================
 function handleCSV(evt){
   const f=evt.target.files[0];if(!f)return;
-  const r=new FileReader();
-  r.onload=e=>importCSV(e.target.result);
-  r.readAsText(f,'UTF-8');
+  // まずArrayBufferで読み込み、エンコーディングを自動判定
+  const rb=new FileReader();
+  rb.onload=e=>{
+    const buf=e.target.result;
+    const bytes=new Uint8Array(buf);
+    // UTF-8 BOMチェック (EF BB BF)
+    const hasBOM=bytes[0]===0xEF&&bytes[1]===0xBB&&bytes[2]===0xBF;
+    // UTF-8で試しにデコード→文字化け（U+FFFDが多い）なら Shift-JIS を試みる
+    const dec8=new TextDecoder('utf-8',{fatal:false});
+    const text8=dec8.decode(buf);
+    const badCount=(text8.match(/\uFFFD/g)||[]).length;
+    if(!hasBOM&&badCount>5){
+      // Shift-JISで再デコード
+      try{
+        const decSJIS=new TextDecoder('shift-jis',{fatal:false});
+        importCSV(decSJIS.decode(buf));
+      }catch(ex){importCSV(text8);}
+    }else{
+      importCSV(text8);
+    }
+  };
+  rb.readAsArrayBuffer(f);
 }
 function parseCSVLine(line){
   const result=[];let inQ=false;let cur='';
@@ -2174,7 +2206,7 @@ function importCSV(text){
   if(lines.length<2){alert('データがありません');return;}
   const header=parseCSVLine(lines[0]).map(h=>h.replace(/"/g,'').trim());
   const idxMap={};
-  ['ID','Version','Year','Month','Day','Amount','Category','Name','Note'].forEach(k=>{idxMap[k]=header.indexOf(k);});
+  ['ID','Version','Year','Month','Day','Amount','Category','Name','Note','Person'].forEach(k=>{idxMap[k]=header.indexOf(k);});
   let count=0;
   const existing=new Set([...ST.expenses,...ARCH].map(e=>e.id));
   for(let i=1;i<lines.length;i++){
@@ -2185,12 +2217,21 @@ function importCSV(text){
     const year=parseInt(getId('Year'));const month=parseInt(getId('Month'));const day=parseInt(getId('Day'));
     const amount=parseInt(getId('Amount'))||0;
     if(!year||!month||!amount)continue;
-    // Parse tags from note
+    // Parse tags and person from note
     const rawNote=getId('Note');
     const tags=[];let note=rawNote;
-    const tagMatches=rawNote.matchAll(/\[tag:([^\]]+)\]/g);
+    const tagMatches=[...rawNote.matchAll(/\[tag:([^\]]+)\]/g)];
     for(const m of tagMatches){tags.push(m[1]);note=note.replace(m[0],'').trim();}
-    ARCH.push({id,year,month,day,amount,category:getId('Category')||'その他',name:getId('Name'),tags,person:ST.p1Name,note});
+    // Person列があればそちらを優先、なければタグから判定
+    let person=getId('Person');
+    if(!person){
+      // タグに p2Name が含まれていれば p2Name
+      if(tags.includes(ST.p2Name))person=ST.p2Name;
+      else person=ST.p1Name;
+    }
+    // タグから人名タグを除去（表示ノイズ防止）
+    const cleanTags=tags.filter(t=>t!==ST.p1Name&&t!==ST.p2Name);
+    ARCH.push({id,year,month,day,amount,category:getId('Category')||'その他',name:getId('Name'),tags:cleanTags,person,note});
     count++;
   }
   saveArchive();
@@ -2199,11 +2240,11 @@ function importCSV(text){
 }
 function exportCSV(){
   const all=[...ST.expenses,...ARCH].sort((a,b)=>a.year-b.year||a.month-b.month||a.day-b.day);
-  const rows=[['ID','Version','Year','Month','Day','Amount','Category','Name','Note']];
+  const rows=[['ID','Version','Year','Month','Day','Amount','Category','Name','Note','Person']];
   all.forEach(e=>{
     const tagStr=(e.tags||[]).map(t=>`[tag:${t}]`).join(' ');
     const note=[e.note||'',tagStr].filter(Boolean).join(' ');
-    rows.push([e.id,'1',e.year,e.month,e.day,e.amount,e.category,e.name||'',note]);
+    rows.push([e.id,'1',e.year,e.month,e.day,e.amount,e.category,e.name||'',note,e.person||ST.p1Name]);
   });
   const csv=rows.map(r=>r.map(v=>`"${String(v).replace(/"/g,'""')}"`).join(',')).join('\n');
   const blob=new Blob(['\uFEFF'+csv],{type:'text/csv;charset=utf-8'});
